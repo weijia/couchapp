@@ -23,3 +23,5 @@ couchapp/autopush/select_backport.so
 .coverage
 cover/*
 tests/config.ini
+*~
+*#
