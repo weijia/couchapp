@@ -1,0 +1,341 @@
+<html>
+  
+
+
+<script type="text/javascript" src="/static/js/analytics.js"></script>
+<script type="text/javascript">archive_analytics.values.server_name="wwwb-app0.us.archive.org";archive_analytics.values.server_ms=254;</script>
+<link type="text/css" rel="stylesheet" href="/static/css/banner-styles.css"/>
+
+<body>
+
+
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script type="text/javascript" src="/static/js/disclaim-element.js" ></script>
+<script type="text/javascript" src="/static/js/graph-calc.js" ></script>
+<script type="text/javascript" src="/static/jflot/jquery.min.js" ></script>
+<script type="text/javascript">//<![CDATA[
+var __wm = (function(){
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http://couchapp.org/pages/index/multiple_design_documents.html";
+
+var firstYear = 1996;
+var imgWidth = 475,imgHeight = 27;
+var yearImgWidth = 25,monthImgWidth = 2;
+var displayDay = "9";
+var displayMonth = "Feb";
+var displayYear = "2014";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var $D=document,$=function(n){return document.getElementById(n)};
+var trackerVal,curYear = -1,curMonth = -1;
+var yearTracker,monthTracker;
+function showTrackers(val) {
+  if (val===trackerVal) return;
+  var $ipp=$("wm-ipp");
+  var $y=$("displayYearEl"),$m=$("displayMonthEl"),$d=$("displayDayEl");
+  if (val) {
+    $ipp.className="hi";
+  } else {
+    $ipp.className="";
+    $y.innerHTML=displayYear;$m.innerHTML=displayMonth;$d.innerHTML=displayDay;
+  }
+  yearTracker.style.display=val?"inline":"none";
+  monthTracker.style.display=val?"inline":"none";
+  trackerVal = val;
+}
+function getElementX2(obj) {
+  var $e=jQuery(obj);
+  return (typeof $e=="undefined"||typeof $e.offset=="undefined")?
+    getElementX(obj):Math.round($e.offset().left);
+}
+function trackMouseMove(event,element) {
+  var eventX = getEventX(event);
+  var elementX = getElementX2(element);
+  var xOff = Math.min(Math.max(0, eventX - elementX),imgWidth);
+  var monthOff = xOff % yearImgWidth;
+
+  var year = Math.floor(xOff / yearImgWidth);
+  var monthOfYear = Math.min(11,Math.floor(monthOff / monthImgWidth));
+  // 1 extra border pixel at the left edge of the year:
+  var month = (year * 12) + monthOfYear;
+  var day = monthOff % 2==1?15:1;
+  var dateString = zeroPad(year + firstYear) + zeroPad(monthOfYear+1,2) +
+    zeroPad(day,2) + "000000";
+
+  $("displayYearEl").innerHTML=year+firstYear;
+  $("displayMonthEl").innerHTML=prettyMonths[monthOfYear];
+  // looks too jarring when it changes..
+  //$("displayDayEl").innerHTML=zeroPad(day,2);
+  var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+  $("wm-graph-anchor").href=url;
+
+  if(curYear != year) {
+    var yrOff = year * yearImgWidth;
+    yearTracker.style.left = yrOff + "px";
+    curYear = year;
+  }
+  if(curMonth != month) {
+    var mtOff = year + (month * monthImgWidth) + 1;
+    monthTracker.style.left = mtOff + "px";
+    curMonth = month;
+  }
+}
+function hideToolbar() {
+  $("wm-ipp").style.display="none";
+}
+function bootstrap() {
+  var $spk=$("wm-ipp-sparkline");
+  yearTracker=$D.createElement('div');
+  yearTracker.className='yt';
+  with(yearTracker.style){
+    display='none';width=yearImgWidth+"px";height=imgHeight+"px";
+  }
+  monthTracker=$D.createElement('div');
+  monthTracker.className='mt';
+  with(monthTracker.style){
+    display='none';width=monthImgWidth+"px";height=imgHeight+"px";
+  }
+  $spk.appendChild(yearTracker);
+  $spk.appendChild(monthTracker);
+
+  var $ipp=$("wm-ipp");
+  $ipp&&disclaimElement($ipp);
+}
+return{st:showTrackers,mv:trackMouseMove,h:hideToolbar,bt:bootstrap};
+})();//]]>
+</script>
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  min-width:800px !important;
+}
+</style>
+<div id="wm-ipp" lang="en" style="display:none;">
+
+<div style="position:fixed;left:0;top:0;width:100%!important">
+<div id="wm-ipp-inside">
+   <table style="width:100%;"><tbody><tr>
+   <td id="wm-logo">
+       <a href="/web/" title="Wayback Machine home page"><img src="/static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0" /></a>
+   </td>
+   <td class="c">
+       <table style="margin:0 auto;"><tbody><tr>
+       <td class="u" colspan="2">
+       <form target="_top" method="get" action="/web/form-submit.jsp" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://couchapp.org/pages/index/multiple_design_documents.html" style="width:400px;" onfocus="this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20140209084620" /><input type="submit" value="Go" /><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td class="n" rowspan="2">
+           <table><tbody>
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr class="m">
+           	<td class="b" nowrap="nowrap">
+		
+		    <a href="/web/20131013025911/http://couchapp.org/pages/index/multiple_design_documents.html" title="13 Oct 2013">OCT</a>
+		
+		</td>
+		<td class="c" id="displayMonthEl" title="You are here: 8:46:20 Feb 9, 2014">FEB</td>
+		<td class="f" nowrap="nowrap">
+		
+		    Mar
+		
+                </td>
+	    </tr>
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr class="d">
+               <td class="b" nowrap="nowrap">
+               
+                   <a href="/web/20131013025911/http://couchapp.org/pages/index/multiple_design_documents.html" title="2:59:11 Oct 13, 2013"><img src="/static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a>
+               
+               </td>
+               <td class="c" id="displayDayEl" style="width:34px;font-size:24px;" title="You are here: 8:46:20 Feb 9, 2014">9</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   <img src="/static/images/toolbar/wm_tb_nxt_off.png" alt="Next capture" width="14" height="16" border="0"/>
+               
+	       </td>
+           </tr>
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr class="y">
+	       <td class="b" nowrap="nowrap">
+               
+                   <a href="/web/20130130154828/http://couchapp.org/pages/index/multiple_design_documents.html" title="30 Jan 2013"><strong>2013</strong></a>
+               
+               </td>
+               <td class="c" id="displayYearEl" title="You are here: 8:46:20 Feb 9, 2014">2014</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   2015
+               
+	       </td>
+           </tr>
+           </tbody></table>
+       </td>
+       </tr>
+       <tr>
+       <td class="s">
+           <a class="t" href="/web/20140209084620*/http://couchapp.org/pages/index/multiple_design_documents.html" title="See a list of every capture for this URL">19 captures</a>
+           <div class="r" title="Timespan for captures of this URL">1 Sep 10 - 9 Feb 14</div>
+       </td>
+       <td class="k">
+       <a href="" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" title="Explore captures for this URL">
+	 <img id="sparklineImgId" alt="sparklines"
+		 onmouseover="__wm.st(1)" onmouseout="__wm.st(0)"
+		 onmousemove="__wm.mv(event,this)"
+		 width="475"
+		 height="27"
+		 border="0"
+		 src="/web/jsp/graph.jsp?graphdata=475_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000001010_2011:-1:101010101010_2012:-1:100050000010_2013:-1:100000100100_2014:1:010000000000" />
+       </div>
+       </a>
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td class="r">
+       <a href="#close" onclick="__wm.h();return false;" style="background-image:url(/static/images/toolbar/wm_tb_close.png);top:5px;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="background-image:url(/static/images/toolbar/wm_tb_help.png);bottom:5px;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+</div>
+</div>
+</div>
+<script type="text/javascript">__wm.bt();</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+<h1> Using couchapp with multiple design documents
+</h1>
+<pre>
+# Here is what I did to use couchapp with multiple design documents
+# This is mostly using the command line.
+
+## GOAL ##
+#  I want to setup a project for a new database test6 with a design doc called
+# design_doc1
+
+# Make sure couchdb and couchapp are installed and that couchdb is started.
+
+# First check that test6 doesn't exist
+
+%  curl http://127.0.0.1:5984/test6   
+
+{"error":"not_found","reason":"no_db_file"}
+
+# OK. That was expected.
+
+# Generate a new couchapp.
+
+% couchapp generate test6
+
+
+# On my machine (Debian squeeze), couchapp seems to generate the directory with owner root. Change owner to john
+%chown -R john ./test6
+
+% cd test6 
+
+% ls                            
+_attachments   evently  language  shows    vendor
+couchapp.json  _id      lists     updates  views
+
+
+% vi .couchapprc
+
+# Now edit .couchapprc as follows so it looks like
+
+{ "env": 
+  { "default": 
+    {  "db":"http://127.0.0.1:5984/test6" }
+  } 
+}
+
+% cat  .couchapprc
+
+{ "env": 
+  { "default": 
+    {  "db":"http://127.0.0.1:5984/test6" }
+  } 
+}
+
+# NOTE: It looks like couchapp doesn't pick up the default db in what follows when I
+# do couchapp push
+
+# Make a directory for design documents:
+
+% mkdir _design
+
+# Make a directory for design_doc1
+
+%mkdir _design/design_doc1
+
+# move the design doc files created with couchapp generate to the design_doc1 directory:
+
+% mv _attachments evently lists shows updates vendor views ./_design/design_doc1
+
+# review the directory structure
+
+%ls  _design/design_doc1
+                                 
+_attachments  evently  lists  shows  updates  vendor  views
+
+# now push design_doc1. Note that I have to include the url of the database as a parameter.
+# couchapp doesn't seem to pick up the default db when I push from the _design directory.
+#  http://127.0.0.1:5984/test6     is the url of the new db
+
+% couchapp push _design/design_doc1 http://127.0.0.1:5984/test6    
+2010-08-23 15:47:45 [INFO] Visit your CouchApp here:
+http://127.0.0.1:5984/test6/_design/design_doc1/index.html
+
+# Now check to see if db test6 was created:
+
+% curl http://127.0.0.1:5984/test6                                
+{"db_name":"test6","doc_count":1,"doc_del_count":0,"update_seq":1,"purge_seq":0,"compact_running":false,"disk_size":106585,"instance_start_time":"1282603665650439","disk_format_version":5}
+
+# Now go into a browser and take a look at the test6 db
+
+# http://127.0.0.1:5984/_utils/database.html?test6
+
+# You should see
+
+#  "_design/design_doc1" listed on the html page. That's good, that means that design_doc1 was created.
+
+# Take a look at design_doc1 in the futon web admin:
+
+# Open this URL in your browser:  
+# http://127.0.0.1:5984/_utils/document.html?test6/_design/design_doc1
+# You should see a nice listing of the design_doc1
+
+# Try opening the index page in your browser:
+
+# http://127.0.0.1:5984/_utils/document.html?test6/_design/design_doc1/index.html
+
+# This should serve up index.html from the _attachments subdirectory   test6/_design/design_doc1/_attachments/index.html
+
+# Couchapp generate had created a sample view called recent-items. Try querying it:
+
+% curl http://127.0.0.1:5984/test6/_design/design_doc1/_view/recent-items
+
+{"total_rows":0,"offset":0,"rows":[]}
+
+# That's it. Multiple design can be used to create different  interfaces for users with different roles. For example, consider
+# some data and the different ways that and admin versus a regular user interacting with it.
+
+# That's it!!!
+
+</pre>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 8:46:20 Feb 9, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 22:37:07 Dec 10, 2014.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

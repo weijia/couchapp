@@ -1,0 +1,883 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+
+<script type="text/javascript" src="/static/js/analytics.js"></script>
+<script type="text/javascript">archive_analytics.values.server_name="wwwb-app18.us.archive.org";archive_analytics.values.server_ms=339;</script>
+<link type="text/css" rel="stylesheet" href="/static/css/banner-styles.css"/>
+
+
+    <meta charset="utf-8">
+    <title>Using Google Maps Drawing Manager to Create User Selectable Areas</title>
+    
+    <meta name="author" content="Ben Olson">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="/web/20140209091520/http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/web/20140209091520cs_/http://couchapp.org/assets/themes/twitter/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/web/20140209091520cs_/http://couchapp.org/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/web/20140209091520cs_/http://couchapp.org/assets/style.css" rel="stylesheet">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+   <link rel="stylesheet" type="text/css" href="/web/20140209091520cs_/http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+
+   <script src="/web/20140209091520js_/http://code.jquery.com/jquery.js"></script>
+   <script src="/web/20140209091520js_/http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+   <script src="/web/20140209091520js_/http://couchapp.org/assets/js/jquery.ui.touch-punch.js"></script>
+
+  </head>
+
+  <body>
+
+
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script type="text/javascript" src="/static/js/disclaim-element.js" ></script>
+<script type="text/javascript" src="/static/js/graph-calc.js" ></script>
+<script type="text/javascript" src="/static/jflot/jquery.min.js" ></script>
+<script type="text/javascript">//<![CDATA[
+var __wm = (function(){
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http://couchapp.org/pages/index/demo.html";
+
+var firstYear = 1996;
+var imgWidth = 475,imgHeight = 27;
+var yearImgWidth = 25,monthImgWidth = 2;
+var displayDay = "9";
+var displayMonth = "Feb";
+var displayYear = "2014";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var $D=document,$=function(n){return document.getElementById(n)};
+var trackerVal,curYear = -1,curMonth = -1;
+var yearTracker,monthTracker;
+function showTrackers(val) {
+  if (val===trackerVal) return;
+  var $ipp=$("wm-ipp");
+  var $y=$("displayYearEl"),$m=$("displayMonthEl"),$d=$("displayDayEl");
+  if (val) {
+    $ipp.className="hi";
+  } else {
+    $ipp.className="";
+    $y.innerHTML=displayYear;$m.innerHTML=displayMonth;$d.innerHTML=displayDay;
+  }
+  yearTracker.style.display=val?"inline":"none";
+  monthTracker.style.display=val?"inline":"none";
+  trackerVal = val;
+}
+function getElementX2(obj) {
+  var $e=jQuery(obj);
+  return (typeof $e=="undefined"||typeof $e.offset=="undefined")?
+    getElementX(obj):Math.round($e.offset().left);
+}
+function trackMouseMove(event,element) {
+  var eventX = getEventX(event);
+  var elementX = getElementX2(element);
+  var xOff = Math.min(Math.max(0, eventX - elementX),imgWidth);
+  var monthOff = xOff % yearImgWidth;
+
+  var year = Math.floor(xOff / yearImgWidth);
+  var monthOfYear = Math.min(11,Math.floor(monthOff / monthImgWidth));
+  // 1 extra border pixel at the left edge of the year:
+  var month = (year * 12) + monthOfYear;
+  var day = monthOff % 2==1?15:1;
+  var dateString = zeroPad(year + firstYear) + zeroPad(monthOfYear+1,2) +
+    zeroPad(day,2) + "000000";
+
+  $("displayYearEl").innerHTML=year+firstYear;
+  $("displayMonthEl").innerHTML=prettyMonths[monthOfYear];
+  // looks too jarring when it changes..
+  //$("displayDayEl").innerHTML=zeroPad(day,2);
+  var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+  $("wm-graph-anchor").href=url;
+
+  if(curYear != year) {
+    var yrOff = year * yearImgWidth;
+    yearTracker.style.left = yrOff + "px";
+    curYear = year;
+  }
+  if(curMonth != month) {
+    var mtOff = year + (month * monthImgWidth) + 1;
+    monthTracker.style.left = mtOff + "px";
+    curMonth = month;
+  }
+}
+function hideToolbar() {
+  $("wm-ipp").style.display="none";
+}
+function bootstrap() {
+  var $spk=$("wm-ipp-sparkline");
+  yearTracker=$D.createElement('div');
+  yearTracker.className='yt';
+  with(yearTracker.style){
+    display='none';width=yearImgWidth+"px";height=imgHeight+"px";
+  }
+  monthTracker=$D.createElement('div');
+  monthTracker.className='mt';
+  with(monthTracker.style){
+    display='none';width=monthImgWidth+"px";height=imgHeight+"px";
+  }
+  $spk.appendChild(yearTracker);
+  $spk.appendChild(monthTracker);
+
+  var $ipp=$("wm-ipp");
+  $ipp&&disclaimElement($ipp);
+}
+return{st:showTrackers,mv:trackMouseMove,h:hideToolbar,bt:bootstrap};
+})();//]]>
+</script>
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  min-width:800px !important;
+}
+</style>
+<div id="wm-ipp" lang="en" style="display:none;">
+
+<div style="position:fixed;left:0;top:0;width:100%!important">
+<div id="wm-ipp-inside">
+   <table style="width:100%;"><tbody><tr>
+   <td id="wm-logo">
+       <a href="/web/" title="Wayback Machine home page"><img src="/static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0" /></a>
+   </td>
+   <td class="c">
+       <table style="margin:0 auto;"><tbody><tr>
+       <td class="u" colspan="2">
+       <form target="_top" method="get" action="/web/form-submit.jsp" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://couchapp.org/pages/index/demo.html" style="width:400px;" onfocus="this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20140209091520" /><input type="submit" value="Go" /><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td class="n" rowspan="2">
+           <table><tbody>
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr class="m">
+           	<td class="b" nowrap="nowrap">
+		
+		    <a href="/web/20131211012654/http://couchapp.org/pages/index/demo.html" title="11 Dec 2013">DEC</a>
+		
+		</td>
+		<td class="c" id="displayMonthEl" title="You are here: 9:15:20 Feb 9, 2014">FEB</td>
+		<td class="f" nowrap="nowrap">
+		
+		    Mar
+		
+                </td>
+	    </tr>
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr class="d">
+               <td class="b" nowrap="nowrap">
+               
+                   <a href="/web/20131211012654/http://couchapp.org/pages/index/demo.html" title="1:26:54 Dec 11, 2013"><img src="/static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a>
+               
+               </td>
+               <td class="c" id="displayDayEl" style="width:34px;font-size:24px;" title="You are here: 9:15:20 Feb 9, 2014">9</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   <img src="/static/images/toolbar/wm_tb_nxt_off.png" alt="Next capture" width="14" height="16" border="0"/>
+               
+	       </td>
+           </tr>
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr class="y">
+	       <td class="b" nowrap="nowrap">
+               
+                   2013
+               
+               </td>
+               <td class="c" id="displayYearEl" title="You are here: 9:15:20 Feb 9, 2014">2014</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   2015
+               
+	       </td>
+           </tr>
+           </tbody></table>
+       </td>
+       </tr>
+       <tr>
+       <td class="s">
+           <a class="t" href="/web/20140209091520*/http://couchapp.org/pages/index/demo.html" title="See a list of every capture for this URL">5 captures</a>
+           <div class="r" title="Timespan for captures of this URL">21 Jul 13 - 9 Feb 14</div>
+       </td>
+       <td class="k">
+       <a href="" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" title="Explore captures for this URL">
+	 <img id="sparklineImgId" alt="sparklines"
+		 onmouseover="__wm.st(1)" onmouseout="__wm.st(0)"
+		 onmousemove="__wm.mv(event,this)"
+		 width="475"
+		 height="27"
+		 border="0"
+		 src="/web/jsp/graph.jsp?graphdata=475_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000000000_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000100111_2014:1:010000000000" />
+       </div>
+       </a>
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td class="r">
+       <a href="#close" onclick="__wm.h();return false;" style="background-image:url(/static/images/toolbar/wm_tb_close.png);top:5px;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="background-image:url(/static/images/toolbar/wm_tb_help.png);bottom:5px;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+</div>
+</div>
+</div>
+<script type="text/javascript">__wm.bt();</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/web/20140209091520/http://couchapp.org/">Ben's Sandbox</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/web/20140209091520/http://couchapp.org/projects/index.html">Projects</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/web/20140209091520/http://couchapp.org/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h3>Using Google Maps Drawing Manager to Create User Selectable Areas </h3>
+
+
+<hr style="margin: 0px"/>
+
+
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div style="position: relative; top: -20px; text-align: right; height: 30px">
+  <span><a href="/web/20140209091520/http://benknowscode.wordpress.com/2013/06/30/using-google-maps-drawing-manager-to-create-user-selectable-areas/">View Blog</a></span>&nbsp;&nbsp;
+  <span><a href="/web/20140209091520/https://github.com/bseth99/sandbox/blob/master/projects/google-maps/01-drawing-manager-selections.html">View Source</a></span>&nbsp;&nbsp;
+  <div class="g-plusone" data-size="small"></div>
+</div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = false;
+    po.src = '/web/20140209091520/https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+
+
+<div class="row">
+  <div class="span12">
+    
+
+<!--
+Copyright (c) 2012 Ben Olson
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<script src="/web/20140209091520js_/https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=drawing"></script>
+
+
+<style>
+#wrapper { position: relative; }
+#map-canvas { width: 600px; height: 500px; }
+#map-controls { width: 600px; margin-bottom: 3px;  }
+#map-selected { position: absolute; right: 20px; top: 40px; }
+img { max-width: none; }
+</style>
+
+<div class="discussion">
+An example of using the DrawingManager to handle drawing a selected area that will be used to
+show more details about the location markers contained within the region.  The manager is disabled
+after the initial drawing allowing interaction with both the map and selection object.  Click the
+"Select" button to draw/redraw the selection.
+</div>
+<br/>
+
+<div id="wrapper">
+   <div id="map-selected"></div>
+   <div id="map-controls">
+      <button>Select</button>
+   </div>
+   <div id="map-canvas"></div>
+</div>
+
+<script>
+
+
+var selectedArea = null,
+    selecting = false,
+    map, drawingManager;
+
+function initialize () {
+
+   var mapOptions = {
+     center: new google.maps.LatLng(28.5477795, -81.3864589),
+     zoom: 12,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+   };
+
+   map = new google.maps.Map(document.getElementById('map-canvas'),
+     mapOptions);
+
+   drawingManager = new google.maps.drawing.DrawingManager({
+
+     drawingMode: google.maps.drawing.OverlayType.CIRCLE,
+     drawingControl: false,
+
+     circleOptions: {
+       fillColor: '#ffff00',
+       fillOpacity: 0.3,
+       strokeWeight: 1,
+       clickable: false,
+       editable: true,
+       zIndex: 1
+     }
+
+   });
+
+   $('#map-canvas').on('mousedown', function() {
+
+      if ( !selecting ) return;
+
+      if ( selectedArea ) {
+         selectedArea.setMap(null);
+         google.maps.event.clearInstanceListeners(selectedArea);
+      }
+
+      selectedArea = null;
+   });
+
+
+   google.maps.event.addListener(drawingManager, 'circlecomplete', function( circle ) {
+
+      selectedArea = circle;
+
+      google.maps.event.addListener(circle, 'center_changed', listSelected);
+      google.maps.event.addListener(circle, 'radius_changed', listSelected);
+
+      listSelected();
+      toggleSelector();
+
+   });
+
+   $('#map-controls').children().button().click(toggleSelector);
+
+   plotMarkers();
+
+}
+
+function plotMarkers () {
+
+   $.each( sites, function () {
+
+      if ( this.marker ) this.marker.setMap(null);
+
+      this.position = new google.maps.LatLng(this.lat, this.lng);
+
+      this.marker = new google.maps.Marker({
+         position: this.position,
+         map: map,
+         title: this.location
+      });
+
+   });
+}
+
+function listSelected () {
+
+   var r = selectedArea.getRadius(),
+       c = selectedArea.getCenter();
+
+   var inside = $.map( sites, function ( s ) {
+
+      var d;
+
+      if ( ( (d = google.maps.geometry.spherical.computeDistanceBetween( s.position, c )) <= r ) )
+         return s.location + ' ('+(Math.round(d/100)/10)+' km)';
+
+   });
+
+   $('#map-selected').html( inside.sort().join('<br/>') );
+}
+
+function toggleSelector () {
+
+   var $el = $('#map-controls button');
+
+   if ( $el.button('option', 'label') == 'Select' ) {
+
+      $el.button('option', 'label', 'Interact');
+      drawingManager.setMap(map);
+   } else {
+
+      $el.button('option', 'label', 'Select');
+      drawingManager.setMap(null);
+   }
+
+   selecting = !selecting;
+}
+
+$(initialize);
+
+var sites = [
+{ location: 'Alfond Swimming Pool', lat: 28.5903, lng: -81.3484},
+{ location: 'Cahall Sandspur Field', lat: 28.5928, lng: -81.35},
+{ location: 'Cherry Tree Park', lat: 28.5397241, lng: -81.3475692},
+{ location: 'Christmas Park', lat: 28.5611107, lng: -81.0220052},
+{ location: 'Clear Lake park', lat: 28.5138919, lng: -81.4059039},
+{ location: 'Col Joe Kittinger Park', lat: 28.5397241, lng: -81.341458},
+{ location: 'Dartmouth Park', lat: 28.5677789, lng: -81.3922922},
+{ location: 'Delaney Street Playground', lat: 28.5311134, lng: -81.3736809},
+{ location: 'Demetree Park', lat: 28.5327799, lng: -81.3195131},
+{ location: 'Dickson Azalea Park', lat: 28.544724, lng: -81.3553471},
+{ location: 'Dr I Sylvester Hankins Park', lat: 28.5280581, lng: -81.4192374},
+{ location: 'Duckworth Park', lat: 28.5288913, lng: -81.3714587},
+{ location: 'El Dorado Park', lat: 28.5322243, lng: -81.3114574},
+{ location: 'Englewood Park', lat: 28.5350019, lng: -81.2997904},
+{ location: 'Festival Park', lat: 28.5488905, lng: -81.346458},
+{ location: 'George Baker Park', lat: 28.5308358, lng: -81.4067371},
+{ location: 'Gilbert McQueen Park', lat: 28.5336134, lng: -81.4095149},
+{ location: 'Grand Avenue Park', lat: 28.5266692, lng: -81.3914591},
+{ location: 'Guernsey Park', lat: 28.565279, lng: -81.3984034},
+{ location: 'Harry P Leu Gardens', lat: 28.5669455, lng: -81.355347},
+{ location: 'Irrgain Park', lat: 28.5616678, lng: -81.5795179},
+{ location: 'Ivanhoe Park', lat: 28.5641679, lng: -81.3867365},
+{ location: 'Jay Bergman Field', lat: 28.6099, lng: -81.1955},
+{ location: 'Kelly Park', lat: 28.7577724, lng: -81.5009049},
+{ location: 'La Costa Wetlands', lat: 28.5261134, lng: -81.3059017},
+{ location: 'Lake Adair Park', lat: 28.5613902, lng: -81.3920144},
+{ location: 'Lake Claire Recreational Area', lat: 28.6071, lng: -81.2033},
+{ location: 'Lake Como Park', lat: 28.5363909, lng: -81.3539583},
+{ location: 'Lake Eola Park', lat: 28.510003, lng: -81.3759033},
+{ location: 'Lake Eola Park', lat: 28.5438907, lng: -81.3697918},
+{ location: 'Lake Underhill Park', lat: 28.5352798, lng: -81.3367356},
+{ location: 'Lakemont Park', lat: 28.6099995, lng: -81.3297905},
+{ location: 'Lakeview Park', lat: 28.5777783, lng: -81.5850736},
+{ location: 'Lizzie Rogers Park', lat: 28.5350022, lng: -81.4089594},
+{ location: 'Lockhaven Park', lat: 28.5719454, lng: -81.3670138},
+{ location: 'Lorna Doone Park', lat: 28.5433353, lng: -81.4034036},
+{ location: 'Magnolia Park', lat: 28.6344431, lng: -81.5509063},
+{ location: 'Malibu Groves Rattlesnake Park', lat: 28.541391, lng: -81.4406266},
+{ location: 'Mathews Park', lat: 28.5794451, lng: -81.3786807},
+{ location: 'Mayor Carl Langford Park', lat: 28.5425018, lng: -81.3581249},
+{ location: 'Mead Garden', lat: 28.5838893, lng: -81.3584024},
+{ location: 'Mitchell L Nutter Park', lat: 28.5616678, lng: -81.3342353},
+{ location: 'Moss Park', lat: 28.3786185, lng: -81.1900664},
+{ location: 'Overbrook Park', lat: 28.5586125, lng: -81.3936811},
+{ location: 'Pflug Hall', lat: 28.5943, lng: -81.3464},
+{ location: 'Prince Hall Park', lat: 28.5227805, lng: -81.4345155},
+{ location: 'Princeton Park', lat: 28.5733343, lng: -81.3920143},
+{ location: 'Ravenall Park', lat: 28.5197251, lng: -81.4409045},
+{ location: 'Rock Springs Run State Reserve', lat: 28.7155517, lng: -81.4497927},
+{ location: 'Seaworld Orlando', lat: 28.411042, lng: -81.461294},
+{ location: 'Senator Beth Johnson Park', lat: 28.5608347, lng: -81.3781252},
+{ location: 'Sunshine Park', lat: 28.5477795, lng: -81.3864589},
+{ location: 'The Nature Park', lat: 28.5413907, lng: -81.3164574},
+{ location: 'Turkey Lake Park', lat: 28.5136143, lng: -81.4822943},
+{ location: 'Virginia S Nelson Rose Garden', lat: 28.5926, lng: -81.3492},
+{ location: 'Wadeview Park', lat: 28.5177805, lng: -81.3684031},
+{ location: 'Walt Disney World', lat: 28.4116733, lng: -81.5825738},
+{ location: 'Washington Shores Park', lat: 28.5252804, lng: -81.4192374},
+{ location: 'Wekiwa Springs State Park', lat: 28.7702719, lng: -81.5009048},
+{ location: 'West Underhill Park', lat: 28.5377798, lng: -81.3422913},
+{ location: 'William Beardall Tosohatchee State Preserve', lat: 28.4997233, lng: -80.9164472},
+{ location: 'Willie Mays Park', lat: 28.5172251, lng: -81.4364601}
+];
+</script>
+
+
+  </div>
+</div>
+
+</div>
+
+
+      </div>
+
+      <footer>
+        <p>&copy; Ben Olson 2012
+          with help from <a href="/web/20140209091520/http://jekyllbootstrap.com/" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="/web/20140209091520/http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34780028-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? '/web/20140209091520/https://ssl' : '/web/20140209091520/http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>
+
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 9:15:20 Feb 9, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 22:37:00 Dec 10, 2014.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
