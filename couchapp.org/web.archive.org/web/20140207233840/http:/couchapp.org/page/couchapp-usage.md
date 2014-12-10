@@ -1,11 +1,11 @@
-# **[CouchApp.org](/web/20140209090820/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Couchapp Command Line Usage](/web/20140209090820/http://couchapp.org/page
 /couchapp-usage)
 
 # Couchapp Command Line Usage
 
 ## [Installation
-Instructions](/web/20140209090820/http://couchapp.org/page/installing)
+Instructions](installing.md)
 
 ## Full command line usage
 
@@ -121,7 +121,7 @@ Push a CouchApp to one or more
 ### pushapps
 
 Sends a folder of multiple CouchApps at once, similar to
-[push](/web/20140209090820/http://couchapp.org/page/push).
+[push](push.md).
 
     
     

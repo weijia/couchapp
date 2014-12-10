@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209094920/http://couchapp.org/page/index):**
-[Getting Started](/web/20140209094920/http://couchapp.org/page/getting-
+# **[CouchApp.org](index.md):**
+[Getting Started](getting-.md
 started)
 
 # Getting Started

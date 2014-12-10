@@ -1,6 +1,6 @@
-# **[CouchApp.org](/web/20140209091418/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Video Tutorials on
-CouchDB](/web/20140209091418/http://couchapp.org/page/videos)
+CouchDB](videos.md)
 
 # Also check out [Relaxed.tv](/web/20140209091418/http://relaxed.tv/) for
 awesome CouchDB videos!

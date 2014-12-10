@@ -1,18 +1,18 @@
-# **[CouchApp.org](/web/20140209100158/http://couchapp.org/page/index):**
-[couchapp (python)](/web/20140209100158/http://couchapp.org/page/couchapp-
+# **[CouchApp.org](index.md):**
+[couchapp (python)](couchapp-.md
 python)
 
-The [couchapp](/web/20140209100158/http://couchapp.org/page/couchapp-python)
+The [couchapp](couchapp-python.md)
 command line tool is written in Python and used to generate code templates in
 your application and to push your changes to an instance of couchdb, among
 other things. Here is how to get started with the CouchApp command line tool:
 
-  * [Installing couchapp](/web/20140209100158/http://couchapp.org/page/installing)
-  * [Couchapp configuration](/web/20140209100158/http://couchapp.org/page/couchapp-config)
-  * [The couchapp command line tool](/web/20140209100158/http://couchapp.org/page/couchapp-usage)
-  * [Extending the couchapp command line tool](/web/20140209100158/http://couchapp.org/page/couchapp-extend)
-  * [Using couchapp with multiple design documents](/web/20140209100158/http://couchapp.org/page/multiple-design-docs)
-  * [The Filesystem Mapping](/web/20140209100158/http://couchapp.org/page/filesystem-mapping)
+  * [Installing couchapp](installing.md)
+  * [Couchapp configuration](couchapp-config.md)
+  * [The couchapp command line tool](couchapp-usage.md)
+  * [Extending the couchapp command line tool](couchapp-extend.md)
+  * [Using couchapp with multiple design documents](multiple-design-docs.md)
+  * [The Filesystem Mapping](filesystem-mapping.md)
 
 There can be confusion with the term 'CouchApp' because it can refer to this
 tool, named 'CouchApp', or a general application served from CouchDB. This is
@@ -26,7 +26,7 @@ something like [this template
 project](/web/20140209100158/https://github.com/jchris/proto). The following
 libraries are included with your new couchapp by default:
 
-#### [Evently](/web/20140209100158/http://couchapp.org/page/evently)
+#### [Evently](evently.md)
 
 A declarative, couchdb friendly JQuery library for writing Javascript
 applications

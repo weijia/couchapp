@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209092536/http://couchapp.org/page/index):** [How
-To install Pages](/web/20140209092536/http://couchapp.org/page/pages-install)
+# **[CouchApp.org](index.md):** [How
+To install Pages](pages-install.md)
 
 If anyone else has issues understanding this whole vhosts thing i'll give a
 'grandma-can-do-it' recount here of my troubles.

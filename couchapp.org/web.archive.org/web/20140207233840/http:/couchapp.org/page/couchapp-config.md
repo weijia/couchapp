@@ -1,4 +1,4 @@
-# **[CouchApp.org](/web/20140209085200/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [couchapp configuration](/web/20140209085200/http://couchapp.org/page
 /couchapp-config)
 

@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209085605/http://couchapp.org/page/index):**
-[Extend couchapp](/web/20140209085605/http://couchapp.org/page/couchapp-
+# **[CouchApp.org](index.md):**
+[Extend couchapp](couchapp-.md
 extend)
 
 # Extend couchapp

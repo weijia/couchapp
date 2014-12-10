@@ -1,6 +1,6 @@
-# **[CouchApp.org](/web/20140209100558/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [CouchApps and
-DesktopCouch](/web/20140209100558/http://couchapp.org/page/desktopcouch)
+DesktopCouch](desktopcouch.md)
 
 # CouchApps and DesktopCouch
 

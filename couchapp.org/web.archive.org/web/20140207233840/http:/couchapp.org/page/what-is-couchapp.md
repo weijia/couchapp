@@ -1,4 +1,4 @@
-# **[CouchApp.org](/web/20140209093703/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [What the HTTP is CouchApp?](/web/20140209093703/http://couchapp.org/page
 /what-is-couchapp)
 
@@ -198,7 +198,7 @@ ability to serve plain-old HTML, we wouldn't be completely RESTful.
 
 Rounding out this group, is the ability to accept plain HTML form POSTs. (And
 other arbitary input). For that, CouchDB uses [update
-functions](/web/20140209093703/http://couchapp.org/page/update-functions),
+functions](update-functions.md),
 which can take arbitrary input and turn it in to JSON for saving to the
 database.
 
@@ -448,5 +448,5 @@ docs/index.html#/topic/pathbinder)
 ### Examples
 
 There is a [list of CouchApps
-here](/web/20140209093703/http://couchapp.org/page/list-of-couchapps)
+here](list-of-couchapps.md)
 

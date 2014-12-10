@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209084258/http://couchapp.org/page/index):**
-[Filesystem Mapping](/web/20140209084258/http://couchapp.org/page/filesystem-
+# **[CouchApp.org](index.md):**
+[Filesystem Mapping](filesystem-.md
 mapping)
 
 # The Couchapp Filesystem Mapping
@@ -118,7 +118,7 @@ The rest of the folder structure above will become this JSON Design Document
 
 It's not a very big leap to see that an Evently widget could be editing in a
 filesystem tree like this: (Picking the most complex -- `nestedEvently` from
-the [Evently Primer](/web/20140209084258/http://couchapp.org/page/evently-
+the [Evently Primer](evently-.md
 primer) document.)
 
     

@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209095238/http://couchapp.org/page/index):**
-[Installing CouchApp](/web/20140209095238/http://couchapp.org/page/installing)
+# **[CouchApp.org](index.md):**
+[Installing CouchApp](installing.md)
 
 ## Installing
 
@@ -119,7 +119,7 @@ Follow **instructions**
 There are currently 2 methods to install on windows:
 
   * [Standalone Executable 0.8.1](/web/20140209095238/https://github.com/downloads/couchapp/couchapp/couchapp-0.8.1-win.zip) Does not require Python
-  * [Python installer for Python 2.7](/web/20140209095238/http://couchapp.org/page/windows-python-installers) Requires Python
+  * [Python installer for Python 2.7](windows-python-installers.md) Requires Python
 
 In case the above is not updated, check out the [downloads
 section](/web/20140209095238/https://github.com/couchapp/couchapp/downloads)

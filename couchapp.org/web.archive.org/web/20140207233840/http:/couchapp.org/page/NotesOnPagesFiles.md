@@ -1,6 +1,6 @@
-# **[CouchApp.org](/web/20140209095743/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Notes on Pages
-Application](/web/20140209095743/http://couchapp.org/page/NotesOnPagesFiles)
+Application](NotesOnPagesFiles.md)
 
 * * *
 

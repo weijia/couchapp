@@ -1,10 +1,10 @@
-# **[CouchApp.org](/web/20140209093454/http://couchapp.org/page/index):**
-[List of CouchApps](/web/20140209093454/http://couchapp.org/page/list-of-
+# **[CouchApp.org](index.md):**
+[List of CouchApps](list-of-.md
 couchapps)
 
 Please add links to CouchApps (alphabetical order will help avoid duplicates
 in the long run). You may also be interested in [the Couchapp
-Garden](/web/20140209093454/http://couchapp.org/page/garden).
+Garden](garden.md).
 
 ## Afghan War Diary
 

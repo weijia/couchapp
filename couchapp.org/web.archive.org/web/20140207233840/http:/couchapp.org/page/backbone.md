@@ -1,6 +1,6 @@
-# **[CouchApp.org](/web/20140209091220/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Using backbone.js with
-couchapp](/web/20140209091220/http://couchapp.org/page/backbone)
+couchapp](backbone.md)
 
 Backbone.js is minimalist mvc framework for JavaScript, written by Jeremy
 ashkenas, the author of coffee script. Backbone is a good choice for creating

@@ -1,6 +1,6 @@
-# **[CouchApp.org](/web/20140207233840/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Simple JavaScript application hosted in Apache
-CouchDB](/web/20140207233840/http://couchapp.org/page/index)
+CouchDB](index.md)
 
 **CouchApps are JavaScript and HTML5 applications served directly from CouchDB. If you can fit your application into those constraints, then you get CouchDB's scalability and flexibility "for free" (and deploying your app is as simple as replicating it to the production server).**
 
@@ -14,12 +14,12 @@ but uses the built-in storage of HTML5.
 
 ## Get Started
 
-  * [What the HTTP is CouchApp?](/web/20140207233840/http://couchapp.org/page/what-is-couchapp)
+  * [What the HTTP is CouchApp?](what-is-couchapp.md)
   * The [Standalone Applications](/web/20140207233840/http://guide.couchdb.org/editions/1/en/standalone.html) and [Managing Design Documents](/web/20140207233840/http://guide.couchdb.org/editions/1/en/managing.html) chapters of the O'Reilly CouchDB book
-  * [Getting Started Tutorial](/web/20140207233840/http://couchapp.org/page/getting-started)
-  * [Video Tutorials and Screencasts](/web/20140207233840/http://couchapp.org/page/videos)
-  * [Help with installing and running individual applications](/web/20140207233840/http://couchapp.org/page/application-help)
-  * [Using backbone.js in CouchApps](/web/20140207233840/http://couchapp.org/page/backbone)
+  * [Getting Started Tutorial](getting-started.md)
+  * [Video Tutorials and Screencasts](videos.md)
+  * [Help with installing and running individual applications](application-help.md)
+  * [Using backbone.js in CouchApps](backbone.md)
 
 ## CouchApp Development Tools
 
@@ -28,26 +28,26 @@ other resources onto your CouchDB instance. Typically this is done with a
 CouchApp command line tool that maps application assets and CouchDB views,
 lists, shows, etc into one or more Design Documents.
 
-  * [CouchApp Filesystem Mapping](/web/20140207233840/http://couchapp.org/page/filesystem-mapping) \- couchapp.py and erica (mentioned below) implement a consistent filesystem-to-design-document mapping
+  * [CouchApp Filesystem Mapping](filesystem-mapping.md) \- couchapp.py and erica (mentioned below) implement a consistent filesystem-to-design-document mapping
 
 ### Curl
 
 The simplest way to develop a couchapp would be to use curl from the command
 line.
 
-### [CouchApp](/web/20140207233840/http://couchapp.org/page/couchapp-python)
+### [CouchApp](couchapp-python.md)
 command line tool (python)
 
-The [CouchApp](/web/20140207233840/http://couchapp.org/page/couchapp-python)
+The [CouchApp](couchapp-python.md)
 command line tool is used to generate code templates in your application and
 to push your changes to an instance of couchdb, among other things. Here is
 how to get started with the CouchApp command line tool:
 
-  * [Installing couchapp](/web/20140207233840/http://couchapp.org/page/installing)
-  * [Couchapp configuration](/web/20140207233840/http://couchapp.org/page/couchapp-config)
-  * [The couchapp command line tool](/web/20140207233840/http://couchapp.org/page/couchapp-usage)
-  * [Extending the couchapp command line tool](/web/20140207233840/http://couchapp.org/page/couchapp-extend)
-  * [Using couchapp with multiple design documents](/web/20140207233840/http://couchapp.org/page/multiple-design-docs)
+  * [Installing couchapp](installing.md)
+  * [Couchapp configuration](couchapp-config.md)
+  * [The couchapp command line tool](couchapp-usage.md)
+  * [Extending the couchapp command line tool](couchapp-extend.md)
+  * [Using couchapp with multiple design documents](multiple-design-docs.md)
 
 There can be confusion with the term 'CouchApp' because it can refer to this
 tool, named 'CouchApp', or a general application served from CouchDB. This is
@@ -141,8 +141,8 @@ You can download the following applications and try them out yourself.
 
 The wiki software behind couchapp.org
 
-  * [Installing Pages](/web/20140207233840/http://couchapp.org/page/pages-install)
-  * [Pages Application Walkthrough](/web/20140207233840/http://couchapp.org/page/NotesOnPagesFiles)
+  * [Installing Pages](pages-install.md)
+  * [Pages Application Walkthrough](NotesOnPagesFiles.md)
 
 #### [online](/web/20140207233840/http://t.co/tiUI2dBt7l)
 
@@ -164,13 +164,13 @@ accompanying Ruby program.
 ## Other resources
 
   * [Search The CouchDB Mailing List/IRC Archive](/web/20140207233840/http://archive.couchdb.org/)
-  * [A List of CouchApps](/web/20140207233840/http://couchapp.org/page/list-of-couchapps)
-  * [CouchApps with DesktopCouch](/web/20140207233840/http://couchapp.org/page/desktopcouch)
-  * [Roadmap](/web/20140207233840/http://couchapp.org/page/roadmap)
+  * [A List of CouchApps](list-of-couchapps.md)
+  * [CouchApps with DesktopCouch](desktopcouch.md)
+  * [Roadmap](roadmap.md)
   * [Mailing List](/web/20140207233840/http://groups.google.com/group/couchapp)
-  * [Contributing to CouchApp](/web/20140207233840/http://couchapp.org/page/how-to-contribute)
-  * [Some development notes](/web/20140207233840/http://couchapp.org/page/development-notes)
-  * [The CouchApp Garden project](/web/20140207233840/http://couchapp.org/page/garden)
+  * [Contributing to CouchApp](how-to-contribute.md)
+  * [Some development notes](development-notes.md)
+  * [The CouchApp Garden project](garden.md)
   * [eNotes CouchApp Tutorial](/web/20140207233840/http://materials.geoinfo.tuwien.ac.at/tutorials/couchapp)
 
 Files attached to _Simple JavaScript application hosted in Apache CouchDB_:

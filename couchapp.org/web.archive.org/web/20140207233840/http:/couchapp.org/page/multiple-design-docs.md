@@ -1,4 +1,4 @@
-# **[CouchApp.org](/web/20140209094137/http://couchapp.org/page/index):**
+# **[CouchApp.org](index.md):**
 [Multiple design documents](/web/20140209094137/http://couchapp.org/page
 /multiple-design-docs)
 

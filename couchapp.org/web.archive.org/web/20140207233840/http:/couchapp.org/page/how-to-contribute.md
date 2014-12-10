@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209085511/http://couchapp.org/page/index):**
-[Contributing](/web/20140209085511/http://couchapp.org/page/how-to-contribute)
+# **[CouchApp.org](index.md):**
+[Contributing](how-to-contribute.md)
 
 The **[ASUS Fonepad Tablet 7 Inci Dengan Fungsi
 Telepon**](/web/20140209085511/http://najwanajjib.blogspot.com/2013/10/asus-

@@ -1,9 +1,9 @@
-# **[CouchApp.org](/web/20140209092538/http://couchapp.org/page/index):**
-[Development notes](/web/20140209092538/http://couchapp.org/page/development-
+# **[CouchApp.org](index.md):**
+[Development notes](development-.md
 notes)
 
 # Development notes
 
-  * [How to Contribute](/web/20140209092538/http://couchapp.org/page/how-to-contribute)
-  * [MacOSX bundle preparation](/web/20140209092538/http://couchapp.org/page/macosxbundle)
+  * [How to Contribute](how-to-contribute.md)
+  * [MacOSX bundle preparation](macosxbundle.md)
 

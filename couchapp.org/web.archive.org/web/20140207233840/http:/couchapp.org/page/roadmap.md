@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209084807/http://couchapp.org/page/index):**
-[CouchApp Roadmap](/web/20140209084807/http://couchapp.org/page/roadmap)
+# **[CouchApp.org](index.md):**
+[CouchApp Roadmap](roadmap.md)
 
 ## Developer Toolchain
 

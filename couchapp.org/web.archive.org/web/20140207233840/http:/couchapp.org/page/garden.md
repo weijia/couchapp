@@ -1,5 +1,5 @@
-# **[CouchApp.org](/web/20140209085942/http://couchapp.org/page/index):** [The
-Garden](/web/20140209085942/http://couchapp.org/page/garden)
+# **[CouchApp.org](index.md):** [The
+Garden](garden.md)
 
 [The CouchApp Garden](/web/20140209085942/http://couchapp.org/garden/_design/g
 arden/index.html) is a CouchApp designed to make sharing other CouchApps easy.
