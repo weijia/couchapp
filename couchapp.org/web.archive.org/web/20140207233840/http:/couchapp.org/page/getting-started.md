@@ -19,8 +19,7 @@ and files to start. Run:
     $ couchapp generate helloworld
     
 
-![couchapp generate](/web/20140209094920im_/http://couchapp.org/pages/getting-
-started/gettingstarted01.png)
+![couchapp generate](attachments/gettingstarted01.png)
 
 ## 2\. Create a show function
 
@@ -65,8 +64,7 @@ we want to push our app in the database testdb:
     $ couchapp push testdb
     
 
-![couchapp push](/web/20140209094920im_/http://couchapp.org/pages/getting-
-started/gettingstarted02.png)
+![couchapp push](attachments/gettingstarted02.png)
 
 Go on
 
@@ -77,8 +75,7 @@ Go on
 
 you will see:
 
-![CouchApp hello world](/web/20140209094920im_/http://couchapp.org/pages
-/getting-started/gettingstarted03.png)
+![CouchApp hello world](attachments/getting-started/gettingstarted03.png)
 
 ## 4\. Clone your CouchApp
 
@@ -94,8 +91,7 @@ application:
 This command fetches the CouchApp `helloworld` from the remote database of
 your friend.
 
-![couchapp clone](/web/20140209094920im_/http://couchapp.org/pages/getting-
-started/gettingstarted04.png)
+![couchapp clone](attachments/gettingstarted04.png)
 
 Now you can edit the couchapp on your computer.
 
