@@ -1261,5 +1261,5 @@ as a key in an array.
 
 Files attached to _Notes on Pages Application_:
 
-  * [110px-Python-logo-notext.svg.png](/web/20140209095743/http://couchapp.org/pages/NotesOnPagesFiles/110px-Python-logo-notext.svg.png) (image/png)
+  * [110px-Python-logo-notext.svg.png](attachments/110px-Python-logo-notext.svg.png) (image/png)
 

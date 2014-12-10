@@ -356,5 +356,5 @@ couchapp.
 
 Files attached to _List of CouchApps_:
 
-  * [UpdatedCAMP-030-2210_SEO Work.jpg](/web/20140209093454/http://couchapp.org/pages/list-of-couchapps/UpdatedCAMP-030-2210_SEO%20Work.jpg) (image/jpeg)
+  * [UpdatedCAMP-030-2210_SEO Work.jpg](attachments/UpdatedCAMP-030-2210_SEO%20Work.jpg) (image/jpeg)
 

@@ -175,13 +175,13 @@ accompanying Ruby program.
 
 Files attached to _Simple JavaScript application hosted in Apache CouchDB_:
 
-  * [390460_185903128166121_700165246_n.jpg](/web/20140207233840/http://couchapp.org/pages/index/390460_185903128166121_700165246_n.jpg) (image/jpeg)
-  * [N68-VS3 UCC.pdf](/web/20140207233840/http://couchapp.org/pages/index/N68-VS3%20UCC.pdf) (application/pdf)
-  * [mike wazowski.jpg](/web/20140207233840/http://couchapp.org/pages/index/mike%20wazowski.jpg) (image/jpeg)
-  * [demo.html](/web/20140207233840/http://couchapp.org/pages/index/demo.html) (text/html)
-  * [acralyzer-master.zip](/web/20140207233840/http://couchapp.org/pages/index/acralyzer-master.zip) (application/octet-stream)
-  * [untitled.txt](/web/20140207233840/http://couchapp.org/pages/index/untitled.txt) (text/plain)
-  * [multiple_design_documents](/web/20140207233840/http://couchapp.org/pages/index/multiple_design_documents) (application/octet-stream)
-  * [multiple_design_documents.html](/web/20140207233840/http://couchapp.org/pages/index/multiple_design_documents.html) (text/html)
-  * [couchapp_blog_entry.txt](/web/20140207233840/http://couchapp.org/pages/index/couchapp_blog_entry.txt) (text/plain)
+  * [390460_185903128166121_700165246_n.jpg](attachments/390460_185903128166121_700165246_n.jpg) (image/jpeg)
+  * [N68-VS3 UCC.pdf](attachments/N68-VS3%20UCC.pdf) (application/pdf)
+  * [mike wazowski.jpg](attachments/mike%20wazowski.jpg) (image/jpeg)
+  * [demo.html](attachments/demo.html) (text/html)
+  * [acralyzer-master.zip](attachments/acralyzer-master.zip) (application/octet-stream)
+  * [untitled.txt](attachments/untitled.txt) (text/plain)
+  * [multiple_design_documents](attachments/multiple_design_documents) (application/octet-stream)
+  * [multiple_design_documents.html](attachments/multiple_design_documents.html) (text/html)
+  * [couchapp_blog_entry.txt](attachments/couchapp_blog_entry.txt) (text/plain)
 

@@ -129,5 +129,5 @@ in GitHub
 
 Files attached to _Installing CouchApp_:
 
-  * [Couchapp-0.7-Installer-screenshot.png](/web/20140209095238/http://couchapp.org/pages/installing/Couchapp-0.7-Installer-screenshot.png) (image/png)
+  * [Couchapp-0.7-Installer-screenshot.png](attachments/Couchapp-0.7-Installer-screenshot.png) (image/png)
 

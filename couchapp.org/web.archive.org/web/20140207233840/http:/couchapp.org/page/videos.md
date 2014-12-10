@@ -22,6 +22,6 @@ Also was at [Open Source Bridge
 
 Files attached to _Video Tutorials on CouchDB_:
 
-  * [Hotel Murah Di Jakarta.docx](/web/20140209091418/http://couchapp.org/pages/videos/Hotel%20Murah%20Di%20Jakarta.docx) (application/vnd.openxmlformats-officedocument.wordprocessingml.document)
+  * [Hotel Murah Di Jakarta.docx](attachments/Hotel%20Murah%20Di%20Jakarta.docx) (application/vnd.openxmlformats-officedocument.wordprocessingml.document)
   * (application/octet-stream)
 
