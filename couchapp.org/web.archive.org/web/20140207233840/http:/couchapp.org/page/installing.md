@@ -100,7 +100,7 @@ Once you [installed Homebrew](http://wiki.github.com/mxcl/homebrew/installation)
 
 ## Installing on Ubuntu
 
-If you use [Ubuntu](http://www.ubuntu.com/-, you can update your system with
+If you use [Ubuntu](http://www.ubuntu.com/), you can update your system with
 packages from our PPA by adding `ppa:couchapp/couchapp` to your system's
 Software Sources.
 

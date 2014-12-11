@@ -113,8 +113,7 @@ The rest of the folder structure above will become this JSON Design Document
 
 It's not a very big leap to see that an Evently widget could be editing in a
 filesystem tree like this: (Picking the most complex -- `nestedEvently` from
-the [Evently Primer](evently-.md
-primer) document.)
+the [Evently Primer](evently-primer) document.)
 
     
     

@@ -123,25 +123,25 @@ query it by building indexes across the stored objects. You do this by writing
 JavaScript functions that are passed each of your documents, and can pick from
 them a set of keys under which you'd like to locate them.
 
-So for a blog post, you might pick out all the tags, and make keys like `[tag,
-doc.created_at]`. Once you have a view like that, you can easily get a view of
+So for a blog post, you might pick out all the tags, and make keys like 
+`[tag, doc.created_at]`. 
+Once you have a view like that, you can easily get a view of
 all your blog posts with a given tag, in chronological order, no less. By
 adding the reduce operator `_count` you can also see how many blog posts are
 tagged `"foo"` or whatever.
 
-I'm not gonna try to teach you all about views here. Try the [CouchDB book's
-guide to views](http://books.couchdb.org/relax/design-documents/views), the
+I'm not gonna try to teach you all about views here. Try the 
+[CouchDB book's guide to views](http://books.couchdb.org/relax/design-documents/views), the
 [wiki](http://wiki.apache.org/couchdb/HTTP_view_API) and
-this [chapter on advanced
-views](http://books.couchdb.org/relax/reference/views-for-
-sql-jockeys).
+this [chapter on advanced views](http://books.couchdb.org/relax/reference/views-for-sql-jockeys).
 
 ### Server Side Validations
 
 The second thing people usually ask when they start to grok the CouchApp
 model, is "How do I keep people from destroying all my data? How do I ensure
-they only do what they are allowed to do?" The answer to that is [validation
-functions](http://books.couchdb.org/relax/design-documents/validation-functions). In a nutshell, each time someone saves or updates a
+they only do what they are allowed to do?" The answer to that is 
+[validation functions](http://books.couchdb.org/relax/design-documents/validation-functions). 
+In a nutshell, each time someone saves or updates a
 CouchDB document, it is passed to your validation function, which has the
 option to throw an error. It can either throw `{"forbidden" : "no matter
 what"}` or `{"unauthorized" : "maybe if you login as someone else"}` where, of
@@ -171,16 +171,15 @@ users.
 
 [List functions](http://books.couchdb.org/relax/design-documents/lists) are the analog of show functions, but for view results. A
 view result is just a long list of JSON rows. A list function transforms those
-rows to other formats. Here is [the JSON view of recent posts on my
-blog](http://jchrisa.net/drl/_design/sofa/_view/recent-posts?descending=true&limit=5), and here is 
+rows to other formats. Here is 
+[the JSON view of recent posts on my blog](http://jchrisa.net/drl/_design/sofa/_view/recent-posts?descending=true&limit=5), and here is 
 [the HTML page that results from running that same view through a list function.](http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5)
 
 We added these capabilities to CouchDB because we knew that without the
 ability to serve plain-old HTML, we wouldn't be completely RESTful.
 
 Rounding out this group, is the ability to accept plain HTML form POSTs. (And
-other arbitary input). For that, CouchDB uses [update
-functions](update-functions.md),
+other arbitary input). For that, CouchDB uses [update functions](update-functions.md),
 which can take arbitrary input and turn it in to JSON for saving to the
 database.
 
@@ -266,8 +265,9 @@ Quick, create a file called index.html, and put this in it:
     </html>
     
 
-Now browse to your CouchDB's Futon at [http://localhost:5984/_utils]( /web/2014
-0209093703/http://localhost:5984/_utils) and create a database called
+Now browse to your CouchDB's Futon at 
+[http://localhost:5984/_utils](http://localhost:5984/_utils) 
+and create a database called
 "whatever". Now visit that database, and create a document. You will be
 creating what is known as a, "Design Document", which is a special kind of
 document in CouchDb that contains application code. The only thing you need to
@@ -319,11 +319,9 @@ So let's use it!
 There is a lot of documentation already out there about how to install the
 CouchApp toolchain. I'll just link to it. The basic installation instructions
 are [in the README](http://github.com/couchapp/couchapp)
-and in [the CouchDB Book](http://books.couchdb.org/relax
-/example-app/design-documents).
+and in [the CouchDB Book](http://books.couchdb.org/relax/example-app/design-documents).
 
-Here are some hints about [installing on Windows.](http://
-wiki.apache.org/couchdb/Quirks_on_Windows)
+Here are some hints about [installing on Windows.](http://wiki.apache.org/couchdb/Quirks_on_Windows)
 
 Once you have CouchApp installed, the basic usage is simple. From within your
 application directory, issue the following command.

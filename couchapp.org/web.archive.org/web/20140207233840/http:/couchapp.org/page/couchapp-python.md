@@ -30,9 +30,9 @@ applications
 
 #### CouchDB API ([jquery.couch.js](http://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js))
 
-The JQuery library included with CouchDB itself for use by the Futon admin
-console is used to interact with couchdb. Some [limited
-documentation](http://www.couch.io/page/library-jquery-couch-js-database) is available from Couchone.
+ The JQuery library included with CouchDB itself for use by the Futon admin
+console is used to interact with couchdb. Some 
+[limited documentation](http://www.couch.io/page/library-jquery-couch-js-database) is available from Couchone.
 
 #### CouchApp Loader ([jquery.couch.app.js](https://github.com/couchapp/couchapp/blob/master/couchapp/templates/vendor/_attachments/jquery.couch.app.js))
 

@@ -91,13 +91,3 @@ your friend.
 
 Now you can edit the couchapp on your computer.
 
-Files attached to _Getting Started_:
-
-  * [Cari Uang Lewat Ekiosku.com.jpg](attachments/Cari%20Uang%20Lewat%20Ekiosku.com.jpg) (image/jpeg)
-  * [index.html](attachments/index.html) (text/html)
-  * [20060914223350.gif](attachments/20060914223350.gif) (image/gif)
-  * [gettingstarted04.png](attachments/gettingstarted04.png) (image/png)
-  * [gettingstarted03.png](attachments/gettingstarted03.png) (image/png)
-  * [gettingstarted02.png](attachments/gettingstarted02.png) (image/png)
-  * [gettingstarted01.png](attachments/gettingstarted01.png) (image/png)
-
