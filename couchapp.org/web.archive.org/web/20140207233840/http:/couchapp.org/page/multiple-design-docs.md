@@ -1,7 +1,3 @@
-# **[CouchApp.org](index.md):**
-[Multiple design documents](/web/20140209094137/http://couchapp.org/page
-/multiple-design-docs)
-
 # Using couchapp with multiple design documents
 
 Here is what I did to use couchapp with multiple design documents. I want to

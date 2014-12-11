@@ -1,11 +1,6 @@
-# **[CouchApp.org](index.md):**
-[Couchapp Command Line Usage](/web/20140209090820/http://couchapp.org/page
-/couchapp-usage)
-
 # Couchapp Command Line Usage
 
-## [Installation
-Instructions](installing.md)
+## [Installation Instructions](installing.md)
 
 ## Full command line usage
 
@@ -105,7 +100,7 @@ repository (git, hg).
 ### push
 
 Push a CouchApp to one or more
-[CouchDB](/web/20140209090820/http://couchdb.apache.org/) servers
+[CouchDB](http://couchdb.apache.org/) servers
 
     
     

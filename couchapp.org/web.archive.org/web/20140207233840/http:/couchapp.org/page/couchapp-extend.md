@@ -1,7 +1,3 @@
-# **[CouchApp.org](index.md):**
-[Extend couchapp](couchapp-.md
-extend)
-
 # Extend couchapp
 
 Couchapp can easily be extended using external python modules or scripts.
@@ -27,8 +23,7 @@ Eggs uri are entry points uri starting with "egg:" prefix. To just load python
 module use an uri with the form : "python:mymodule.myextension".
 
 To load eggs add an entry point in "couchapp.extension" sections. More info
-about entry points [here](/web/20140209085605/http://packages.python.org/distr
-ibute/pkg_resources.html#entry-points)
+about entry points [here](http://packages.python.org/distribute/pkg_resources.html#entry-points)
 
 An extension is a python module loaded when couchapp start. You can add custom
 commands to couchapp via this way. To add custom commands simply add a dict
@@ -116,8 +111,7 @@ arguments depending on the event:
   * vendor: `source`, the uri of vendor, `action`, could be _install_ or _update_.
   * generate: None
 
-Have a look in [compress hook source](/web/20140209085605/http://github.com/co
-uchapp/couchapp/tree/master/couchapp/hooks/compress/) for a complete example.
+Have a look in [compress hook source](http://github.com/couchapp/couchapp/tree/master/couchapp/hooks/compress/) for a complete example.
 
 ## Vendors handlers
 
@@ -210,6 +204,5 @@ Here is an example for the default git vendor:
             ....
     
 
-Full source is [on the git repo](/web/20140209085605/http://github.com/couchap
-p/couchapp/blob/master/couchapp/vendors/backends/git.py).
+Full source is [on the git repo](http://github.com/couchapp/couchapp/blob/master/couchapp/vendors/backends/git.py).
 

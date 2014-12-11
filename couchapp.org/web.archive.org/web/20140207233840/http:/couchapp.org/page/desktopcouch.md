@@ -1,13 +1,9 @@
-# **[CouchApp.org](index.md):**
-[CouchApps and
-DesktopCouch](desktopcouch.md)
-
 # CouchApps and DesktopCouch
 
 In **version 0.7**, Couchapp has a new feature to couchapp allowing you to
-push, clone and browse CouchApps in the local CouchDB installed with [desktopc
-ouch](/web/20140209100558/http://freedesktop.org/wiki/Specifications/desktopco
-uch), so ubuntu users (or other linux distributions where desktopcouch has
+push, clone and browse CouchApps in the local CouchDB installed with 
+[desktopcouch](http://freedesktop.org/wiki/Specifications/desktopcouch), 
+so ubuntu users (or other linux distributions where desktopcouch has
 been ported) won't have to install another CouchDB to test and will be able to
 pair it with other desktop.
 

@@ -1,6 +1,4 @@
-# **[CouchApp.org](index.md):**
-[couchapp (python)](couchapp-.md
-python)
+# couchapp (python)
 
 The [couchapp](couchapp-python.md)
 command line tool is written in Python and used to generate code templates in
@@ -22,8 +20,7 @@ full way of developing a CouchApp.
 ### The Generated Application
 
 After creating a new couchapp, you will have a project structure that looks
-something like [this template
-project](/web/20140209100158/https://github.com/jchris/proto). The following
+something like [this template project](https://github.com/jchris/proto). The following
 libraries are included with your new couchapp by default:
 
 #### [Evently](evently.md)
@@ -31,26 +28,21 @@ libraries are included with your new couchapp by default:
 A declarative, couchdb friendly JQuery library for writing Javascript
 applications
 
-#### CouchDB API ([jquery.couch.js](/web/20140209100158/http://github.com/apac
-he/couchdb/blob/trunk/share/www/script/jquery.couch.js))
+#### CouchDB API ([jquery.couch.js](http://github.com/apache/couchdb/blob/trunk/share/www/script/jquery.couch.js))
 
 The JQuery library included with CouchDB itself for use by the Futon admin
 console is used to interact with couchdb. Some [limited
-documentation](/web/20140209100158/http://www.couch.io/page/library-jquery-
-couch-js-database) is available from Couchone.
+documentation](http://www.couch.io/page/library-jquery-couch-js-database) is available from Couchone.
 
-#### CouchApp Loader ([jquery.couch.app.js](/web/20140209100158/https://github
-.com/couchapp/couchapp/blob/master/couchapp/templates/vendor/_attachments/jque
-ry.couch.app.js))
+#### CouchApp Loader ([jquery.couch.app.js](https://github.com/couchapp/couchapp/blob/master/couchapp/templates/vendor/_attachments/jquery.couch.app.js))
 
 A utility for loading design document classes into your Javascript application
 
-#### Pathbinder ([jquery.pathbinder.js](/web/20140209100158/http://couchapp.co
-uchone.com/docs/_design/docs/index.html#/topic/pathbinder))
+#### Pathbinder ([jquery.pathbinder.js](http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder))
 
 A tiny framework for triggering events based on paths in URL hash.
 
-#### [Mustache](/web/20140209100158/https://github.com/janl/mustache.js)
+#### [Mustache](https://github.com/janl/mustache.js)
 
 A simple template framework
 

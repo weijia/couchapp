@@ -1,11 +1,7 @@
-# **[CouchApp.org](index.md):**
-[Getting Started](getting-.md
-started)
-
 # Getting Started
 
 In this tutorial you will learn how to create your first CouchApp (embedded
-applications in [CouchDB](/web/20140209094920/http://couchdb.apache.org/))
+applications in [CouchDB](http://couchdb.apache.org/))
 using the `couchapp` script.
 
 ## 1\. Generate your application

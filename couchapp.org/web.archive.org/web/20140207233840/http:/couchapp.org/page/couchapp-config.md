@@ -1,7 +1,3 @@
-# **[CouchApp.org](index.md):**
-[couchapp configuration](/web/20140209085200/http://couchapp.org/page
-/couchapp-config)
-
 # CouchApp Configuration
 
 NOTE: In this document, "`couchapp`" refers to the CouchApp command-line tool
@@ -41,12 +37,10 @@ in `.couchapprc`, you can push to your local CouchDB by running `couchapp
 push` (the environment name "default" is used when no environment is
 specified) and push to the remote machine using `couchapp push prod`. For a
 more complete discussion of the `env` section of the `.couchapprc` file, see
-the [Managing Design Documents](/web/20140209085200/http://guide.couchdb.org/d
-raft/managing.html#configuring) chapter of **CouchDB: The Definitive Guide**.
+the [Managing Design Documents](http://guide.couchdb.org/draft/managing.html#configuring) chapter of **CouchDB: The Definitive Guide**.
 
 The `.couchapprc` file is also used to configure extensions to the `couchapp`
-tool. See the [Extend couchapp](/web/20140209085200/http://couchapp.org/page
-/couchapp-extend) page on this wiki for more details.
+tool. See the [Extend couchapp](couchapp-extend.md) page on this wiki for more details.
 
 ## `~/.couchapp.conf`
 

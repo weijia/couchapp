@@ -1,6 +1,4 @@
-# **[CouchApp.org](index.md):**
-[Help with Applications](/web/20140209091713/http://couchapp.org/page
-/application-help)
+# Help with Applications
 
 ### Pages
 

@@ -1,6 +1,4 @@
-# **[CouchApp.org](index.md):**
-[Notes on Pages
-Application](NotesOnPagesFiles.md)
+# Notes on Pages Application
 
 * * *
 
@@ -43,8 +41,7 @@ This folder holds all the files that will be uploaded as binary attachments
 when the app is pushed to the server. They are then available directly from a
 url built as follows
 
-http://127.0.0.1:5984/databasename/_design/designdocname/uriencodedfilepathand
-name.xyz
+http://127.0.0.1:5984/databasename/_design/designdocname/uriencodedfilepathandname.xyz
 
 So files nested in folders are requested by replacing the / with %2f
 
@@ -624,8 +621,7 @@ success sets the browser to the base page again (essentially a refresh that
 triggers all the usual init stuff) to display the new attachment listed at the
 bottom.
 
-[More detail on attachments](/web/20140209095743/http://wiki.apache.org/couchd
-b/HTTP_Document_API#Attachments)
+[More detail on attachments](http://wiki.apache.org/couchdb/HTTP_Document_API#Attachments)
 
 * * *
 
@@ -1259,7 +1255,4 @@ The name of the view
 Checks if it is a comment the emits the document with the topic and timestamp
 as a key in an array.
 
-Files attached to _Notes on Pages Application_:
-
-  * [110px-Python-logo-notext.svg.png](attachments/110px-Python-logo-notext.svg.png) (image/png)
 

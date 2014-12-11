@@ -1,7 +1,3 @@
-# **[CouchApp.org](index.md):**
-[What the HTTP is CouchApp?](/web/20140209093703/http://couchapp.org/page
-/what-is-couchapp)
-
 # What the HTTP is CouchApp?
 
 This blog post is in response to a lot of well-deserved confusion in the
@@ -45,8 +41,7 @@ I say silver bullet? ;) (Of course it is not a silver bullet -- if you can't
 fit your app into CouchDB's constraints, you'll still have scaling issues.) If
 you can build your app _with the grain_ of CouchDB's APIs, then you can
 piggyback on all the work
-[other](/web/20140209093703/http://enda.squarespace.com/tech/2010/3/4/couchdb-
-at-scale-4-billion-requests-so-far.html) people have done to scale.
+[other](http://enda.squarespace.com/tech/2010/3/4/couchdb-at-scale-4-billion-requests-so-far.html) people have done to scale.
 
 The fact is, 2-layer applications are simpler:
 
@@ -64,7 +59,7 @@ slower."
 
 Aside from simplicity and the scalability that comes with it, there is another
 major benefit to creating a 100% pure CouchApp:
-[Replication.](/web/20140209093703/http://wiki.apache.org/couchdb/Replication)
+[Replication.](http://wiki.apache.org/couchdb/Replication)
 When your app is hosted by just a CouchDB, that means it can be run from _any_
 CouchDB, with no need to set up complex server-side dependencies. When your
 app can run on _any_ CouchDB, you are free to take advantage of CouchDB's
@@ -75,14 +70,12 @@ even a few seconds for the response can be infuriating. Many users will hit
 the submit button over and over again, compounding whatever performance issues
 that are effecting them, while introducing data integrity issues as well.
 Google, Facebook, and other large competitive web properies know that
-[perceived latency drives user engagement like nothing else, and they invest
-huge sums to make their sites seem faster.](/web/20140209093703/http://perspec
-tives.mvdirona.com/2009/10/31/TheCostOfLatency.aspx)
+[perceived latency drives user engagement like nothing else, and they invest huge sums to make their sites seem faster.](http://perspectives.mvdirona.com/2009/10/31/TheCostOfLatency.aspx)
 
 Your site can be faster than theirs, if you serve it from localhost. CouchDB
-makes this possible. Here are [installers for OSX, Windows, and
-Linux](/web/20140209093703/http://couch.io/get) and you can install [CouchDB
-on Android here](/web/20140209093703/http://couch.io/android).
+makes this possible. Here are 
+[installers for OSX, Windows, and Linux](http://couch.io/get) 
+and you can install [CouchDB on Android here](http://couch.io/android).
 
 The take-home message from this section is: CouchDB can scale. If your app is
 served by raw CouchDB, it can scale just the same. Also, there's no server
@@ -97,14 +90,12 @@ directly from CouchDB, and what you can (and can't) do.
 The CouchDB API is full featured and applicable to a lot of use cases. I can't
 possible go in-depth here. Instead I'll focus only on the broad outline, and
 on what is useful and necessary for CouchApps. If you want to learn more,
-check out [the CouchDB
-wiki](/web/20140209093703/http://wiki.apache.org/couchdb) or the [free CouchDB
-book](/web/20140209093703/http://books.couchdb.org/).
+check out [the CouchDB wiki](http://wiki.apache.org/couchdb) or the 
+[free CouchDB book](http://books.couchdb.org/).
 
 The first thing to understand about CouchDB is that the entire API is HTTP.
 Data is stored and retrieved using the protocol your browser is good at. Even
-[the CouchDB test suite](/web/20140209093703/http://jchris.couchone.com/_utils
-/couch_tests.html?script/couch_tests.js) is written in JavaScript and executed
+[the CouchDB test suite](http://jchris.couchone.com/_utils/couch_tests.html?script/couch_tests.js) is written in JavaScript and executed
 from the browser. **It's all just HTTP.**
 
 ### HTML Attachments
@@ -113,14 +104,12 @@ A common question I get from people starting to write Ajax apps using CouchDB,
 is "when I try to query the CouchDB with jQuery, it doesn't work." Usually it
 turns out that they have an index.html file on their filesystem, which is
 attempting to do an Ajax call against the CouchDB server. After I explain to
-them [the same origin security
-policy](/web/20140209093703/http://en.wikipedia.org/wiki/Same_origin_policy),
+them [the same origin security policy](http://en.wikipedia.org/wiki/Same_origin_policy),
 they start to understand this this means CouchDB needs to serve their HTML
 (rather than loading it in the browser direct from the filesystem).
 
-CouchDB documents may have [binary attachments.](/web/20140209093703/http://st
-ackoverflow.com/questions/1439371/creating-a-couchdb-standalone-attachment-
-using-curl) The easiest way to add an attachment to a document is via Futon.
+CouchDB documents may have [binary attachments.](http://stackoverflow.com/questions/1439371/creating-a-couchdb-standalone-attachment-using-curl) 
+The easiest way to add an attachment to a document is via Futon.
 We'll do that later in this blog post.
 
 So, the simplest possible CouchApp is just an HTML file, served directly from
@@ -129,7 +118,7 @@ CouchDB, that uses Ajax to load and save data from the CouchDB.
 ### Map Reduce queries
 
 What sets CouchDB apart from a simple key value store like Memcached or
-[Amazon S3](/web/20140209093703/http://aws.amazon.com/s3/), is that you can
+[Amazon S3](http://aws.amazon.com/s3/), is that you can
 query it by building indexes across the stored objects. You do this by writing
 JavaScript functions that are passed each of your documents, and can pick from
 them a set of keys under which you'd like to locate them.
@@ -141,11 +130,10 @@ adding the reduce operator `_count` you can also see how many blog posts are
 tagged `"foo"` or whatever.
 
 I'm not gonna try to teach you all about views here. Try the [CouchDB book's
-guide to views](/web/20140209093703/http://books.couchdb.org/relax/design-
-documents/views), the
-[wiki](/web/20140209093703/http://wiki.apache.org/couchdb/HTTP_view_API) and
+guide to views](http://books.couchdb.org/relax/design-documents/views), the
+[wiki](http://wiki.apache.org/couchdb/HTTP_view_API) and
 this [chapter on advanced
-views](/web/20140209093703/http://books.couchdb.org/relax/reference/views-for-
+views](http://books.couchdb.org/relax/reference/views-for-
 sql-jockeys).
 
 ### Server Side Validations
@@ -153,8 +141,7 @@ sql-jockeys).
 The second thing people usually ask when they start to grok the CouchApp
 model, is "How do I keep people from destroying all my data? How do I ensure
 they only do what they are allowed to do?" The answer to that is [validation
-functions](/web/20140209093703/http://books.couchdb.org/relax/design-documents
-/validation-functions). In a nutshell, each time someone saves or updates a
+functions](http://books.couchdb.org/relax/design-documents/validation-functions). In a nutshell, each time someone saves or updates a
 CouchDB document, it is passed to your validation function, which has the
 option to throw an error. It can either throw `{"forbidden" : "no matter
 what"}` or `{"unauthorized" : "maybe if you login as someone else"}` where, of
@@ -173,25 +160,20 @@ type application, which may not understand Ajax.
 These are all great reasons your application should ship the basic content of
 a page as real-deal HTML. Luckily, CouchDB has an answer to that as well.
 
-[Show functions](/web/20140209093703/http://books.couchdb.org/relax/design-
-documents/shows) allow you to transform a document `GET` from JSON into the
-format of your choice. On [this wiki
-application](/web/20140209093703/http://pages.jchris.couchone.com/page/donk)
+[Show functions](http://books.couchdb.org/relax/design-documents/shows) 
+allow you to transform a document `GET` from JSON into the
+format of your choice. On [this wiki application](http://pages.jchris.couchone.com/page/donk)
 the main wiki content is rendered as server-side HTML, using a show function.
 You can also use a show function to provide an XML, CSV, or even PNG version
 of your original document. Some folks also use it to filter security-sensitive
 fields from a JSON document, so that only public data is available to end-
 users.
 
-[List functions](/web/20140209093703/http://books.couchdb.org/relax/design-
-documents/lists) are the analog of show functions, but for view results. A
+[List functions](http://books.couchdb.org/relax/design-documents/lists) are the analog of show functions, but for view results. A
 view result is just a long list of JSON rows. A list function transforms those
 rows to other formats. Here is [the JSON view of recent posts on my
-blog](/web/20140209093703/http://jchrisa.net/drl/_design/sofa/_view/recent-
-posts?descending=true&limit=5), and here is [the HTML page that results from
-running that same view through a list
-function.](/web/20140209093703/http://jchrisa.net/drl/_design/sofa/_list/index
-/recent-posts?descending=true&limit=5)
+blog](http://jchrisa.net/drl/_design/sofa/_view/recent-posts?descending=true&limit=5), and here is 
+[the HTML page that results from running that same view through a list function.](http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5)
 
 We added these capabilities to CouchDB because we knew that without the
 ability to serve plain-old HTML, we wouldn't be completely RESTful.
@@ -206,24 +188,19 @@ database.
 
 "All well and good", you may say, "but I can't really suggest to my clients
 that their website should have URLs like
-`[http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true
-&limit=5`](/web/20140209093703/http://jchrisa.net/drl/_design/sofa/_list/index
-/recent-posts?descending=true&limit=5)!"
+`[http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5`](http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5)!"
 
 I used to respond with skepicism to such claims, _like a total moaf_. But I've
 mended my ways, and seen the light. It also didn't hurt that
-[Benoit](/web/20140209093703/http://twitter.com/benoitc) committed an [awesome
-rewriter](/web/20140209093703/http://blog.couchbase.com/what%E2%80%99s-new-
-apache-couchdb-011-%E2%80%94-part-one-nice-urls-rewrite-rules-and-virtual-
-hosts) to CouchDB, so we can provide nice pretty URLs like `/posts/recent`
+[Benoit](http://twitter.com/benoitc) committed an 
+[awesome rewriter](http://blog.couchbase.com/what%E2%80%99s-new-apache-couchdb-011-%E2%80%94-part-one-nice-urls-rewrite-rules-and-virtual-hosts) 
+to CouchDB, so we can provide nice pretty URLs like `/posts/recent`
 instead of the above mess.
 
 ### Realtime Updates
 
 Lastly, something folks don't usually ask for, but which is insanely useful:
-[realtime notification about changes to the
-database.](/web/20140209093703/http://books.couchdb.org/relax/reference
-/change-notifications) Essentially, CouchDB keeps a record of the order in
+[realtime notification about changes to the database.](http://books.couchdb.org/relax/reference/change-notifications) Essentially, CouchDB keeps a record of the order in
 which operations were applied to a given database. This way, you can always
 ask it "what's happened since the last time I asked?"
 
@@ -233,8 +210,7 @@ is implemented in Erlang, it is not expensive for it to hold open tens of
 thousands of concurrent connections.
 
 The `_changes` feed can be used to power realtime updates to a browser UI. For
-instance, [this chat room](/web/20140209093703/http://couchapp.org/example/_de
-sign/example/index.html) updates in realtime whenever a new message is
+instance, [this chat room](http://couchapp.org/example/_design/example/index.html) updates in realtime whenever a new message is
 created.
 
 The `_changes` feed is integral to CouchDB itself (not just a bolted on
@@ -245,26 +221,24 @@ realtime.
 
 You can also use `_changes` to drive asynchronous business logic. There will
 be a webcast in August on this topic, as well as a blog post with more
-details, from Couchio's [Jason
-Smith](/web/20140209093703/http://twitter.com/_jhs).
+details, from Couchio's [Jason Smith](http://twitter.com/_jhs).
 
 ### Filtered replication
 
 One last part of the programming model. You can write a JavaScript function
 that decides whether to include a given change in the `_changes` feed. The
-possibilities are endless. See [Jan's blog post on new replication
-features](/web/20140209093703/http://blog.couch.io/post/468392274/whats-new-
-in-apache-couchdb-0-11-part-three-new) for some interesting use-cases that
-might stimulate your imagination.
+possibilities are endless. See 
+[Jan's blog post on new replication features](http://blog.couch.io/post/468392274/whats-new-in-apache-couchdb-0-11-part-three-new) 
+for some interesting use-cases that might stimulate your imagination.
 
 ## Hello World
 
 Now that I've described the theory of CouchApps to you, let's dig into the
 practice. Before we get into the expert toolchain, let's see what we can do
 with a little bit of HTML. I'll assume you have a CouchDB running at
-localhost. If you don't, install one now (or signup for hosting at [Iris
-Couch](/web/20140209093703/http://www.iriscouch.com/) or
-[Cloudant](/web/20140209093703/http://cloudant.com/)).
+localhost. If you don't, install one now (or signup for hosting at 
+[Iris Couch](http://www.iriscouch.com/) or
+[Cloudant](http://cloudant.com/)).
 
 Quick, create a file called index.html, and put this in it:
 
@@ -292,7 +266,7 @@ Quick, create a file called index.html, and put this in it:
     </html>
     
 
-Now browse to your CouchDB's Futon at [http://localhost:5984/_utils](/web/2014
+Now browse to your CouchDB's Futon at [http://localhost:5984/_utils]( /web/2014
 0209093703/http://localhost:5984/_utils) and create a database called
 "whatever". Now visit that database, and create a document. You will be
 creating what is known as a, "Design Document", which is a special kind of
@@ -332,14 +306,11 @@ suffering from a bit of "grass is always greener," because my reaction was to
 port the Ruby stuff to Python (with a little help from my friends), which I
 thought would have a cleaner install story. (It almost does!)
 
-Since then [the Python CouchApp
-script](/web/20140209093703/http://github.com/couchapp/couchapp/) has grown in
-capability. It boasts the ability to [push edits in real time](/web/2014020909
-3703/http://groups.google.com/group/couchapp/browse_thread/thread/67ccbdcdf902
-3106), import vendor modules, and more. Benoit Chesneau keeps it up to date
-pretty agressively, it just got some [GeoCouch features today.](/web/201402090
-93703/http://github.com/couchapp/couchapp/commit/9ff4ec09664a286f0c408ac76eb9c
-5589a56e208)
+Since then [the Python CouchApp script](http://github.com/couchapp/couchapp/) has grown in
+capability. It boasts the ability to 
+[push edits in real time](http://groups.google.com/group/couchapp/browse_thread/thread/67ccbdcdf9023106), 
+import vendor modules, and more. Benoit Chesneau keeps it up to date
+pretty agressively, it just got some [GeoCouch features today.](http://github.com/couchapp/couchapp/commit/9ff4ec09664a286f0c408ac76eb9c5589a56e208)
 
 So let's use it!
 
@@ -347,11 +318,11 @@ So let's use it!
 
 There is a lot of documentation already out there about how to install the
 CouchApp toolchain. I'll just link to it. The basic installation instructions
-are [in the README](/web/20140209093703/http://github.com/couchapp/couchapp)
-and in [the CouchDB Book](/web/20140209093703/http://books.couchdb.org/relax
+are [in the README](http://github.com/couchapp/couchapp)
+and in [the CouchDB Book](http://books.couchdb.org/relax
 /example-app/design-documents).
 
-Here are some hints about [installing on Windows.](/web/20140209093703/http://
+Here are some hints about [installing on Windows.](http://
 wiki.apache.org/couchdb/Quirks_on_Windows)
 
 Once you have CouchApp installed, the basic usage is simple. From within your
@@ -384,8 +355,7 @@ among other things.
 
 #### The jQuery CouchDB Client API
 
-We already used [jquery.couch.js](/web/20140209093703/http://daleharvey.github
-.com/jquery.couch.js-docs/symbols/index.html) in the Tiny CouchApp example
+We already used [jquery.couch.js](http://daleharvey.github.com/jquery.couch.js-docs/symbols/index.html) in the Tiny CouchApp example
 HTML above. This is the basic CouchDB library for jQuery. It handles things
 like saveDoc and openDoc, view queries, replication requests, etc. Essentially
 it wraps the CouchDB API in Ajaxy goodness. This library ships as part of
@@ -393,9 +363,8 @@ CouchDB, as it is used by Futon.
 
 #### The CouchApp Code Loader
 
-The CouchApp toolchain ships with [jquery.couch.app.js](/web/20140209093703/ht
-tp://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.couch
-.app.js), which is tasked with one job -- loading your application code into
+The CouchApp toolchain ships with [jquery.couch.app.js](http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.couch.app.js), 
+which is tasked with one job -- loading your application code into
 the page. This CouchApp jQuery plugin loads your design document (the JSON
 saved as a result of a `couchapp push` command), so that the browser has
 access to your view definitions, show and list functions, etc. It is invoked
@@ -416,8 +385,8 @@ legacy featuritis in there, but I'm working to remove that.)
 
 #### Evently
 
-[Evently](/web/20140209093703/http://github.com/couchapp/couchapp/blob/master/
-vendor/_attachments/jquery.evently.js) is a convenience library I wrote for
+[Evently](http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.evently.js) 
+is a convenience library I wrote for
 myself. Essentially it does two things: One is it allows you to write complex
 jQuery code in a declarative fashion. This makes code reuse easier, by
 avoiding the tangled web of dependencies you often see in deeply nested jQuery
@@ -432,21 +401,18 @@ code all in one file, that I realized I could nest the JSON structures into a
 tree of folders and JavaScript files.
 
 People think that Evently and the deeply-nested folders and files things must
-go together, but it is just one way of doing things. For more [Evently docs,
-visit this link](/web/20140209093703/http://couchapp.couchone.com/docs/_design
-/docs/index.html#/topic/evently).
+go together, but it is just one way of doing things. For more 
+[Evently docs, visit this link](http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/evently).
 
 #### Pathbinder
 
-[Pathbinder](/web/20140209093703/http://github.com/couchapp/couchapp/blob/mast
-er/vendor/_attachments/jquery.pathbinder.js) makes it so you can assign events
+[Pathbinder](http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.pathbinder.js) 
+makes it so you can assign events
 to be triggered when the hash part of the browser URL changes. Evently knows
-how to use it, so you can declaratively link paths and events. [Pathbinder
-docs are here.](/web/20140209093703/http://couchapp.couchone.com/docs/_design/
-docs/index.html#/topic/pathbinder)
+how to use it, so you can declaratively link paths and events. 
+[Pathbinder docs are here.](http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder)
 
 ### Examples
 
-There is a [list of CouchApps
-here](list-of-couchapps.md)
+There is a [list of CouchApps here](list-of-couchapps.md)
 

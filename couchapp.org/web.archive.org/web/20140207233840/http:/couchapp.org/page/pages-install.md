@@ -1,5 +1,4 @@
-# **[CouchApp.org](index.md):** [How
-To install Pages](pages-install.md)
+# How To install Pages
 
 If anyone else has issues understanding this whole vhosts thing i'll give a
 'grandma-can-do-it' recount here of my troubles.
@@ -7,8 +6,7 @@ If anyone else has issues understanding this whole vhosts thing i'll give a
 if you want to set up 'pages' on your machine and you are not very familiar
 with what's what, here it goes:
 
-get pages from github: [http://github.com/couchone/pages](/web/20140209092536/
-http://github.com/couchone/pages)
+get pages from github: [http://github.com/couchone/pages](http://github.com/couchone/pages)
 
 navigate to your fav directory and do this in the terminal:
 
@@ -18,8 +16,7 @@ navigate to your fav directory and do this in the terminal:
     
 
 make sure to install couchapp python helper app, i won't go into the details,
-[the github instructions are
-great](/web/20140209092536/http://wiki.github.com/couchapp/couchapp/manual-2)
+[the github instructions are great](http://wiki.github.com/couchapp/couchapp/manual-2)
 
 Hope you have couchdbx installed on osx or the equivalent on your favourite
 dev/production platform
@@ -34,10 +31,8 @@ do this from inside your pages directory:
 
 that will get you the app into your db, nothing new here, the git hub
 instructions will tell you the same thing, what got me (besides a bad commit
-;)) is the instruction on [http://blog.couch.io/post/443028592/whats-new-in-
-apache-couchdb-0-11-part-one-nice-
-urls](/web/20140209092536/http://blog.couch.io/post/443028592/whats-new-in-
-apache-couchdb-0-11-part-one-nice-urls)
+;)) is the instruction on 
+[http://blog.couch.io/post/443028592/whats-new-in-apache-couchdb-0-11-part-one-nice-urls](http://blog.couch.io/post/443028592/whats-new-in-apache-couchdb-0-11-part-one-nice-urls)
 
 the section about vhosts is a bit ambiguous for those that aren't in the
 know...

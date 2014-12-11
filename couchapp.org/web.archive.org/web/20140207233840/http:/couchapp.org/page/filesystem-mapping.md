@@ -1,13 +1,8 @@
-# **[CouchApp.org](index.md):**
-[Filesystem Mapping](filesystem-.md
-mapping)
-
 # The Couchapp Filesystem Mapping
 
 The `couchapp` script has a cool way of pushing files to CouchDB's design
-documents. The [filesystem mapping](/web/20140209084258/http://couchdbkit.org/
-docs/storing_docs_and_designdocs_on_filesystem.html) is done via the
-[couchdbkit](/web/20140209084258/http://couchdbkit.org/) Python library.
+documents. The [filesystem mapping](http://couchdbkit.org/docs/storing_docs_and_designdocs_on_filesystem.html)
+is done via the [couchdbkit](http://couchdbkit.org/) Python library.
 
 If you have folders like:
 
