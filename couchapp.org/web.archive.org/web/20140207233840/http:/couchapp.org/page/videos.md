@@ -1,6 +1,6 @@
 # Video Tutorials on CouchDB
 
-# Also check out [Relaxed.tv]( /web/20140209091418/http://relaxed.tv/) for
+# Also check out [Relaxed.tv](http://relaxed.tv/) for
 awesome CouchDB videos!
 
 ## Get friendly with CouchDB (an intro tutorial)

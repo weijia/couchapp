@@ -71,7 +71,7 @@ Go on
 
 you will see:
 
-![CouchApp hello world](attachments/getting-started/gettingstarted03.png)
+![CouchApp hello world](attachments/gettingstarted03.png)
 
 ## 4\. Clone your CouchApp
 
