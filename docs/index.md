@@ -8,3 +8,4 @@ CouchApp is a set of scripts and a [jQuery](http://jquery.com) plugin designed  
 - [Getting Started](gettingstarted.md)
 - [Usage](usage.md)
 - [Extending](extends.md)
+- [Old couchapp.org content](couchapp-org/index.md)
