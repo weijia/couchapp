@@ -1,5 +1,3 @@
-title: Getting Started
-
 #Getting Started
 
 In this tutorial you will learn how to create your first CouchApp (embedded applications in [CouchDB](http://couchdb.apache.org)) using the `couchapp` script.
