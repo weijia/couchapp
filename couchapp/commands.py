@@ -386,6 +386,7 @@ def get_switch_str(opt):
         # only has a long option
         return "--%s %s" % (opt[1], default)
 
+
 globalopts = [
     ('d', 'debug', None, "debug mode"),
     ('h', 'help', None, "display help and exit"),
@@ -403,52 +404,60 @@ pushopts = [
 ]
 
 table = {
-    "init":
-    (init,
-     [],
-     "[COUCHAPPDIR]"),
-    "push":
-    (push,
-     pushopts + [('', 'docid', '', "set docid")],
-     "[OPTION]... [COUCHAPPDIR] DEST"),
-    "clone":
-    (clone,
-     [('r', 'rev', '', "clone specific revision")],
-     "[OPTION]...[-r REV] SOURCE [COUCHAPPDIR]"),
-    "pushapps":
-    (pushapps,
-     pushopts,
-     "[OPTION]... SOURCE DEST"),
-    "pushdocs":
-    (pushdocs,
-     pushopts,
-     "[OPTION]... SOURCE DEST"),
-    "startapp":
-    (startapp,
-     [],
-     "[COUCHAPPDIR] NAME"),
-    "generate":
-    (generate,
-     [('', 'template', '', "template name")],
-     "[OPTION]... [app|view,list,show,filter,function,vendor] [COUCHAPPDIR] "
-     + "NAME"),
-    "vendor":
-    (vendor,
-     [("f", 'force', False, "force install or update")],
-     "[OPTION]...[-f] install|update [COUCHAPPDIR] SOURCE"),
-    "browse":
-    (browse,
-     [],
-     "[COUCHAPPDIR] DEST"),
-    "autopush":
-    (autopush,
-     [('', 'no-atomic', False, "send attachments one by one"),
-      ('', 'update-delay', DEFAULT_UPDATE_DELAY, "time between each update")],
-     "[OPTION]... [COUCHAPPDIR] DEST"),
-    "help":
-    (usage, [], ""),
-    "version":
-    (version, [], "")
+    "init": (
+        init,
+        [],
+        "[COUCHAPPDIR]"
+    ),
+    "push": (
+        push,
+        pushopts + [('', 'docid', '', "set docid")],
+        "[OPTION]... [COUCHAPPDIR] DEST"
+    ),
+    "clone": (
+        clone,
+        [('r', 'rev', '', "clone specific revision")],
+        "[OPTION]...[-r REV] SOURCE [COUCHAPPDIR]"
+    ),
+    "pushapps": (
+        pushapps,
+        pushopts,
+        "[OPTION]... SOURCE DEST"
+    ),
+    "pushdocs": (
+        pushdocs,
+        pushopts,
+        "[OPTION]... SOURCE DEST"
+    ),
+    "startapp": (
+        startapp,
+        [],
+        "[COUCHAPPDIR] NAME"
+    ),
+    "generate": (
+        generate,
+        [('', 'template', '', "template name")],
+        ("[OPTION]... [app|view,list,show,filter,function,vendor]"
+         " [COUCHAPPDIR] NAME")
+     ),
+    "vendor": (
+        vendor,
+        [("f", 'force', False, "force install or update")],
+        "[OPTION]...[-f] install|update [COUCHAPPDIR] SOURCE"
+    ),
+    "browse": (
+        browse,
+        [],
+        "[COUCHAPPDIR] DEST"
+    ),
+    "autopush": (
+        autopush,
+        [('', 'no-atomic', False, "send attachments one by one"),
+         ('', 'update-delay', DEFAULT_UPDATE_DELAY, "time between each update")],
+        "[OPTION]... [COUCHAPPDIR] DEST"
+     ),
+    "help": (usage, [], ""),
+    "version": (version, [], "")
 }
 
 withcmd = ['generate', 'vendor']

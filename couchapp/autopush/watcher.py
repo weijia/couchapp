@@ -38,7 +38,7 @@ class CouchappWatcher(object):
                                self.doc_path, recursive=True)
 
     def init_signals(self):
-        """\
+        """
         Initialize master signal handling. Most of the signals
         are queued. Child signals only wake up the master.
         """
