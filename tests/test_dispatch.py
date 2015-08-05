@@ -49,6 +49,24 @@ class DispatchTestCase(unittest.TestCase):
         with self.assertRaises(GetoptError):
             dispatch.parseopts(['--unkown'], globalopts, {})
 
+    def test_parseopts_list_option(self):
+        listopts = [('l', 'list', [], 'Test for list option')]
+        opts = {}
+        dispatch.parseopts(['-l', 'foo', '-l', 'bar'], listopts, opts)
+        assert opts['list'] == ['foo', 'bar']
+
+    def test_parseopts_int_option(self):
+        intopts = [('i', 'int', 100, 'Test for int option')]
+        opts = {}
+        dispatch.parseopts(['-i', '200'], intopts, opts)
+        assert opts['int'] == 200
+
+    def test_parseopts_str_option(self):
+        stropts = [('s', 'str', '', 'Test for int option')]
+        opts = {}
+        dispatch.parseopts(['-s', 'test'], stropts, opts)
+        assert opts['str'] == 'test'
+
     def test__parse_invalid_flag(self):
         with self.assertRaises(CommandLineError):
             dispatch._parse(['-X'])
@@ -74,6 +92,21 @@ class DispatchTestCase(unittest.TestCase):
         cmd, options, cmdoptions, args = dispatch._parse(['push', '-b', 'http://localhost'])
         assert cmd == 'push'
         assert cmdoptions['browse'] == True
+
+    def test__dispatch_debug(self):
+        assert dispatch._dispatch(['-d']) == 0
+
+    def test__dispatch_help(self):
+        assert dispatch._dispatch(['-h']) == 0
+
+    def test__dispatch_verbose(self):
+        assert dispatch._dispatch(['-v']) == 0
+
+    def test__dispatch_version(self):
+        assert dispatch._dispatch(['--version']) == 0
+
+    def test__dispatch_quiet(self):
+        assert dispatch._dispatch(['-q']) == 0
 
 
 if __name__ == '__main__':
