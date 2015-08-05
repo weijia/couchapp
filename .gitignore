@@ -25,3 +25,4 @@ cover/*
 tests/config.ini
 *~
 *#
+docs/_build/
