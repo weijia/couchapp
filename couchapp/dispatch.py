@@ -49,11 +49,11 @@ def dispatch(args):
 
     try:
         return _dispatch(args)
-    except AppError, e:
+    except AppError as e:
         logger.error("couchapp error: %s" % str(e))
     except KeyboardInterrupt:
         logger.info("keyboard interrupt")
-    except Exception, e:
+    except Exception as e:
         import traceback
 
         logger.critical("%s\n\n%s" % (str(e), traceback.format_exc()))
@@ -88,8 +88,8 @@ def _dispatch(args):
         verbose = 0
 
     set_logging_level(verbose)
-    if cmd is None:
-        raise CommandLineError("unknown command")
+    if cmd not in commands.table:
+        raise CommandLineError('Unknown command: "{}"'.format(cmd))
 
     fun = commands.table[cmd][0]
     if cmd in commands.incouchapp:
@@ -103,7 +103,7 @@ def _parse(args):
     cmdoptions = {}
     try:
         args = parseopts(args, commands.globalopts, options)
-    except getopt.GetoptError, e:
+    except getopt.GetoptError as e:
         raise CommandLineError(str(e))
 
     if args:
@@ -121,7 +121,7 @@ def _parse(args):
 
     try:
         args = parseopts(args, cmdopts, cmdoptions)
-    except getopt.GetoptError, e:
+    except getopt.GetoptError as e:
         raise CommandLineError((cmd, e))
 
     for opt in cmdoptions.keys():
