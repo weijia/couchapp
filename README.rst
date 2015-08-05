@@ -61,15 +61,15 @@ line.
 Note: On debian system don't forget to install python-dev.
 
 To install on Windows follow instructions `here
-<http://www.couchapp.org/page/windows-python-installers>`_.
+<https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/installing.md#installing-on-windows>`_.
 
 More installation options on the `website
-<http://www.couchapp.org/page/installing>`_.
+<https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/installing.md>`_.
 
 Getting started
 ---------------
 
-Read the `tutorial <http://www.couchapp.org/page/getting-started>`_.
+Read the `tutorial <https://github.com/couchapp/couchapp/blob/master/docs/gettingstarted.md>`_.
 
 Testing
 -------
@@ -94,9 +94,8 @@ Thanks for testing ``couchapp``!
 Other resources
 ---------------
 
-* `Couchapp website <http://couchapp.org>`_
-* `Frequently Asked Questions <http://couchapp.org/page/faq>`_
-* `couchapp command line usage <http://couchapp.org/page/couchapp-usage>`_
-* `Extend couchapp command line <http://couchapp.org/page/couchapp-extend>`_
-* `List of CouchApps <http://couchapp.org/page/list-of-couchapps>`_
+* `Couchapp website archive <https://github.com/couchapp/couchapp/tree/master/docs/couchapp-org>`_
+* `couchapp command line usage <https://github.com/couchapp/couchapp/blob/master/docs/usage.md>`_
+* `Extend couchapp command line <https://github.com/couchapp/couchapp/blob/master/docs/extends.md>`_
+* `List of CouchApps <https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/list-of-couchapps.md>`_
 
