@@ -89,7 +89,7 @@ def _dispatch(args):
 
     set_logging_level(verbose)
     if cmd not in commands.table:
-        raise CommandLineError('Unknown command: "{}"'.format(cmd))
+        raise CommandLineError('Unknown command: "{0}"'.format(cmd))
 
     fun = commands.table[cmd][0]
     if cmd in commands.incouchapp:
