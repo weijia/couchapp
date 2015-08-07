@@ -69,7 +69,7 @@ More installation options on the `website
 Getting started
 ---------------
 
-Read the `tutorial <https://github.com/couchapp/couchapp/blob/master/docs/gettingstarted.md>`_.
+Read the `tutorial <http://couchapp.github.io/couchapp/gettingstarted.html>`_.
 
 Testing
 -------
@@ -91,11 +91,34 @@ plans to make our tests better!), you can do so with this command instead:
 
 Thanks for testing ``couchapp``!
 
+Building the docs
+------------------
+
+We generate the document via ``sphinx`` and serve it with github pages.
+
+First, prepare our building env.
+We need ``sphinx`` and ``ghp-import`` (for importing html/css/js files to branch *gh-pages*).
+
+::
+
+    cd docs/
+    pip install -r requirements.txt
+
+
+To build it, just issue::
+
+    make html
+
+And sphinx will generate static html at *docs/_build/html*.
+We can browse the site from this dir already.
+
+To copy the file from *docs/_build/html/* and push to branch ``gh-pages``, just issue::
+
+    make push
+
+
 Other resources
 ---------------
 
 * `Couchapp website archive <https://github.com/couchapp/couchapp/tree/master/docs/couchapp-org>`_
-* `couchapp command line usage <https://github.com/couchapp/couchapp/blob/master/docs/usage.md>`_
-* `Extend couchapp command line <https://github.com/couchapp/couchapp/blob/master/docs/extends.md>`_
 * `List of CouchApps <https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/list-of-couchapps.md>`_
-
