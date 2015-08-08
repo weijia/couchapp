@@ -146,6 +146,22 @@ def test__dispatch_inapp(conf, commands):
     mock_func.assert_called_with(conf, conf.app_dir)
 
 
+@patch('couchapp.dispatch.commands')
+@patch('couchapp.dispatch.Config')
+def test__dispatch_update_commands(conf, commands):
+    conf = conf()
+    mock_func = Mock(return_value=10)
+    mock_mod = Mock()
+    mock_mod.cmdtable = {'mock': (mock_func, [], 'just for testing')}
+    conf.extensions = [mock_mod]
+    commands.table = {}
+    commands.globalopts = globalopts
+
+    assert dispatch._dispatch(['mock']) == 10
+    assert commands.table == mock_mod.cmdtable
+    assert mock_func.called
+
+
 @patch('couchapp.dispatch.logger')
 @patch('couchapp.dispatch._dispatch')
 def test_dispatch_AppError(_dispatch, logger):
