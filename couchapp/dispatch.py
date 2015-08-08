@@ -51,6 +51,8 @@ def dispatch(args):
         return _dispatch(args)
     except AppError as e:
         logger.error("couchapp error: %s" % str(e))
+    except CommandLineError as e:
+        logger.error("command line error: {}".format(e))
     except KeyboardInterrupt:
         logger.info("keyboard interrupt")
     except Exception as e:
