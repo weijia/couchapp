@@ -4,14 +4,9 @@ from getopt import GetoptError
 
 from couchapp import dispatch
 from couchapp.commands import globalopts
-from couchapp.errors import CommandLineError
+from couchapp.errors import AppError, CommandLineError
 from nose.tools import assert_raises
-
-
-def test_unknown_command():
-    with assert_raises(CommandLineError):
-        dispatch._dispatch(['unknown_command'])
-    assert dispatch.dispatch(['unknown_command']) == -1
+from mock import patch
 
 
 def test_parseopts_short_flag():
@@ -112,3 +107,57 @@ def test__dispatch_version():
 
 def test__dispatch_quiet():
     assert dispatch._dispatch(['-q']) == 0
+
+
+def test__dispatch_unknown_command():
+    with assert_raises(CommandLineError):
+        dispatch._dispatch(['unknown_command'])
+
+
+@patch('couchapp.dispatch.logger')
+@patch('couchapp.dispatch._dispatch')
+def test_dispatch_AppError(_dispatch, logger):
+    args = ['strange']
+    _dispatch.side_effect = AppError('some error')
+
+    assert dispatch.dispatch(args) == -1
+    _dispatch.assert_called_with(args)
+
+
+@patch('couchapp.dispatch.logger')
+@patch('couchapp.dispatch._dispatch')
+def test_dispatch_CLIError(_dispatch, logger):
+    '''
+    Test case for CommandLineError
+    '''
+    args = ['strange']
+    _dispatch.side_effect = CommandLineError('some error')
+
+    assert dispatch.dispatch(args) == -1
+    _dispatch.assert_called_with(args)
+
+
+@patch('couchapp.dispatch.logger')
+@patch('couchapp.dispatch._dispatch')
+def test_dispatch_KeyboardInterrupt(_dispatch, logger):
+    '''
+    Test case for KeyboardInterrupt
+    '''
+    args = ['strange']
+    _dispatch.side_effect = KeyboardInterrupt()
+
+    assert dispatch.dispatch(args) == -1
+    _dispatch.assert_called_with(args)
+
+
+@patch('couchapp.dispatch.logger')
+@patch('couchapp.dispatch._dispatch')
+def test_dispatch_other_error(_dispatch, logger):
+    '''
+    Test case for general Exception
+    '''
+    args = ['strange']
+    _dispatch.side_effect = Exception()
+
+    assert dispatch.dispatch(args) == -1
+    _dispatch.assert_called_with(args)
