@@ -6,7 +6,7 @@ from couchapp import dispatch
 from couchapp.commands import globalopts
 from couchapp.errors import AppError, CommandLineError
 from nose.tools import assert_raises
-from mock import patch
+from mock import Mock, patch
 
 
 def test_parseopts_short_flag():
@@ -118,6 +118,20 @@ def test__dispatch_quiet(set_logging_level):
 def test__dispatch_unknown_command():
     with assert_raises(CommandLineError):
         dispatch._dispatch(['unknown_command'])
+
+
+@patch('couchapp.dispatch.commands')
+@patch('couchapp.dispatch.Config')
+def test__dispatch_inapp(conf, commands):
+    conf = conf()
+    conf.app_dir = '/mock_dir'
+    mock_func = Mock(return_value=10)
+    commands.table = {'mock': (mock_func, [], 'just for testing')}
+    commands.incouchapp = ['mock']
+    commands.globalopts = globalopts
+
+    assert dispatch._dispatch(['mock']) == 10
+    mock_func.assert_called_with(conf, conf.app_dir)
 
 
 @patch('couchapp.dispatch.logger')
