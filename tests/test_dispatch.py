@@ -89,24 +89,30 @@ def test__parse_subcmd_options():
     assert cmdoptions['browse'] == True
 
 
-def test__dispatch_debug():
+@patch('couchapp.dispatch.set_logging_level')
+def test__dispatch_debug(set_logging_level):
     assert dispatch._dispatch(['-d']) == 0
+    set_logging_level.assert_called_with(1)
 
 
 def test__dispatch_help():
     assert dispatch._dispatch(['-h']) == 0
 
 
-def test__dispatch_verbose():
+@patch('couchapp.dispatch.set_logging_level')
+def test__dispatch_verbose(set_logging_level):
     assert dispatch._dispatch(['-v']) == 0
+    set_logging_level.assert_called_with(1)
 
 
 def test__dispatch_version():
     assert dispatch._dispatch(['--version']) == 0
 
 
-def test__dispatch_quiet():
+@patch('couchapp.dispatch.set_logging_level')
+def test__dispatch_quiet(set_logging_level):
     assert dispatch._dispatch(['-q']) == 0
+    set_logging_level.assert_called_with(0)
 
 
 def test__dispatch_unknown_command():
