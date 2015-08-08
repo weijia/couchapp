@@ -5,7 +5,7 @@ from getopt import GetoptError
 from couchapp import dispatch
 from couchapp.commands import globalopts
 from couchapp.errors import AppError, CommandLineError
-from nose.tools import assert_raises
+from nose.tools import raises
 from mock import Mock, patch
 
 
@@ -32,11 +32,16 @@ def test_parseopts_long_flag():
 
 
 def test_parseopts_invalid_flag():
-    with assert_raises(GetoptError):
+    @raises(GetoptError)
+    def short():
         dispatch.parseopts(['-X'], globalopts, {})
 
-    with assert_raises(GetoptError):
+    @raises(GetoptError)
+    def long():
         dispatch.parseopts(['--unkown'], globalopts, {})
+
+    short()
+    long()
 
 
 def test_parseopts_list_option():
@@ -61,14 +66,21 @@ def test_parseopts_str_option():
 
 
 def test__parse_invalid_flag():
-    with assert_raises(CommandLineError):
+    @raises(CommandLineError)
+    def short():
         dispatch._parse(['-X'])
 
-    with assert_raises(CommandLineError):
+    @raises(CommandLineError)
+    def app_arg():
         dispatch._parse(['init', '-X'])
 
-    with assert_raises(CommandLineError):
+    @raises(CommandLineError)
+    def long():
         dispatch._parse(['--unkown'])
+
+    short()
+    app_arg()
+    long()
 
 
 def test__parse_help():
@@ -115,9 +127,9 @@ def test__dispatch_quiet(set_logging_level):
     set_logging_level.assert_called_with(0)
 
 
+@raises(CommandLineError)
 def test__dispatch_unknown_command():
-    with assert_raises(CommandLineError):
-        dispatch._dispatch(['unknown_command'])
+    dispatch._dispatch(['unknown_command'])
 
 
 @patch('couchapp.dispatch.commands')
