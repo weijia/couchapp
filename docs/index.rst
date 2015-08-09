@@ -1,4 +1,4 @@
-CouchaApp's documentation!
+CouchApp's documentation!
 ==========================
 
 CouchApp is designed to structure standalone CouchDB application
