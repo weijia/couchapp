@@ -339,7 +339,8 @@ Users can like and comment on eachother's pictures.
 Sofa
 ----
 
-A blog engine with tagging, Atom feeds, and gravatar comments.
+Standalone CouchDB Blog with tagging, Atom feeds, and gravatar comments
+, used by the O'Reilly CouchDB book.
 
 `Code <http://github.com/jchris/sofa>`_
 
