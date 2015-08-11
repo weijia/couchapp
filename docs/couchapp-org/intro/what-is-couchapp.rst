@@ -1,16 +1,19 @@
-What the HTTP is CouchApp?
-==========================
+.. _what-is-couchapp:
+
+What is CouchApp?
+=================
 
 This blog post is in response to a lot of well-deserved confusion in the
 community around CouchApps. We haven't been clear enough in the past
 (either in technical description or in the notion of the project). I
 hope to change all that (with your help). This is just the beginning.
 
+
 The Basics
 ----------
 
 A CouchApp is just a JavaScript and HTML5 app that can be served
-directly to the browser from CouchDB, without any other software in the
+*directly* to the browser from CouchDB, without any other software in the
 stack. There are many benefits (and some constraints) to doing it this
 way. The first section of this article will address these tradeoffs.
 
@@ -43,7 +46,7 @@ horizontal scalability. Did I say silver bullet? ;) (Of course it is not
 a silver bullet -- if you can't fit your app into CouchDB's constraints,
 you'll still have scaling issues.) If you can build your app *with the
 grain* of CouchDB's APIs, then you can piggyback on all the work
-`other <http://enda.squarespace.com/tech/2010/3/4/couchdb-at-scale-4-billion-requests-so-far.html>`__
+`other <http://enda.squarespace.com/tech/2010/3/4/couchdb-at-scale-4-billion-requests-so-far.html>`_
 people have done to scale.
 
 The fact is, 2-layer applications are simpler:
@@ -61,7 +64,7 @@ uglier and slower."
 
 Aside from simplicity and the scalability that comes with it, there is
 another major benefit to creating a 100% pure CouchApp:
-`Replication. <http://wiki.apache.org/couchdb/Replication>`__ When your
+`Replication. <http://wiki.apache.org/couchdb/Replication>`_. When your
 app is hosted by just a CouchDB, that means it can be run from *any*
 CouchDB, with no need to set up complex server-side dependencies. When
 your app can run on *any* CouchDB, you are free to take advantage of
@@ -80,8 +83,8 @@ faster. <http://perspectives.mvdirona.com/2009/10/31/TheCostOfLatency.aspx>`__
 
 Your site can be faster than theirs, if you serve it from localhost.
 CouchDB makes this possible. Here are `installers for OSX, Windows, and
-Linux <http://couch.io/get>`__ and you can install `CouchDB on Android
-here <http://couch.io/android>`__.
+Linux <http://couch.io/get>`_ and you can install `CouchDB on Android
+here <http://couch.io/android>`_.
 
 The take-home message from this section is: CouchDB can scale. If your
 app is served by raw CouchDB, it can scale just the same. Also, there's
@@ -91,22 +94,24 @@ is what matters for users.
 In the next section we'll see what it takes to get your app to be served
 directly from CouchDB, and what you can (and can't) do.
 
+
 CouchDB's built-in programming model
 ------------------------------------
 
-The CouchDB API is full featured and applicable to a lot of use cases. I
-can't possible go in-depth here. Instead I'll focus only on the broad
+The CouchDB API is full featured and applicable to a lot of use cases.
+We can't possible go in-depth here. Instead we'll focus only on the broad
 outline, and on what is useful and necessary for CouchApps. If you want
 to learn more, check out `the CouchDB
-wiki <http://wiki.apache.org/couchdb>`__ or the `free CouchDB
-book <http://books.couchdb.org/>`__.
+wiki <http://wiki.apache.org/couchdb>`_ or the `free CouchDB
+book <http://books.couchdb.org/>`_.
 
 The first thing to understand about CouchDB is that the entire API is
 HTTP. Data is stored and retrieved using the protocol your browser is
 good at. Even `the CouchDB test
-suite <http://jchris.couchone.com/_utils/couch_tests.html?script/couch_tests.js>`__
-is written in JavaScript and executed from the browser. **It's all just
-HTTP.**
+suite <http://jchris.couchone.com/_utils/couch_tests.html?script/couch_tests.js>`_
+is written in JavaScript and executed from the browser.
+**It's all just HTTP.**
+
 
 HTML Attachments
 ~~~~~~~~~~~~~~~~
@@ -116,17 +121,18 @@ CouchDB, is "when I try to query the CouchDB with jQuery, it doesn't
 work." Usually it turns out that they have an index.html file on their
 filesystem, which is attempting to do an Ajax call against the CouchDB
 server. After I explain to them `the same origin security
-policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__, they start
+policy <http://en.wikipedia.org/wiki/Same_origin_policy>`_, they start
 to understand this this means CouchDB needs to serve their HTML (rather
 than loading it in the browser direct from the filesystem).
 
 CouchDB documents may have `binary
-attachments. <http://stackoverflow.com/questions/1439371/creating-a-couchdb-standalone-attachment-using-curl>`__
-The easiest way to add an attachment to a document is via Futon. We'll
-do that later in this blog post.
+attachments. <http://stackoverflow.com/questions/1439371/creating-a-couchdb-standalone-attachment-using-curl>`_
+The easiest way to add an attachment to a document is via Futon.
+We'll do that later in this blog post.
 
 So, the simplest possible CouchApp is just an HTML file, served directly
 from CouchDB, that uses Ajax to load and save data from the CouchDB.
+
 
 Map Reduce queries
 ~~~~~~~~~~~~~~~~~~
@@ -458,7 +464,8 @@ the browser URL changes. Evently knows how to use it, so you can
 declaratively link paths and events. `Pathbinder docs are
 here. <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder>`__
 
+
 Examples
 ~~~~~~~~
 
-There is a `list of CouchApps here <list-of-couchapps.md>`__
+There is a :ref: `list of CouchApps <list-of-couchapps>`.
