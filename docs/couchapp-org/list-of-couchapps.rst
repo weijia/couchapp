@@ -5,7 +5,7 @@ List of CouchApps
 
 Please add links to CouchApps
 (alphabetical order will help avoid duplicates in the long run).
-You may also be interested in `the Couchapp Garden <garden.html>`_.
+You may also be interested in `the CouchApp Garden <garden.html>`_.
 
 
 Afghan War Diary
@@ -30,18 +30,19 @@ as a view-engine for web pages wearing Mustache_ templates.
 Bookkeeping
 -----------
 
-A little couchapp that helps visualizing expenses for my household.
+A little CouchApp that helps visualizing expenses for my household.
 Currently in German only. I am working on a branch that uses views and
 ``_changes`` instead of a pure client side implementation with jquery.
 
-`Code <http://github.com/ckeen/bookkeeping>`__
+`Code <http://github.com/ckeen/bookkeeping>`_
 
 
 Boom Amazing
 ------------
 
-Presentation software with a twist. Uses SVG and pan and zoom. Based on
-Sammy.js_.
+Presentation software with a twist.
+Uses SVG and pan and zoom.
+Based on Sammy.js_.
 
 `Code <http://github.com/langalex/boom_amazing>`_
 
@@ -63,7 +64,7 @@ Costco
 
 A small UI for bulk editing CouchDB documents.
 
-`Code <http://github.com/harthur/costco>`__
+`Code <http://github.com/harthur/costco>`_
 
 
 CouchCrawler
@@ -72,9 +73,9 @@ CouchCrawler
 Spiders the web into CouchDB.
 Uses a Python script for web spidering.
 `Read the blog post
-here <http://syntacticbayleaves.com/2010/01/17/announcing-couch-crawler-a-couchdb-search-enginecrawler/>`__
+here <http://syntacticbayleaves.com/2010/01/17/announcing-couch-crawler-a-couchdb-search-enginecrawler/>`_
 
-`Code <http://github.com/clofresh/couch-crawler>`__
+`Code <http://github.com/clofresh/couch-crawler>`_
 
 
 CouchWatch
@@ -83,7 +84,7 @@ CouchWatch
 Simple logs watcher with realtime view and simple searching. For using
 witch Rails and JavaScript logger. Written in Backbone.js_
 
-`Code <https://github.com/andrzejsliwa/couch-watch>`__
+`Code <https://github.com/andrzejsliwa/couch-watch>`_
 
 
 CouchDB Contact Form
@@ -91,7 +92,7 @@ CouchDB Contact Form
 
 Simple Contact Form CouchApp for CouchDB. Includes simple mail spooler.
 
-`Code <http://github.com/jasondavies/couchdb-contact-form>`__
+`Code <http://github.com/jasondavies/couchdb-contact-form>`_
 
 
 CouchDB Projector
@@ -99,7 +100,7 @@ CouchDB Projector
 
 For doing presentations.
 
-`Code <http://github.com/phred/couchdb-projector>`__
+`Code <http://github.com/phred/couchdb-projector>`_
 
 
 CouchLog
@@ -110,7 +111,7 @@ interface for sorting through log entries and troubleshooting/debugging
 applications. Leverages schema-less approach to allow log entries to
 contain structured meta-information to aid in troubleshooting
 
-`Code <http://github.com/desdev/CouchLog>`__
+`Code <http://github.com/desdev/CouchLog>`_
 
 
 csv2couchdb
@@ -118,7 +119,7 @@ csv2couchdb
 
 small app to populate couchdb using data from CSV files
 
-`Code <https://github.com/Mango-information-systems/csv2couchdb>`__
+`Code <https://github.com/Mango-information-systems/csv2couchdb>`_
 
 
 Dimensional Drawing
@@ -126,9 +127,9 @@ Dimensional Drawing
 
 Collaborative 2.5D drawing space.
 
-`Code <https://github.com/clehner/dimensional-drawing>`__
+`Code <https://github.com/clehner/dimensional-drawing>`_
 
-`Demo <http://www.dimensionaldrawing.com/>`__
+`Demo <http://www.dimensionaldrawing.com/>`_
 
 
 Focus
@@ -138,11 +139,11 @@ A TODO tracker that replicates. Run it on your phone, run it on your
 server, run it on your laptop. Keep them synchronized. Never forget to
 do that important thing!
 
-`Code <http://github.com/jchris/Focus>`__
+`Code <http://github.com/jchris/Focus>`_
 
 Deployments:
 
--  `Demo <http://couchapp.org/focus/_design/focus/index.html>`__
+-  `Demo <http://couchapp.org/focus/_design/focus/index.html>`_
 
 
 Food Cart Pages
@@ -152,7 +153,7 @@ A catalog of all the food carts in Portland.
 
 Deployments:
 
--  `http://foodcartpages.com <http://foodcartpages.com/>`__
+-  `http://foodcartpages.com <http://foodcartpages.com/>`_
 
 
 HejHej
@@ -161,28 +162,28 @@ HejHej
 A CouchApp for language learning. Lets you train vocabularies and solve
 different kinds of games/tests. Has Cucumber tests.
 
-`Code <http://github.com/langalex/hejhej>`__
+`Code <http://github.com/langalex/hejhej>`_
 
 
 Hub List
 --------
 
-`Open source GTD style productivity app <http://hublistapp.com/>`__.
+`Open source GTD style productivity app <http://hublistapp.com/>`_.
 Manage your tasks from bug trackers, pm tools and other online todo
 lists all in one place. Built with Ext JS 4.
 
-`Code <https://github.com/rawberg/Hub-List_GTD-Productivity>`__
+`Code <https://github.com/rawberg/Hub-List_GTD-Productivity>`_
 
 
 Li.Couch
 --------
 
-`Open source LIst notes <http://li.iriscouch.com/>`__. Easy track of
+`Open source LIst notes <http://li.iriscouch.com/>`_. Easy track of
 your items. Built with Knockout.js.
 
-`Code <http://github.com/avalez/li.couch>`__
+`Code <http://github.com/avalez/li.couch>`_
 
-`Demo <http://li.iriscouch.com/>`__
+`Demo <http://li.iriscouch.com/>`_
 
 
 MapChat
@@ -190,9 +191,9 @@ MapChat
 
 A real time chat app on a Google Map. Points on a map as a chat rooms.
 
-`Code <http://github.com/mapchat/mapchat>`__
+`Code <http://github.com/mapchat/mapchat>`_
 
-`Demo <http://mapchat.me/>`__
+`Demo <http://mapchat.me/>`_
 
 
 Modern Forum
@@ -201,7 +202,7 @@ Modern Forum
 A new project aiming to bring real-time, CouchDB-powered forums to the
 masses.
 
-`Code <https://github.com/andrewrabon/modern-forum>`__
+`Code <https://github.com/andrewrabon/modern-forum>`_
 
 
 Monocles (ex-CouchAppSpora)
@@ -210,8 +211,8 @@ Monocles (ex-CouchAppSpora)
 diaspora... as a couchapp! in pure javascript and fully OStatus
 compliant (almost)
 
-`Code and more info <http://github.com/maxogden/couchappspora>`__
-`Demo <http://monocl.es/>`__
+`Code and more info <http://github.com/maxogden/couchappspora>`_
+`Demo <http://monocl.es/>`_
 
 
 MTG Pricing CouchApp
@@ -220,7 +221,7 @@ MTG Pricing CouchApp
 A mobile-centric app to get the pricing information for Magic: The
 Gathering cards quickly and easily.
 
-`Code <http://github.com/Madisonw/MTG-Pricing-Couchapp>`__
+`Code <http://github.com/Madisonw/MTG-Pricing-Couchapp>`_
 
 
 Mytweets
@@ -282,9 +283,9 @@ hacking.
 
 Deployments:
 
--  `jChris <http://jchris.couchone.com/proto/_design/proto/index.html>`__
--  `Jan <http://jan.couchone.com/proto/_design/proto/index.html>`__
--  `Goto <http://goto.couchone.com/test/_design/proto/index.html>`__
+-  `jChris <http://jchris.couchone.com/proto/_design/proto/index.html>`_
+-  `Jan <http://jan.couchone.com/proto/_design/proto/index.html>`_
+-  `Goto <http://goto.couchone.com/test/_design/proto/index.html>`_
 
 
 Random Lecture!
@@ -293,9 +294,9 @@ Random Lecture!
 A simple Sammy-On-CouchApp (soca) app that plays a random technical
 lecture or tech talk.
 
--  `Demo <http://randomlecture.couchone.com/lectures/_design/lectures/index.html>`__
--  `Code <http://github.com/maxogden/random-lecture>`__
--  `List of all lectures <http://github.com/maxogden/tech-talk-urls>`__
+-  `Demo <http://randomlecture.couchone.com/lectures/_design/lectures/index.html>`_
+-  `Code <http://github.com/maxogden/random-lecture>`_
+-  `List of all lectures <http://github.com/maxogden/tech-talk-urls>`_
 
 
 Sales Stats
@@ -388,8 +389,6 @@ A task tracker. This one got deprecated by Focus. It's got some cool
 features so it's worth looking at if you are building something similar.
 
 `Code <http://github.com/jchris/taskr>`_
-
--  `Demo <http://jchris.couchone.com/taskr/_design/taskr/index.html#/>`_
 
 
 The Infinite Maze
