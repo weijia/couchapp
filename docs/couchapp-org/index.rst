@@ -18,6 +18,7 @@ Getting Started
 
 External Resources
 ~~~~~~~~~~~~~~~~~~~
+
 - The `Standalone Applications <http://guide.couchdb.org/draft/standalone.html>`_
   and `Managing Design Documents <http://guide.couchdb.org/draft/managing.html>`_
   chapters of the O'Reilly CouchDB book
@@ -43,13 +44,23 @@ There is a library called `jquery.couch.js`_ that is distributed
 with every CouchDB installation.
 Here is the `documentation for jquery.couch.js`_
 
+
 Example Applications
 ~~~~~~~~~~~~~~~~~~~~
 
 More Examples
 -------------
 
-Please check out the `List of CouchApps <list-of-couchapps>`_.
+Please check out the :ref:`list-of-couchapps`.
+
+
+Design
+------
+
+.. toctree::
+    :maxdepth: 2
+
+    design/filesystem-mapping
 
 
 Other resources

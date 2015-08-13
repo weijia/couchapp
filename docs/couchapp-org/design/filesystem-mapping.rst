@@ -1,4 +1,6 @@
-The Couchapp Filesystem Mapping
+.. _filesystem-mapping:
+
+The CouchApp Filesystem Mapping
 ===============================
 
 The ``couchapp`` script has a cool way of pushing files to CouchDB's
