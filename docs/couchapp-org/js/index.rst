@@ -11,8 +11,10 @@ There is a library called `jquery.couch.js`_ that is distributed
 with every CouchDB installation.
 Here is the `documentation for jquery.couch.js`_
 
+.. toctree::
+    :maxdepth: 2
 
-Examples
---------
+    backbone
 
-Please check out the :ref:`list-of-couchapps`.
+
+Also check out the :ref:`list-of-couchapps`.

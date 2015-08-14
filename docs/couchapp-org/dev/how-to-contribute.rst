@@ -6,12 +6,12 @@ This repository holds all of the code in the project. The Python
 stuff is in there to.
 
 The jquery.couch.app.js and jquery.evently.js files are both `in the
-vendor
-directory <http://github.com/couchapp/couchapp/tree/master/vendor/_attachments/>`__.
+vendor directory
+<http://github.com/couchapp/couchapp/tree/master/vendor/_attachments/>`_.
 
 If you have a commit to one of the CouchApp files (JavaScript or
 otherwise) please let us know on the `mailing
-list <http://groups.google.com/group/couchapp>`__ as we don't always get
+list <http://groups.google.com/group/couchapp>`_ as we don't always get
 the messages in our Github inbox.
 
 Also, documentation and blog posting is **very much appreciated**. Don't
@@ -33,6 +33,6 @@ bunch of new features that offers since a while incremental view changes
 (indexed on the disk) and replication support using a view and allows
 you to replicate in an efficient manner subsets of your databases.
 
-Last thing, I think PouchDB is the future of browser based sync apps. It
+Last thing, PouchDB is the future of browser based sync apps. It
 can sync with the same sync protocols but uses the built-in storage of
 HTML5.
