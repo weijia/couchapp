@@ -43,6 +43,7 @@ User Guide
 
     couchapp/index
     js/index
+    user/garden
     user/list-of-couchapps
 
 
@@ -63,7 +64,7 @@ Contributing to CouchApp Ecosystem
 .. toctree::
     :maxdepth: 2
 
-    How to contribute <dev/how-to-contribute>
+    How to Contribute <dev/how-to-contribute>
     dev/roadmap
 
 

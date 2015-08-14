@@ -1,13 +1,17 @@
 The Garden
 ==========
 
+.. warning::
+    The database of garden was gone.
+
 `The CouchApp
-Garden <http://couchapp.org/garden/_design/garden/index.html>`__ is a
+Garden <http://couchapp.org/garden/_design/garden/index.html>`_ is a
 CouchApp designed to make sharing other CouchApps easy. Once you have
 the Garden installed on your CouchDB, you can use it to install other
 CouchApps.
 
 Note - links to couchapp.org here offline as of last edit.
+
 
 The basics
 ----------
@@ -25,6 +29,7 @@ into databases on your CouchDB. The garden document will be copied to
 the target database, as a design document again, and there will be a
 link to visit that application.
 
+
 Sharing your app
 ----------------
 
@@ -32,10 +37,10 @@ To add your app to the Garden, install the Garden locally, and use its
 import link, to add the app to your local garden database. Then
 replicate that database to http://couchapp.org/garden, and check out the
 updated
-`Garden <http://couchapp.org/garden/_design/garden/index.html>`__.
+`Garden <http://couchapp.org/garden/_design/garden/index.html>`_.
 
 Contributing to the Garden
 --------------------------
 
-`The Garden code is on Github <http://github.com/jchris/garden>`__,
+`The Garden code is on Github <http://github.com/jchris/garden>`_,
 please fork and contribute.
