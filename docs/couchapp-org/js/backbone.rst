@@ -16,6 +16,7 @@ issues, extending functionality) is available here:
 
 https://github.com/andrzejsliwa/backbone-couch
 
+
 An example use case
 --------------------
 
