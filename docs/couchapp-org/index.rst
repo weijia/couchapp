@@ -1,4 +1,4 @@
-CouchApp: Web application hosted in Apache CouchDB
+CouchApp: Web Application Hosted in Apache CouchDB
 ==================================================
 
 .. note::
@@ -45,6 +45,7 @@ User Guide
     couchapp/index
     js/index
     user/garden
+    user/desktopcouch
     user/list-of-couchapps
 
 
@@ -69,7 +70,7 @@ Contributing to CouchApp Ecosystem
     dev/roadmap
 
 
-Other resources
+Other Resources
 ---------------
 
 - IRC
@@ -81,14 +82,8 @@ Other resources
 - `Search The CouchDB Mailing List/IRC
   Archive <http://archive.couchdb.org/>`_
 
-- `CouchApps with DesktopCouch <desktopcouch.html>`_
-
 - `Mailing List <http://groups.google.com/group/couchapp>`_
 
-- `Contributing to CouchApp <how-to-contribute.html>`_
-
-- `Some development notes <development-notes.html>`_
-
-- `The CouchApp Garden project <garden.html>`_
+- `CouchApps with DesktopCouch <desktopcouch.html>`_
 
 - `eNotes CouchApp Tutorial <http://materials.geoinfo.tuwien.ac.at/tutorials/couchapp>`_
