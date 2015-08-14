@@ -252,6 +252,11 @@ Pages
 A Markdown wiki. This was the wiki used to create this documentation
 originally.
 
+.. toctree::
+    :maxdepth: 2
+
+    apps/pages/install
+
 `Code <http://github.com/couchone/pages>`_
 
 Deployments:
