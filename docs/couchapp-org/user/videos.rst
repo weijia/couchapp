@@ -1,10 +1,11 @@
 Video Tutorials on CouchDB
 ==========================
 
-Also check out `Relaxed.tv <http://relaxed.tv/>`__ for
-======================================================
+.. warning::
+    The content is out of date
 
-awesome CouchDB videos!
+Also check out `Relaxed.tv <http://relaxed.tv/>`_ for awesome CouchDB videos!
+
 
 Get friendly with CouchDB (an intro tutorial)
 ---------------------------------------------
