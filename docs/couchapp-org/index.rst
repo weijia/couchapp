@@ -46,6 +46,7 @@ User Guide
     js/index
     user/garden
     user/desktopcouch
+    user/multiple-design-docs
     user/list-of-couchapps
 
 
