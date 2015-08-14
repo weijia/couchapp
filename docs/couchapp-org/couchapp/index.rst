@@ -11,6 +11,7 @@ designed to bring clarity and order to the freedom of
 .. toctree::
     :maxdepth: 2
 
+    install
     gettingstarted
     usage
     extends

@@ -25,6 +25,7 @@ Let's get started with the ``couchapp.py`` command line tools.
 .. toctree::
     :maxdepth: 2
 
+    couchapp/install
     Tutorial <couchapp/gettingstarted>
 
 

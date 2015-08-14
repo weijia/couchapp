@@ -1,21 +1,25 @@
-Installing
-==========
+.. _install:
+
+Installation
+============
 
 The newest install instructions are always in the
 `README <https://github.com/couchapp/couchapp/blob/master/README.rst>`__
 
+
 Requirements
 ------------
 
--  Python 2.x >= 2.5 (Python 3.x will be supported soon)
+-  Python 2.x >= 2.6 (Python 3.x will be supported soon)
 -  the header files of the Python version that is used, which are
    included e.g. in the according development package ``python-dev``
    (may have a different name depending on your system)
 
+
 Installing on all UNIXs
 -----------------------
 
-To install couchapp using easy\_install you must make sure you have a
+To install couchapp using ``easy_install`` you must make sure you have a
 recent version of distribute installed:
 
 ::
@@ -31,18 +35,19 @@ To install or upgrade to the latest released version of couchapp:
     $ sudo pip install couchapp
     $ sudo pip install --upgrade couchapp
 
-To install/upgrade development version :
+To install/upgrade development version:
 
 ::
 
     $ sudo pip install git+http://github.com/couchapp/couchapp.git#egg=Couchapp
 
-Installing in a sandboxed environnement.
-----------------------------------------
+
+Installing in a sandboxed environnement
+---------------------------------------
 
 If you want to work in a sandboxed environnement which is recommended if
-you don't want to not "pollute" your system, you can use
-`virtualenv <http://pypi.python.org/pypi/virtualenv>`__ :
+you don't want to not *pollute* your system, you can use
+`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ :
 
 ::
 
@@ -67,17 +72,16 @@ To activate and work in this environment:
 Then you can work on your couchapps. I usually have a ``couchapps``
 folder in ``couchapp_env`` where I put my couchapps.
 
-Installing from source :
-------------------------
-
-Follow instructions
-`here <http://couchapp.org/page/installing-from-source>`__
 
 Installing on Mac OS X
 ----------------------
 
-Using CouchApp Standalone executable :
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. warning::
+    This section is out of date. Request for update.
+
+
+Using CouchApp Standalone executable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Download
 `Couchapp-0.8.1-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-0.8.1-macosx.zip>`__
@@ -87,36 +91,38 @@ Using the Python metapackage for Mac OS X 10.5 or Mac OS X 10.6
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  For Mac OS X 10.6: Download
-   `Couchapp-0.7.5-py2.6-macosx10.6.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.6-macosx10.6.zip>`__
-   then double-click on the installer.
+   `Couchapp-0.7.5-py2.6-macosx10.6.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.6-macosx10.6.zip>`_
+   then double-click on the installer
 
 -  For Mac OS X 10.5: Download
-   `Couchapp-0.7.5-py2.5-macosx10.5.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.5-macosx10.5.zip>`__
-   .
+   `Couchapp-0.7.5-py2.5-macosx10.5.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.5-macosx10.5.zip>`_
+   
 
 Using Homebrew
 ~~~~~~~~~~~~~~
 
 To install easily couchapp on Mac OS X, it may be easier to use
-`Homebrew <http://github.com/mxcl/homebrewbrew>`__ to install ``pip``.
+`Homebrew <http://github.com/mxcl/homebrewbrew>`_ to install ``pip``.
 
 Once you `installed
-Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`__, do :
+Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`_, do:
 
 ::
 
     $ brew install pip
     $ env ARCHFLAGS="-arch i386 -arch x86_64" pip install couchapp
 
+
 Installing on Ubuntu
 --------------------
 
-If you use `Ubuntu <http://www.ubuntu.com/>`__, you can update your
+If you use `Ubuntu <http://www.ubuntu.com/>`_, you can update your
 system with packages from our PPA by adding ``ppa:couchapp/couchapp`` to
 your system's Software Sources.
 
 Follow **instructions**
-`here <https://launchpad.net/~couchapp/+archive/couchapp>`__.
+`here <https://launchpad.net/~couchapp/+archive/couchapp>`_.
+
 
 Installing on Windows
 ---------------------
@@ -131,11 +137,3 @@ There are currently 2 methods to install on windows:
 
 In case the above is not updated, check out the `downloads
 section <https://github.com/couchapp/couchapp/downloads>`__ in GitHub
-
-Example:
---------
-
-Files attached to *Installing CouchApp*:
-
--  `Couchapp-0.7-Installer-screenshot.png <attachments/Couchapp-0.7-Installer-screenshot.png>`__
-   (image/png)
