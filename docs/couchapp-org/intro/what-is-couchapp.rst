@@ -468,4 +468,4 @@ here. <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbind
 Examples
 ~~~~~~~~
 
-There is a :ref: `list of CouchApps <list-of-couchapps>`.
+There is a :ref:`list-of-couchapps`.
