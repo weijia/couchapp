@@ -14,4 +14,5 @@ designed to bring clarity and order to the freedom of
     install
     gettingstarted
     usage
+    config
     extends

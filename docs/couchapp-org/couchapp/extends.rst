@@ -1,3 +1,5 @@
+.. _couchapp-extend:
+
 Extend couchapp
 ===============
 
