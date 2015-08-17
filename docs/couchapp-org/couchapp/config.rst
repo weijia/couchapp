@@ -70,21 +70,7 @@ have a working ``.couchapprc`` file, simply move it to
 ``~/.couchapp``
 ---------------
 
-Most of the time, you will use ``couchapp generate`` to create a new
-CouchApp with the default directory layout, example functions, and
-vendor directories. If you find yourself creating multiple CouchApps
-that always contain the same third-party or in-house files and
-libraries, you might consider creating a custom app template containing
-these files and using the ``--template`` option of the generate command
-to create your customized CouchApps.
-
-Custom templates are stored as subdirectories under the
-``~/.couchapp/templates`` directory. The name of the subdirectory is
-used in the ``--template`` option to specify which template files are
-to be used in the ``couchapp generate`` command. The default template
-name is "app", so by creating ``~/.couchapp/templates/app`` and placing
-files and directories under that path, you can replace almost all of the
-default files created by ``couchapp generate``.
+Please see :ref:`couchapp-template`
 
 
 ``.couchappignore``

@@ -10,8 +10,6 @@ CouchApp designed to make sharing other CouchApps easy. Once you have
 the Garden installed on your CouchDB, you can use it to install other
 CouchApps.
 
-Note - links to couchapp.org here offline as of last edit.
-
 
 The basics
 ----------
@@ -36,8 +34,8 @@ Sharing your app
 To add your app to the Garden, install the Garden locally, and use its
 import link, to add the app to your local garden database. Then
 replicate that database to http://couchapp.org/garden, and check out the
-updated
-`Garden <http://couchapp.org/garden/_design/garden/index.html>`_.
+updated `Garden <http://couchapp.org/garden/_design/garden/index.html>`_.
+
 
 Contributing to the Garden
 --------------------------

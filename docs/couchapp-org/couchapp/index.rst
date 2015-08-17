@@ -10,9 +10,12 @@ designed to bring clarity and order to the freedom of
 
 .. toctree::
     :maxdepth: 2
+    :numbered: 1
 
     install
     gettingstarted
     usage
     config
+    template
     extends
+    multiple-design-docs

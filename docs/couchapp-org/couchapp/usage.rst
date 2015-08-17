@@ -1,5 +1,7 @@
+.. _couchapp-usage:
+
 Command Line Usage
-===========================
+==================
 
 .. toctree::
 
@@ -65,7 +67,7 @@ Commands
 +++++++++++++
 
 Allows you to generate a basic couchapp. It can also
-be used to create template of functions. e.g.::
+be used to create ref:`template <couchapp-template>` of functions. e.g.::
 
     couchapp generate myapp
     cd myapp
@@ -78,7 +80,7 @@ be used to create template of functions. e.g.::
 Initialize a CouchApp. When run in the folder of your
 application it create a default ``.couchapprc`` file. This file is
 needed by couchapp to find your application. Use this command when
-you clone your application from an external repository (git, hg):
+you clone your application from an external repository (``git``, ``hg``):
 
 ::
 
@@ -89,8 +91,7 @@ you clone your application from an external repository (git, hg):
 ``push``
 ++++++++++
 
-Push a couchapp to one or more
-`CouchDB <http://couchdb.apache.org>`__ server.
+Push a couchapp to one or more CouchDB_ server.
 
 ::
 
@@ -122,5 +123,8 @@ It allows you to send multiple couchapps at once.
 
 Like pushapps but for docs. It allows you to send a
 folder containing simple document. With this command you can populate
-your CouchDB with documents. Anotther way to do it is to create a
+your CouchDB_ with documents. Anotther way to do it is to create a
 ``_docs`` folder at the top of your couchapp folder.
+
+
+.. _CouchDB: http://couchdb.apache.org
