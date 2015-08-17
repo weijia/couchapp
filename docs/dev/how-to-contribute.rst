@@ -1,3 +1,5 @@
+.. _contributing:
+
 Contributing
 ============
 
@@ -7,7 +9,7 @@ stuff is in there to.
 
 The jquery.couch.app.js and jquery.evently.js files are both `in the
 vendor directory
-<http://github.com/couchapp/couchapp/tree/master/vendor/_attachments/>`_.
+<https://github.com/couchapp/couchapp/tree/master/couchapp/templates/vendor/couchapp/_attachments>`_.
 
 If you have a commit to one of the CouchApp files (JavaScript or
 otherwise) please let us know on the `mailing
