@@ -196,6 +196,16 @@ A real time chat app on a Google Map. Points on a map as a chat rooms.
 `Demo <http://mapchat.me/>`_
 
 
+Microanalytics
+--------------
+
+Personal hackable web-analytics.
+
+`Code <https://github.com/fiatjaf/microanalytics>`_
+
+`Python command-line client <https://github.com/fiatjaf/microanalytics-cli>`_
+
+
 Modern Forum
 ------------
 
@@ -314,6 +324,14 @@ statistics are updated live (in near realtime).
 `Code <http://github.com/KlausTrainer/sales_stats>`_
 
 `Demo <http://mambofulani.couchone.com/sales_stats/_design/sales_stats/index.html>`_
+
+
+Scrapboard
+----------
+
+A decentralized implementation of the old Orkut scrapbook. 
+
+`Code <https://github.com/fiatjaf/scrapboard>`_
 
 
 Skim - Simple knowledgebase for insightful metabolomics
