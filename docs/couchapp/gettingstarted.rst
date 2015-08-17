@@ -22,7 +22,7 @@ folders and files to start. Run::
 
     $ couchapp generate helloworld
 
-.. figure:: _static/imgs/gettingstarted01.png
+.. figure:: ../_static/imgs/gettingstarted01.png
    :alt: couchapp generate helloworld
 
 ::
@@ -71,7 +71,7 @@ testdb::
 
     $ couchapp push testsb
 
-.. figure:: _static/imgs/gettingstarted02.png
+.. figure:: ../_static/imgs/gettingstarted02.png
    :alt: couchapp push testdb
 
 ::
@@ -81,7 +81,7 @@ testdb::
 Go on http://127.0.0.1:5984/testdb/_design/helloworld/index.html,
 you will see:
 
-.. figure:: _static/imgs/gettingstarted03.png
+.. figure:: ../_static/imgs/gettingstarted03.png
    :alt: CouchApp hello world
 
 ::
@@ -101,7 +101,7 @@ That's easy, just ``clone`` his application::
 This command fetch the CouchApp ``helloworld`` from the remote database
 of your friend.
 
-.. figure:: _static/imgs/gettingstarted04.png
+.. figure:: ../_static/imgs/gettingstarted04.png
    :alt: couchapp clone http://127.0.0.1:5984/testdb/_design/helloworld helloworld
 
 ::
