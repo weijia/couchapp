@@ -112,12 +112,12 @@ Document
       "validate_doc_update": "function...",
     }
 
-Evently
-^^^^^^^
+Evently_
+^^^^^^^^
 
 It's not a very big leap to see that an Evently widget could be editing
 in a filesystem tree like this: (Picking the most complex --
-``nestedEvently`` from the `Evently Primer <evently-primer>`__
+``nestedEvently`` from the `Evently Primer <evently-primer>`_
 document.)
 
 ::
@@ -137,3 +137,6 @@ document.)
               data.js
           a[href=#win]/
             click.js
+
+
+.. _Evently: https://github.com/jchris/evently

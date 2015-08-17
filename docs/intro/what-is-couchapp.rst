@@ -276,12 +276,12 @@ Now that I've described the theory of CouchApps to you, let's dig into
 the practice. Before we get into the expert toolchain, let's see what we
 can do with a little bit of HTML. I'll assume you have a CouchDB running
 at localhost. If you don't, install one now (or signup for hosting at
-`Iris Couch <http://www.iriscouch.com/>`__ or
-`Cloudant <http://cloudant.com/>`__).
+`Iris Couch <http://www.iriscouch.com/>`_ or
+`Cloudant <http://cloudant.com/>`_).
 
 Quick, create a file called index.html, and put this in it:
 
-::
+.. code-block:: html
 
     <!DOCTYPE html>
     <html>
@@ -305,20 +305,21 @@ Quick, create a file called index.html, and put this in it:
     </html>
 
 Now browse to your CouchDB's Futon at http://localhost:5984/_utils and
-create a database called "whatever". Now visit that database, and create
-a document. You will be creating what is known as a, "Design Document",
-which is a special kind of document in CouchDb that contains application
+create a database called ``whatever``. Now visit that database, and create
+a document. You will be creating what is known as a, ``Design Document``,
+which is a special kind of document in CouchDB that contains application
 code. The only thing you need to know now is to set the document id to
-something that begins with "\_design/" and save it. Now click the button
-labeled "Upload Attachment" and choose the index.html file you just
-created, and upload it. Now click the link in Futon for index.html, and
+something that begins with ``_design/`` and save it. Now click the button
+labeled *Upload Attachment* and choose the ``index.html`` file you just
+created, and upload it. Now click the link in Futon for ``index.html``, and
 you should see a list of the databases on that CouchDB instance.
 
-(rengel, 2012-09-05: Because of the »Same Origin« policy the index.html
+(rengel, 2012-09-05: Because of the *Same Origin* policy the ``index.html``
 file has to be in the same directory, or a subdirectory thereof, as your
 whatever database.)
 
 You gotta admit there was nothing to that.
+
 
 Make it easy it with the CouchApp toolchain
 -------------------------------------------
@@ -355,14 +356,15 @@ today. <http://github.com/couchapp/couchapp/commit/9ff4ec09664a286f0c408ac76eb9c
 
 So let's use it!
 
-Installing CouchApp
+
+Installing couchapp
 ~~~~~~~~~~~~~~~~~~~
 
 There is a lot of documentation already out there about how to install
 the CouchApp toolchain. I'll just link to it. The basic installation
-instructions are `in the README <http://github.com/couchapp/couchapp>`__
+instructions are `in the README <http://github.com/couchapp/couchapp>`_
 and in `the CouchDB
-Book <http://books.couchdb.org/relax/example-app/design-documents>`__.
+Book <http://books.couchdb.org/relax/example-app/design-documents>`__
 
 Here are some hints about `installing on
 Windows. <http://wiki.apache.org/couchdb/Quirks_on_Windows>`__
@@ -385,6 +387,7 @@ want your program to live in.
 All this is coverered in great detail in the CouchApp README and the
 book, as linked above.
 
+
 The Standard Library
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -396,6 +399,7 @@ I have a mental plan to clean up and consolidate some of these
 libraries, so they are more modular. This should make it so that
 CouchApp code loads faster, among other things.
 
+
 The jQuery CouchDB Client API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -406,6 +410,7 @@ library for jQuery. It handles things like saveDoc and openDoc, view
 queries, replication requests, etc. Essentially it wraps the CouchDB API
 in Ajaxy goodness. This library ships as part of CouchDB, as it is used
 by Futon.
+
 
 The CouchApp Code Loader
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -432,8 +437,8 @@ object that references it and allows you to require libraries from it.
 that.)
 
 
-Evently
-^^^^^^^
+Evently_
+^^^^^^^^
 
 Evently is a convenience library I wrote for myself. Essentially it does
 two things: One is it allows you to write complex jQuery code in a
@@ -452,20 +457,23 @@ nest the JSON structures into a tree of folders and JavaScript files.
 People think that Evently and the deeply-nested folders and files things
 must go together, but it is just one way of doing things. For more
 `Evently docs, visit this
-link <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/evently>`_.
+link <http://couchapp.iriscouch.com/docs/_design/docs/index.html#/topic/evently>`_.
 
 
 Pathbinder
 ^^^^^^^^^^
 
-`Pathbinder <http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.pathbinder.js>`_
+`Pathbinder <https://github.com/jchris/couchapp-docs/blob/master/vendor/couchapp/_attachments/jquery.pathbinder.js>`_
 makes it so you can assign events to be triggered when the hash part of
 the browser URL changes. Evently knows how to use it, so you can
 declaratively link paths and events. `Pathbinder docs are
-here. <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder>`_
+here. <http://couchapp.iriscouch.com/docs/_design/docs/index.html#/topic/pathbinder>`_
 
 
 Examples
 ~~~~~~~~
 
 There is a :ref:`list-of-couchapps`.
+
+
+.. _Evently: https://github.com/jchris/evently
