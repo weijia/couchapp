@@ -13,8 +13,7 @@ We will introduce the main concepts of CouchApp here.
 .. toctree::
     :maxdepth: 2
 
-    intro/what-is-couchapp
-    intro/dev-tools
+    intro/index
 
 
 Getting Started
