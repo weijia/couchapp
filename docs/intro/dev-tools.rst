@@ -9,7 +9,7 @@ Typically this is done with a CouchApp command line tool
 that maps application assets and CouchDB views, lists, shows,
 etc into one or more Design Documents.
 
-- :ref:`filesystem-mapping.html` - ``couchapp.py``
+- :ref:`filesystem-mapping` - ``couchapp.py``
   and erica_ (mentioned below) implement a consistent
   filesystem-to-design-document mapping
 
