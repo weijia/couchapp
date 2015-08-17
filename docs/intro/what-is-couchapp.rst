@@ -24,9 +24,9 @@ looked like a layer cake:
 ::
 
     Browser (UI and links between pages)
-    -------------- HTTP ---------------
+    ------------------------ HTTP -------------------------
     Application server (business logic, templates, etc)
-    --------- custom binary -----------
+    ------------------- custom binary ---------------------
     Persistence: MySQL, PostgreSQL, Oracle
 
 In fact, the bad old days are still with us, as most applications still
@@ -54,7 +54,7 @@ The fact is, 2-layer applications are simpler:
 ::
 
     Browser (UI and links between pages)
-    -------------- HTTP ---------------
+    ------------------------ HTTP -------------------------
     CouchDB (persistence, business logic, and templating)
 
 Because CouchDB is a web server, you can serve applications directly the
@@ -64,7 +64,7 @@ uglier and slower."
 
 Aside from simplicity and the scalability that comes with it, there is
 another major benefit to creating a 100% pure CouchApp:
-`Replication. <http://wiki.apache.org/couchdb/Replication>`_. When your
+`Replication <http://wiki.apache.org/couchdb/Replication>`_. When your
 app is hosted by just a CouchDB, that means it can be run from *any*
 CouchDB, with no need to set up complex server-side dependencies. When
 your app can run on *any* CouchDB, you are free to take advantage of
@@ -138,7 +138,7 @@ Map Reduce queries
 ~~~~~~~~~~~~~~~~~~
 
 What sets CouchDB apart from a simple key value store like Memcached or
-`Amazon S3 <http://aws.amazon.com/s3/>`__, is that you can query it by
+`Amazon S3 <http://aws.amazon.com/s3/>`_, is that you can query it by
 building indexes across the stored objects. You do this by writing
 JavaScript functions that are passed each of your documents, and can
 pick from them a set of keys under which you'd like to locate them.
@@ -147,14 +147,13 @@ So for a blog post, you might pick out all the tags, and make keys like
 ``[tag, doc.created_at]``. Once you have a view like that, you can
 easily get a view of all your blog posts with a given tag, in
 chronological order, no less. By adding the reduce operator ``_count``
-you can also see how many blog posts are tagged ``"foo"`` or whatever.
+you can also see how many blog posts are tagged ``foo`` or whatever.
 
 I'm not gonna try to teach you all about views here. Try the `CouchDB
-book's guide to
-views <http://books.couchdb.org/relax/design-documents/views>`__, the
-`wiki <http://wiki.apache.org/couchdb/HTTP_view_API>`__ and this
-`chapter on advanced
-views <http://books.couchdb.org/relax/reference/views-for-sql-jockeys>`__.
+book's guide to views <http://books.couchdb.org/relax/design-documents/views>`_
+, the `wiki <http://wiki.apache.org/couchdb/HTTP_view_API>`_ and this
+`chapter on advanced views <http://books.couchdb.org/relax/reference/views-for-sql-jockeys>`_.
+
 
 Server Side Validations
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -432,12 +431,12 @@ object that references it and allows you to require libraries from it.
 (There is some legacy featuritis in there, but I'm working to remove
 that.)
 
+
 Evently
 ^^^^^^^
 
-`Evently <http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.evently.js>`__
-is a convenience library I wrote for myself. Essentially it does two
-things: One is it allows you to write complex jQuery code in a
+Evently is a convenience library I wrote for myself. Essentially it does
+two things: One is it allows you to write complex jQuery code in a
 declarative fashion. This makes code reuse easier, by avoiding the
 tangled web of dependencies you often see in deeply nested jQuery code.
 The other is that Evently knows a bunch of CouchDB tricks, so you can
@@ -453,16 +452,17 @@ nest the JSON structures into a tree of folders and JavaScript files.
 People think that Evently and the deeply-nested folders and files things
 must go together, but it is just one way of doing things. For more
 `Evently docs, visit this
-link <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/evently>`__.
+link <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/evently>`_.
+
 
 Pathbinder
 ^^^^^^^^^^
 
-`Pathbinder <http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.pathbinder.js>`__
+`Pathbinder <http://github.com/couchapp/couchapp/blob/master/vendor/_attachments/jquery.pathbinder.js>`_
 makes it so you can assign events to be triggered when the hash part of
 the browser URL changes. Evently knows how to use it, so you can
 declaratively link paths and events. `Pathbinder docs are
-here. <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder>`__
+here. <http://couchapp.couchone.com/docs/_design/docs/index.html#/topic/pathbinder>`_
 
 
 Examples
