@@ -67,7 +67,7 @@ Commands
 +++++++++++++
 
 Allows you to generate a basic couchapp. It can also
-be used to create ref:`template <couchapp-template>` of functions. e.g.::
+be used to create :ref:`template <couchapp-template>` of functions. e.g.::
 
     couchapp generate myapp
     cd myapp
