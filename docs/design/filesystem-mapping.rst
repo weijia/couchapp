@@ -117,8 +117,7 @@ Evently_
 
 It's not a very big leap to see that an Evently widget could be editing
 in a filesystem tree like this: (Picking the most complex --
-``nestedEvently`` from the `Evently Primer <evently-primer>`_
-document.)
+``nestedEvently`` from the :ref:`evently-primer` document.)
 
 ::
 
