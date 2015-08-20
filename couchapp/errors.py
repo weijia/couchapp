@@ -46,7 +46,7 @@ class CommandLineError(Exception):
 class BulkSaveError(Exception):
     """ error raised when therer are conflicts in bulk save"""
 
-    def ___init__(self, docs, errors):
+    def __init__(self, docs, errors):
         Exception.__init__(self)
         self.docs = docs
         self.errors = errors
