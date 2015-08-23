@@ -69,9 +69,9 @@ Commands
 Allows you to generate a basic couchapp. It can also
 be used to create :ref:`template <couchapp-template>` of functions. e.g.::
 
-    couchapp generate myapp
-    cd myapp
-    couchapp generate view someview
+    $ couchapp generate myapp
+    $ cd myapp
+    $ couchapp generate view someview
 
 
 ``init``
@@ -84,8 +84,8 @@ you clone your application from an external repository (``git``, ``hg``):
 
 ::
 
-    cd mycouchapp
-    couchapp init
+    $ cd mycouchapp
+    $ couchapp init
 
 
 ``push``
@@ -95,8 +95,8 @@ Push a couchapp to one or more CouchDB_ server.
 
 ::
 
-    cd mycouchapp
-    couchapp push http://someserver:port/mydb
+    $ cd mycouchapp
+    $ couchapp push http://someserver:port/mydb
 
 -  ``--no-atomic`` option allows you to send attachments one by one.
    By default all attachments are sent inline.
@@ -115,7 +115,9 @@ It allows you to send multiple couchapps at once.
 
 ::
 
-    couchapp pushapps somedir/
+    $ ls somedir/
+    app1/ app2/ app3/
+    $ couchapp pushapps somedir/ http://localhost:5984/mydb
 
 
 ``pushdocs``
@@ -128,3 +130,11 @@ your CouchDB_ with documents. Anotther way to do it is to create a
 
 
 .. _CouchDB: http://couchdb.apache.org
+
+
+``startapp``
+++++++++++++
+
+It's an alias of ``generate app NAME``, e.g.::
+
+    $ couchapp startapp myapp
