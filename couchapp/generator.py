@@ -61,7 +61,7 @@ def generate_app(path, template=None, create=False):
         prefix = os.path.join(*template.split('/'))
     try:
         os.makedirs(path)
-    except OSError, e:
+    except OSError as e:
         errno, message = e
         raise AppError("Can't create a CouchApp in %s: %s" % (path, message))
 
