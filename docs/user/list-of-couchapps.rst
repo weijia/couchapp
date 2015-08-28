@@ -298,9 +298,9 @@ hacking.
 
 Deployments:
 
--  `jChris <http://jchris.couchone.com/proto/_design/proto/index.html>`_
--  `Jan <http://jan.couchone.com/proto/_design/proto/index.html>`_
--  `Goto <http://goto.couchone.com/test/_design/proto/index.html>`_
+-  `jChris <http://jchris.iriscouch.com/proto/_design/proto/index.html>`_
+-  `Jan <http://jan.iriscouch.com/proto/_design/proto/index.html>`_
+-  `Goto <http://goto.iriscouch.com/test/_design/proto/index.html>`_
 
 
 Random Lecture!
@@ -309,7 +309,7 @@ Random Lecture!
 A simple Sammy-On-CouchApp (soca) app that plays a random technical
 lecture or tech talk.
 
--  `Demo <http://randomlecture.couchone.com/lectures/_design/lectures/index.html>`_
+-  `Demo <http://randomlecture.iriscouch.com/lectures/_design/lectures/index.html>`_
 -  `Code <http://github.com/maxogden/random-lecture>`_
 -  `List of all lectures <http://github.com/maxogden/tech-talk-urls>`_
 
@@ -323,7 +323,7 @@ statistics are updated live (in near realtime).
 
 `Code <http://github.com/KlausTrainer/sales_stats>`_
 
-`Demo <http://mambofulani.couchone.com/sales_stats/_design/sales_stats/index.html>`_
+`Demo <http://mambofulani.iriscouch.com/sales_stats/_design/sales_stats/index.html>`_
 
 
 Scrapboard
