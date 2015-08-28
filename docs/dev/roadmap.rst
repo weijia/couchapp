@@ -35,15 +35,6 @@ $.couch.app()
 -  move into Apache CouchDB's ``share/www/script``
 
 
-Evently
-~~~~~~~
-
--  make it a CommonJS lib.
--  more docs
--  try non-filesystem style for somethings
--  make modules more reuseable
-
-
 RFC: Please Comment
 -------------------
 

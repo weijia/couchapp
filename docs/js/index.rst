@@ -15,7 +15,6 @@ Here is the `documentation for jquery.couch.js`_
     :maxdepth: 2
 
     backbone
-    evently-primer
 
 
 Also check out the :ref:`list-of-couchapps`.

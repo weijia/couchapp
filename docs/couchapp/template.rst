@@ -31,15 +31,6 @@ default files created by ``couchapp generate``.
 Libraries
 ---------
 
-Evently_
-~~~~~~~~
-
-A declarative, couchdb friendly JQuery library for writing Javascript
-applications
-
-`Documentation <https://github.com/jchris/couchapp-docs/blob/master/docs/evently.md>`_
-
-
 CouchDB API `jquery.couch.js`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -56,20 +47,12 @@ A utility for loading design document classes into your Javascript
 application
 
 
-Pathbinder_
-~~~~~~~~~~~
-
-A tiny framework for triggering events based on paths in URL hash.
-
-
 Mustache_
 ~~~~~~~~~
 
 A simple template framework
 
 
-.. _Evently: https://github.com/jchris/evently
 .. _Mustache: https://github.com/janl/mustache.js
-.. _Pathbinder: https://github.com/jchris/couchapp-docs/blob/master/docs/pathbinder.md
 .. _jquery.couch.app.js: https://github.com/couchapp/couchapp/tree/master/couchapp/templates/vendor/couchapp/_attachments
 .. _jquery.couch.js: https://github.com/apache/couchdb-jquery-couch

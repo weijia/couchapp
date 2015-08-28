@@ -111,31 +111,3 @@ Document
       },
       "validate_doc_update": "function...",
     }
-
-Evently_
-^^^^^^^^
-
-It's not a very big leap to see that an Evently widget could be editing
-in a filesystem tree like this: (Picking the most complex --
-``nestedEvently`` from the :ref:`evently-primer` document.)
-
-::
-
-    myapp/
-      evently/
-        mustache.html
-        data.json
-        selectors/
-          span.word/
-            click/
-              mustache.html
-            mouseenter/
-              mustache.html
-            congrats/
-              mustache.html
-              data.js
-          a[href=#win]/
-            click.js
-
-
-.. _Evently: https://github.com/jchris/evently
