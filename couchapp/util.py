@@ -209,22 +209,30 @@ _rcpath = None
 
 
 def rcpath():
-    """ get global configuration """
+    """
+    Get global configuration.
+
+    This function will take the environment var, ``COUCHAPPCONF_PATH``,
+    as the search path list.
+    """
     global _rcpath
-    if _rcpath is None:
-        if 'COUCHAPPCONF_PATH' in os.environ:
-            _rcpath = []
-            for p in os.environ['COUCHAPPCONF_PATH'].split(os.pathsep):
-                if not p:
-                    continue
-                if os.path.isdir(p):
-                    for f, kind in os.listdir(p):
-                        if f == "couchapp.conf":
-                            _rcpath.append(os.path.join(p, f))
-                else:
-                    _rcpath.append(p)
-        else:
-            _rcpath = user_rcpath()
+    if _rcpath is not None:
+        return _rcpath
+
+    conf_path = os.environ.get('COUCHAPPCONF_PATH')
+    if conf_path is None:
+        _rcpath = user_rcpath()
+        return _rcpath
+
+    _rcpath = []
+    for p in conf_path.split(os.pathsep):
+        if not p:
+            continue
+        if not os.path.isdir(p):
+            _rcpath.append(p)
+            continue
+        _rcpath.extend(os.path.join(p, f) for f in os.listdir(p)
+                       if f == 'couchapp.conf')
     return _rcpath
 
 
