@@ -77,7 +77,8 @@ Installing on Mac OS X
 ----------------------
 
 .. warning::
-    This section is out of date. Request for update.
+    This section is out-of-date.
+    We need you help for testing on newer OSX with newer ``couchapp.py``
 
 
 Using CouchApp Standalone executable
@@ -90,12 +91,7 @@ on `Github <http://github.com/>`__ then double-click on the installer.
 Using the Python metapackage for Mac OS X 10.5 or Mac OS X 10.6
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  For Mac OS X 10.6: Download
-   `Couchapp-0.7.5-py2.6-macosx10.6.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.6-macosx10.6.zip>`_
-   then double-click on the installer
-
--  For Mac OS X 10.5: Download
-   `Couchapp-0.7.5-py2.5-macosx10.5.zip <https://github.com/downloads/couchapp/couchapp/Couchapp-0.7.5-py2.5-macosx10.5.zip>`_
+- `couchapp-1.0.0-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-macosx.zip>`_
    
 
 Using Homebrew
@@ -116,6 +112,11 @@ Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`_, do:
 Installing on Ubuntu
 --------------------
 
+.. warning::
+
+    Our PPA is out-of-date.
+    We need your help for upgrading the packages.
+
 If you use `Ubuntu <http://www.ubuntu.com/>`_, you can update your
 system with packages from our PPA by adding ``ppa:couchapp/couchapp`` to
 your system's Software Sources.
@@ -127,13 +128,18 @@ Follow **instructions**
 Installing on Windows
 ---------------------
 
+.. warning::
+
+    Standalone executable is out-of-date.
+    We need your help for testing and buinding newer ``couchapp.py``
+
 There are currently 2 methods to install on windows:
 
 -  `Standalone Executable
-   0.8.1 <https://github.com/downloads/couchapp/couchapp/couchapp-0.8.1-win.zip>`__
+   1.0.0 <https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-win.zip>`_
    Does not require Python
--  `Python installer for Python 2.7 <windows-python-installers.md>`__
+-  `Python installer for Python 2.7 <windows-python-installers.md>`_
    Requires Python
 
 In case the above is not updated, check out the `downloads
-section <https://github.com/couchapp/couchapp/downloads>`__ in GitHub
+section <https://github.com/couchapp/couchapp/downloads>`_ in GitHub
