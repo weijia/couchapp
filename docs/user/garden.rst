@@ -2,7 +2,9 @@ The Garden
 ==========
 
 .. warning::
-    The database of garden was gone.
+    The original database of garden was gone.
+    Some legacy resources are
+    `here <http://couchapp.iriscouch.com/garden/_design/garden/index.html>`_.
 
 `The CouchApp
 Garden <http://couchapp.org/garden/_design/garden/index.html>`_ is a

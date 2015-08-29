@@ -3,6 +3,7 @@ CouchApp: Web Application Hosted in Apache CouchDB
 
 .. note::
     This documentation is a work in progress.
+    Contribution welcomed.
 
 
 Overview

@@ -9,6 +9,12 @@ Command Line Usage
 .. highlight:: shell
 
 
+.. warning::
+
+    There are many undocumented commands.
+    We need your help!
+
+
 Full command line usage
 -----------------------
 

@@ -13,8 +13,9 @@ Developer Toolchain
 ``couchapp.py``
 ~~~~~~~~~~~~~~~
 
--  upload only changed attachments (md5 on attachment stubs?)
-
+- upload only changed attachments (md5 on attachment stubs?)
+- Coverage rate improvement
+- Python3 support
 
 
 Node.js CouchApp Tools

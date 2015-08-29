@@ -3,10 +3,11 @@
 What is CouchApp?
 =================
 
-This blog post is in response to a lot of well-deserved confusion in the
-community around CouchApps. We haven't been clear enough in the past
-(either in technical description or in the notion of the project). I
-hope to change all that (with your help). This is just the beginning.
+.. note::
+
+    This article came from a blog post by @jchris.
+    Some contents are out-of-date.
+    We need your contribution!
 
 
 The Basics
@@ -214,26 +215,29 @@ Rounding out this group, is the ability to accept plain HTML form POSTs.
 functions <update-functions.md>`__, which can take arbitrary input and
 turn it in to JSON for saving to the database.
 
+
 Pretty URLs
 ~~~~~~~~~~~
 
 "All well and good", you may say, "but I can't really suggest to my
-clients that their website should have URLs like
-``[http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5``](http://jchrisa.net/drl/\_design/sofa/\_list/index/recent-posts?descending=true&limit=5)!"
+clients that their website should have URLs like::
+
+    http://jchrisa.net/drl/_design/sofa/_list/index/recent-posts?descending=true&limit=5
 
 I used to respond with skepicism to such claims, *like a total moaf*.
 But I've mended my ways, and seen the light. It also didn't hurt that
-`Benoit <http://twitter.com/benoitc>`__ committed an `awesome
-rewriter <http://blog.couchbase.com/what%E2%80%99s-new-apache-couchdb-011-%E2%80%94-part-one-nice-urls-rewrite-rules-and-virtual-hosts>`__
+`Benoit <http://twitter.com/benoitc>`_ committed an `awesome
+rewriter <http://blog.couchbase.com/what%E2%80%99s-new-apache-couchdb-011-%E2%80%94-part-one-nice-urls-rewrite-rules-and-virtual-hosts>`_
 to CouchDB, so we can provide nice pretty URLs like ``/posts/recent``
 instead of the above mess.
+
 
 Realtime Updates
 ~~~~~~~~~~~~~~~~
 
 Lastly, something folks don't usually ask for, but which is insanely
 useful: `realtime notification about changes to the
-database. <http://books.couchdb.org/relax/reference/change-notifications>`__
+database. <http://guide.couchdb.org/draft/notifications.html>`_
 Essentially, CouchDB keeps a record of the order in which operations
 were applied to a given database. This way, you can always ask it
 "what's happened since the last time I asked?"
@@ -245,7 +249,7 @@ for it to hold open tens of thousands of concurrent connections.
 
 The ``_changes`` feed can be used to power realtime updates to a browser
 UI. For instance, `this chat
-room <http://couchapp.org/example/_design/example/index.html>`__ updates
+room <http://couchapp.org/example/_design/example/index.html>`_ updates
 in realtime whenever a new message is created.
 
 The ``_changes`` feed is integral to CouchDB itself (not just a bolted
@@ -257,7 +261,8 @@ keep 2 database in sync in near realtime.
 You can also use ``_changes`` to drive asynchronous business logic.
 There will be a webcast in August on this topic, as well as a blog post
 with more details, from Couchio's `Jason
-Smith <http://twitter.com/_jhs>`__.
+Smith <http://twitter.com/_jhs>`_.
+
 
 Filtered replication
 ~~~~~~~~~~~~~~~~~~~~
@@ -266,8 +271,9 @@ One last part of the programming model. You can write a JavaScript
 function that decides whether to include a given change in the
 ``_changes`` feed. The possibilities are endless. See `Jan's blog post
 on new replication
-features <http://blog.couch.io/post/468392274/whats-new-in-apache-couchdb-0-11-part-three-new>`__
+features <http://blog.couch.io/post/468392274/whats-new-in-apache-couchdb-0-11-part-three-new>`_
 for some interesting use-cases that might stimulate your imagination.
+
 
 Hello World
 -----------
@@ -347,27 +353,27 @@ my friends), which I thought would have a cleaner install story. (It
 almost does!)
 
 Since then `the Python CouchApp
-script <http://github.com/couchapp/couchapp/>`__ has grown in
+script <http://github.com/couchapp/couchapp/>`_ has grown in
 capability. It boasts the ability to `push edits in real
-time <http://groups.google.com/group/couchapp/browse_thread/thread/67ccbdcdf9023106>`__,
+time <http://groups.google.com/group/couchapp/browse_thread/thread/67ccbdcdf9023106>`_,
 import vendor modules, and more. Benoit Chesneau keeps it up to date
 pretty agressively, it just got some `GeoCouch features
-today. <http://github.com/couchapp/couchapp/commit/9ff4ec09664a286f0c408ac76eb9c5589a56e208>`__
+today. <http://github.com/couchapp/couchapp/commit/9ff4ec09664a286f0c408ac76eb9c5589a56e208>`_
 
 So let's use it!
 
 
-Installing couchapp
-~~~~~~~~~~~~~~~~~~~
+Installing ``couchapp.py``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There is a lot of documentation already out there about how to install
 the CouchApp toolchain. I'll just link to it. The basic installation
 instructions are `in the README <http://github.com/couchapp/couchapp>`_
 and in `the CouchDB
-Book <http://books.couchdb.org/relax/example-app/design-documents>`__
+Book <http://guide.couchdb.org/draft/managing.html>`_
 
 Here are some hints about `installing on
-Windows. <http://wiki.apache.org/couchdb/Quirks_on_Windows>`__
+Windows. <http://wiki.apache.org/couchdb/Quirks_on_Windows>`_
 
 Once you have CouchApp installed, the basic usage is simple. From within
 your application directory, issue the following command.
