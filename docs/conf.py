@@ -53,8 +53,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CouchApp'
-copyright = u'2015, Benoit Chesneau'
-author = u'Benoit Chesneau'
+copyright = u'2015, <a href="https://github.com/couchapp/couchapp/graphs/contributors">Various CouchApp Contributors</a>'
+author = u'Various CouchApp Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -229,7 +229,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'CouchApp.tex', u'CouchApp Documentation',
-   u'Benoit Chesneau', 'manual'),
+   author, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -273,8 +273,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'CouchApp', u'CouchApp Documentation',
-   author, 'CouchApp', 'One line description of project.',
-   'Miscellaneous'),
+   author, 'CouchApp', 'Utilities to make standalone CouchDB application development simple',
+   'Development'),
 ]
 
 # Documents to append as an appendix to all manuals.
