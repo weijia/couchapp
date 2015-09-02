@@ -36,7 +36,7 @@ connectivity.
 Installation
 ------------
 
-Couchapp requires Python 2.5x or greater. Couchapp is most easily installed 
+Couchapp requires Python 2.6 or greater. Couchapp is most easily installed 
 using the latest versions of the standard python packaging tools, setuptools 
 and pip. They may be installed like so::
 
@@ -61,15 +61,20 @@ line.
 Note: On debian system don't forget to install python-dev.
 
 To install on Windows follow instructions `here
-<https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/installing.md#installing-on-windows>`_.
+<https://couchapp.readthedocs.org/en/latest/couchapp/install.html#installing-on-windows>`_.
 
 More installation options on the `website
-<https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/installing.md>`_.
+<https://couchapp.readthedocs.org/en/latest/couchapp/install.html>`_.
 
 Getting started
 ---------------
 
-Read the `tutorial <http://couchapp.github.io/couchapp/gettingstarted.html>`_.
+Read the `tutorial <https://couchapp.readthedocs.org/en/latest/couchapp/gettingstarted.html>`_.
+
+Documentation
+-------------
+
+It's available at https://couchapp.readthedocs.org/en/latest
 
 Testing
 -------
@@ -80,45 +85,36 @@ up and running tests.
 
 In the ``tests`` directory, copy ``config.sample.ini`` to ``config.ini``, tweak
 the settings, and then run the tests from the main ``couchapp`` directory (as
-the paths below are relative to that):
+the paths below are relative to that)::
 
     $ nosetests --tc-file=tests/config.ini
 
 If you're wanting to generate code coverage reports (because you've got big
-plans to make our tests better!), you can do so with this command instead:
+plans to make our tests better!), you can do so with this command instead::
 
     $ nosetests --with-coverage --cover-package=couchapp --cover-html --tc-file=tests/config.ini
 
 Thanks for testing ``couchapp``!
 
 Building the docs
-------------------
+-----------------
 
-We generate the document via ``sphinx`` and serve it with github pages.
+We generate the document via ``sphinx``.
 
 First, prepare our building env.
-We need ``sphinx`` and ``ghp-import`` (for importing html/css/js files to branch *gh-pages*).
+We need ``sphinx``::
 
-::
-
-    cd docs/
-    pip install -r requirements.txt
-
+    $ cd docs/
+    $ pip install sphinx
 
 To build it, just issue::
 
-    make html
+    $ make html
 
 And sphinx will generate static html at *docs/_build/html*.
 We can browse the site from this dir already.
 
-To copy the file from *docs/_build/html/* and push to branch ``gh-pages``, just issue::
-
-    make push
-
-
 Other resources
 ---------------
 
-* `Couchapp website archive <https://github.com/couchapp/couchapp/tree/master/docs/couchapp-org>`_
-* `List of CouchApps <https://github.com/couchapp/couchapp/blob/master/docs/couchapp-org/list-of-couchapps.md>`_
+* `List of CouchApps <https://couchapp.readthedocs.org/en/latest/user/list-of-couchapps.html>`_
