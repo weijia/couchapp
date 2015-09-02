@@ -191,9 +191,3 @@ pseudoxml:
 	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
-
-push:
-	@echo
-	@echo "Push build to github pages."
-	ghp-import $(BUILDDIR)/html
-	git push origin gh-pages
