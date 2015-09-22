@@ -14,12 +14,6 @@ from couchapp.config import Config
 logger = logging.getLogger(__name__)
 
 
-class NullHandler(logging.Handler):
-    """ null log handler """
-    def emit(self, record):
-        pass
-
-
 def set_logging(level=2):
     """
     Set level of logging, and choose where to display/save logs
