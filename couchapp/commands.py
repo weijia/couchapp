@@ -6,12 +6,6 @@
 import logging
 import os
 
-try:
-    import desktopcouch
-except ImportError:
-    desktopcouch = None
-
-
 from couchapp import clone_app
 from couchapp.autopush.command import autopush, DEFAULT_UPDATE_DELAY
 from couchapp.errors import ResourceNotFound, AppError, BulkSaveError
@@ -39,7 +33,7 @@ def init(conf, path, *args, **opts):
     if dest is None:
         raise AppError("Unknown dest")
 
-    document(dest, True)
+    document(dest, create=True)
 
 
 def push(conf, path, *args, **opts):
@@ -70,10 +64,11 @@ def push(conf, path, *args, **opts):
     doc = document(doc_path, create=False, docid=opts.get('docid'))
     if export:
         if opts.get('output'):
-            util.write_json(opts.get('output'), str(doc))
+            util.write_json(opts.get('output'), doc)
         else:
-            print str(doc)
+            print doc.to_json()
         return 0
+
     dbs = conf.get_dbs(dest)
 
     hook(conf, doc_path, "pre-push", dbs=dbs)
@@ -93,43 +88,45 @@ def pushapps(conf, source, dest, *args, **opts):
     dbs = conf.get_dbs(dest)
     apps = []
     source = os.path.normpath(os.path.join(os.getcwd(), source))
-    for d in os.listdir(source):
-        appdir = os.path.join(source, d)
-        if os.path.isdir(appdir) and \
-                os.path.isfile(os.path.join(appdir, '.couchapprc')):
-            doc = document(appdir)
-            hook(conf, appdir, "pre-push", dbs=dbs, pushapps=True)
-            if export or not noatomic:
-                apps.append(doc)
-            else:
-                doc.push(dbs, True, browse)
-            hook(conf, appdir, "post-push", dbs=dbs, pushapps=True)
-    if apps:
-        if export:
-            docs = []
-            docs.append([doc.doc() for doc in apps])
-            jsonobj = {'docs': docs}
-            if opts.get('output') is not None:
-                util.write_json(opts.get('output'), util.json.dumps(jsonobj))
-            else:
-                print util.json.dumps(jsonobj)
-            return 0
+    appdirs = util.discover_apps(source)
+
+    logger.debug('Discovered apps: {0}'.format(appdirs))
+
+    for appdir in appdirs:
+        doc = document(appdir)
+        hook(conf, appdir, "pre-push", dbs=dbs, pushapps=True)
+        if export or not noatomic:
+            apps.append(doc)
         else:
-            for db in dbs:
-                docs = []
-                docs = [doc.doc(db) for doc in apps]
+            doc.push(dbs, True, browse)
+        hook(conf, appdir, "post-push", dbs=dbs, pushapps=True)
+
+    if not apps:
+        return 0
+
+    if export:
+        docs = [doc.doc() for doc in apps]
+        jsonobj = {'docs': docs}
+        if opts.get('output'):
+            util.write_json(opts.get('output'), jsonobj)
+        else:
+            print util.json.dumps(jsonobj)
+        return 0
+
+    for db in dbs:
+        docs = [doc.doc(db) for doc in apps]
+        try:
+            db.save_docs(docs)
+        except BulkSaveError as e:
+            docs1 = []
+            for doc in e.errors:
                 try:
-                    db.save_docs(docs)
-                except BulkSaveError, e:
-                    docs1 = []
-                    for doc in e.errors:
-                        try:
-                            doc['_rev'] = db.last_rev(doc['_id'])
-                            docs1.append(doc)
-                        except ResourceNotFound:
-                            pass
-                    if docs1:
-                        db.save_docs(docs1)
+                    doc['_rev'] = db.last_rev(doc['_id'])
+                    docs1.append(doc)
+                except ResourceNotFound:
+                    pass
+            if docs1:
+                db.save_docs(docs1)
     return 0
 
 
@@ -169,8 +166,8 @@ def pushdocs(conf, source, dest, *args, **opts):
                 else:
                     docs1.append(doc)
             jsonobj = {'docs': docs}
-            if opts.get('output') is not None:
-                util.write_json(opts.get('output'), util.json.dumps(jsonobj))
+            if opts.get('output'):
+                util.write_json(opts.get('output'), jsonobj)
             else:
                 print util.json.dumps(jsonobj)
         else:
@@ -204,10 +201,8 @@ def pushdocs(conf, source, dest, *args, **opts):
 
 
 def clone(conf, source, *args, **opts):
-    if len(args) > 0:
-        dest = args[0]
-    else:
-        dest = None
+    dest = args[0] if len(args) > 0 else None
+
     hook(conf, dest, "pre-clone", source=source)
     clone_app.clone(source, dest, rev=opts.get('rev'))
     hook(conf, dest, "post-clone", source=source)
@@ -222,19 +217,24 @@ def startapp(conf, *args, **opts):
         name = args[0]
         dest = os.path.normpath(os.path.join(os.getcwd(), ".", name))
     elif len(args) == 2:
-
         name = args[1]
-        dest = os.path.normpath(os.path.join(args[0], args[1]))
+        dest = os.path.normpath(os.path.join(args[0], name))
 
-    if os.path.isfile(os.path.join(dest, ".couchapprc")):
-        raise AppError("can't create an app at '%s'. One already exists here" %
-                       dest)
+    if util.iscouchapp(dest):
+        raise AppError("can't create an app at '%s'. "
+                       "One already exists here.".format(dest))
+    if util.findcouchapp(dest):
+        raise AppError("can't create an app inside another app '{0}'.".format(
+                       util.findcouchapp(dest)))
 
     generator.generate(dest, "startapp", name, **opts)
     return 0
 
 
 def generate(conf, path, *args, **opts):
+    '''
+    :param path: result of util.findcouchapp
+    '''
     dest = path
     if len(args) < 1:
         raise AppError("Can't generate function, name or path is missing")
@@ -252,10 +252,13 @@ def generate(conf, path, *args, **opts):
 
     if dest is None:
         if kind == "app":
-            dest = os.path.normpath(os.path.join(os.getcwd(), ".", name))
+            dest = os.path.normpath(os.path.join(os.getcwd(), name))
             opts['create'] = True
         else:
             raise AppError("You aren't in a couchapp.")
+    elif dest and kind == 'app':
+        raise AppError("can't create an app inside another app '{0}'.".format(
+                       dest))
 
     hook(conf, dest, "pre-generate")
     generator.generate(dest, kind, name, **opts)
@@ -304,17 +307,16 @@ def vendor(conf, path, *args, **opts):
 
 
 def browse(conf, path, *args, **opts):
-    dest = None
-    doc_path = None
-    if len(args) < 2:
-        doc_path = path
-        if args:
-            dest = args[0]
+    if len(args) == 0:
+        dest = path
+        doc_path = '.'
     else:
-        doc_path = os.path.normpath(os.path.join(os.getcwd(), args[0]))
-        dest = args[1]
-    if doc_path is None:
-        raise AppError("You aren't in a couchapp.")
+        doc_path = path
+        dest = args[0]
+
+    doc_path = os.path.normpath(os.path.join(os.getcwd(), doc_path))
+    if not util.iscouchapp(doc_path):
+        raise AppError("Dir '{0}' is not a couchapp.".format(doc_path))
 
     conf.update(doc_path)
 
