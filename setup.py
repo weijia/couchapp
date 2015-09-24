@@ -3,11 +3,12 @@
 # This file is part of couchapp released under the Apache 2 license.
 # See the NOTICE for more information.
 
-from setuptools import setup, find_packages
-import glob
-from imp import load_source
+import couchapp
 import os
 import sys
+
+from setuptools import setup, find_packages
+
 
 if not hasattr(sys, 'version_info') or sys.version_info < (2, 6, 0, 'final'):
     raise SystemExit("Couchapp requires Python 2.6 or later.")
@@ -17,14 +18,10 @@ executables = []
 setup_requires = []
 extra = {}
 
-couchapp = load_source("couchapp", os.path.join("couchapp", "__init__.py"))
-
 
 def get_data_files():
-    data_files = []
-    data_files.append(('couchapp',
-                       ["LICENSE", "MANIFEST.in", "NOTICE", "README.rst",
-                        "THANKS"]))
+    data_files = [('couchapp',
+        ["LICENSE", "MANIFEST.in", "NOTICE", "README.rst", "THANKS"])]
     return data_files
 
 
@@ -45,30 +42,13 @@ def get_packages_data():
     return packagedata
 
 
-MODULES = ['couchapp',
-           'couchapp.autopush',
-           'couchapp.autopush.brownie',
-           'couchapp.autopush.brownie.datastructures',
-           'couchapp.autopush.pathtools',
-           'couchapp.autopush.watchdog',
-           'couchapp.autopush.watchdog.observers',
-           'couchapp.autopush.watchdog.tricks',
-           'couchapp.autopush.watchdog.utils',
-           'couchapp.hooks',
-           'couchapp.hooks.compress',
-           'couchapp.restkit',
-           'couchapp.restkit.manager',
-           'couchapp.restkit.contrib',
-           'couchapp.simplejson',
-           'couchapp.vendors',
-           'couchapp.vendors.backends',
-           ]
-
 CLASSIFIERS = ['License :: OSI Approved :: Apache Software License',
                'Intended Audience :: Developers',
                'Intended Audience :: System Administrators',
                'Development Status :: 4 - Beta',
-               'Programming Language :: Python',
+               'Programming Language :: Python :: 2',
+               'Programming Language :: Python :: 2.6',
+               'Programming Language :: Python :: 2.7',
                'Operating System :: OS Independent',
                'Topic :: Database',
                'Topic :: Utilities',
