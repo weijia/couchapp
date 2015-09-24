@@ -9,6 +9,6 @@ before_script:
   - pip install coveralls unittest2 nose-testconfig mock
 script:
   - python setup.py install
-  - nosetests tests --with-coverage --cover-package=couchapp --cover-html
+  - python setup.py nosetests
 after_success:
   - coveralls
