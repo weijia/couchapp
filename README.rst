@@ -16,6 +16,9 @@ designed  to bring clarity and order to the freedom of
 Also, be sure to checkout our Erlang-based sibling,
 `erica <https://github.com/benoitc/erica>`_.
 
+.. contents::
+
+
 Write apps using just JavaScript and HTML
 -----------------------------------------
 
@@ -83,16 +86,44 @@ We use `nose <http://nose.readthedocs.org/>`_. and
 `nose-testconfig <https://pypi.python.org/pypi/nose-testconfig>`_. for setting
 up and running tests.
 
+::
+
+    $ python setup.py nosetests
+
+Config
+++++++
+
+Our ``nosetests`` will run with options listed in ``setup.cfg``.
+
 In the ``tests`` directory, copy ``config.sample.ini`` to ``config.ini``, tweak
-the settings, and then run the tests from the main ``couchapp`` directory (as
-the paths below are relative to that)::
+the settings, and then modify your ``setup.cfg``::
 
-    $ nosetests --tc-file=tests/config.ini
+    [nosetests]
+    ...
+    tc-file=tests/config.ini
 
-If you're wanting to generate code coverage reports (because you've got big
-plans to make our tests better!), you can do so with this command instead::
+Coverage
+++++++++
 
-    $ nosetests --with-coverage --cover-package=couchapp --cover-html --tc-file=tests/config.ini
+If you're wanting to examine code coverage reports (because you've got big
+plans to make our tests better!), you can browse around the ``cover`` dir ::
+
+    $ cd cover
+    $ python2 -m SimpleHTTPServer
+
+or (if you prefer python3)::
+
+    $ python3 -m http.server
+
+Debug
++++++
+
+If you want to debug the failed run with ``pdb``, add the following option to
+``setup.cfg``::
+
+    [nosetests]
+    ...
+    pdb=1
 
 Thanks for testing ``couchapp``!
 
