@@ -26,3 +26,4 @@ tests/config.ini
 *~
 *#
 docs/_build/
+.eggs/
