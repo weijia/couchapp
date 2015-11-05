@@ -356,6 +356,9 @@ def split_path(path):
         path = head
         if not path:
             break
+        elif path == os.path.realpath('/'):
+            parts[0] = os.path.join(os.path.realpath('/'), parts[0])
+            break
     return parts
 
 
