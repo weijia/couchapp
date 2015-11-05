@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from couchapp.util import discover_apps, iscouchapp, rcpath
+import os
+
+from couchapp.util import discover_apps, iscouchapp, rcpath, split_path
 
 from mock import patch
 
@@ -86,3 +88,18 @@ def test_discover_apps_hidden_file(iscouchapp_, isdir, listdir):
     assert discover_apps('mock_dir') == ['mock_dir/foo']
     isdir.assert_called_with('mock_dir/foo')
     listdir.assert_called_with('mock_dir')
+
+
+def test_split_path_rel():
+    '''
+    Test case for util.split_path with relative path
+    '''
+    assert split_path('foo/bar') == ['foo', 'bar']
+
+
+def test_split_path_abs():
+    '''
+    Test case for util.split_path with abs path
+    '''
+    path = os.path.realpath('/foo/bar')
+    assert split_path(path) == [os.path.realpath('/foo'), 'bar']
