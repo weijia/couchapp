@@ -27,6 +27,7 @@ except KeyError:
 
 def _tempdir():
     f, fname = tempfile.mkstemp()
+    os.close(f)
     os.unlink(fname)
     return fname
 
