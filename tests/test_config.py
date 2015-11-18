@@ -149,3 +149,13 @@ class TestConfig():
         '''
         self.config.load_local(None)
         assert not load.called
+
+    @patch('couchapp.config.Config.load_local', return_value={'mock': True})
+    def test_update(self, load_local):
+        '''
+        Test case for Config.update()
+        '''
+        self.config.update('/mock')
+
+        assert self.config.conf.get('mock') == True
+        load_local.assert_called_with('/mock')
