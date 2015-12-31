@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CouchApp'
-copyright = u'2015, <a href="https://github.com/couchapp/couchapp/graphs/contributors">Various CouchApp Contributors</a>'
+copyright = u'2016, <a href="https://github.com/couchapp/couchapp/graphs/contributors">Various CouchApp Contributors</a>'
 author = u'Various CouchApp Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
