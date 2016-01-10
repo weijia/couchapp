@@ -20,7 +20,7 @@ If you have folders like:
 
 It will create a design document like this:
 
-::
+.. code-block:: javascript
 
     {
       "_id" : "_design/myapp",
@@ -83,13 +83,17 @@ ID.
 The rest of the folder structure above will become this JSON Design
 Document
 
-::
+.. code-block:: javascript
 
     {
       "_id" : "_design/myapp",
       "_attachments": {
         "images/logo.png": {
-          "content_type": "image/png","revpos":1,"digest":"md5-GDPL+eLwE7kzEDWY7X4KdQ==","length":886,"stub":true
+          "content_type": "image/png",
+          "revpos": 1,
+          "digest": "md5-GDPL+eLwE7kzEDWY7X4KdQ==",
+          "length": 886,
+          "stub": true
         }
       },
       "lists": {
