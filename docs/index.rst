@@ -74,7 +74,6 @@ Other Resources
 ---------------
 
 - IRC
-
     - #couchdb
 
     - #couchapp
@@ -82,8 +81,9 @@ Other Resources
 - `Search The CouchDB Mailing List/IRC
   Archive <http://archive.couchdb.org/>`_
 
-- `Mailing List <http://groups.google.com/group/couchapp>`_
+- Mailing Lists
+    + http://mail-archives.apache.org/mod_mbox/couchdb-couchapp/
 
-- `CouchApps with DesktopCouch <desktopcouch.html>`_
+    + http://groups.google.com/group/couchapp
 
 - `eNotes CouchApp Tutorial <http://materials.geoinfo.tuwien.ac.at/tutorials/couchapp>`_
