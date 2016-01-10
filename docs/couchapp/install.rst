@@ -6,6 +6,9 @@ Installation
 The newest install instructions are always in the
 `README <https://github.com/couchapp/couchapp/blob/master/README.rst>`__
 
+In case the below is not updated, check out the `release section
+<https://github.com/couchapp/couchapp/releases>`_ in GitHub.
+
 
 Requirements
 ------------
@@ -85,14 +88,9 @@ Using CouchApp Standalone executable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Download
-`Couchapp-0.8.1-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-0.8.1-macosx.zip>`__
-on `Github <http://github.com/>`__ then double-click on the installer.
+`couchapp-1.0.0-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-macosx.zip>`_
+on `Github <http://github.com/>`_ then double-click on the installer.
 
-Using the Python metapackage for Mac OS X 10.5 or Mac OS X 10.6
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-- `couchapp-1.0.0-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-macosx.zip>`_
-   
 
 Using Homebrew
 ~~~~~~~~~~~~~~
@@ -135,5 +133,15 @@ There are currently 2 methods to install on windows:
 -  `Python installer for Python 2.7 <windows-python-installers.md>`_
    Requires Python
 
-In case the above is not updated, check out the `downloads
-section <https://github.com/couchapp/couchapp/downloads>`_ in GitHub
+
+Previous Release
+----------------
+
+Please check out both `release section
+<https://github.com/couchapp/couchapp/releases>`_ and
+`download section
+<https://github.com/couchapp/couchapp/downloads>`_
+in GitHub.
+
+Note that the download section in GitHub is `deprecated
+<https://github.com/blog/1302-goodbye-uploads>`_.
