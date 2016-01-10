@@ -138,7 +138,7 @@ class TestConfig():
         '''
         assert self.config.load_local('/mock') == 'mock'
 
-        paths = tuple(load.call_args[0][0])
+        paths = (load.call_args_list[0][0][0], load.call_args_list[1][0][0])
         assert paths == ('/mock/couchapp.json', '/mock/.couchapprc'), paths
 
     @raises(AppError)
@@ -149,6 +149,29 @@ class TestConfig():
         '''
         self.config.load_local(None)
         assert not load.called
+
+    @patch('couchapp.config.Config.load')
+    def test_load_local_prevent_env(self, load):
+        '''
+        Test case for Config.load_local() with ``env`` field in ``couchapp.json``
+        '''
+        def load_side_effect(path, default={}):
+            print(path == '/mock/couchapp.json', path)
+            if path == '/mock/couchapp.json':
+                default.update({'env': 'fake_env', 'name': 'MockApp'})
+            elif path == '/mock/.couchapprc':
+                default.update({'hook': 'mock_hook'})
+            else:
+                raise AssertionError('Unknown local config file "{}"'.format(
+                                     path))
+            return default
+
+        load.side_effect = load_side_effect
+        conf = self.config.load_local('/mock')
+
+        assert conf['name'] == 'MockApp'
+        assert conf['hook'] == 'mock_hook'
+        assert conf.get('env', None) is None
 
     @patch('couchapp.config.Config.load_local', return_value={'mock': True})
     def test_update(self, load_local):
