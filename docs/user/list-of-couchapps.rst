@@ -175,6 +175,19 @@ lists all in one place. Built with Ext JS 4.
 `Code <https://github.com/rawberg/Hub-List_GTD-Productivity>`_
 
 
+IrcLog CouchApp
+---------------
+
+A couchapp to view irc logs stored in CouchDB.
+
+The irclogs can be stored by `gdamjan's ircbot
+<https://github.com/gdamjan/irclog-couchapp>`_ and its 
+`couchdb loging plugin
+<https://github.com/gdamjan/erlang-irc-bot-skopjehacklab/blob/master/src/ircbot_plugin_couch_log.erl>`_ .
+
+`Code <https://github.com/gdamjan/irclog-couchapp>`_
+
+
 Li.Couch
 --------
 
