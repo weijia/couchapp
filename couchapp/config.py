@@ -6,6 +6,8 @@
 import re
 import os
 
+from copy import deepcopy
+
 from .client import Database
 from .errors import AppError
 from . import util
@@ -40,7 +42,7 @@ class Config(object):
 
         :type path: str or iterable
         """
-        conf = default if default is not None else {}
+        conf = deepcopy(default) if default is not None else {}
         paths = [path] if isinstance(path, basestring) else path
 
         for p in paths:

@@ -131,6 +131,22 @@ class TestConfig():
         self.config.load('/mock/couchapp.conf')
         isfile.assert_called_with('/mock/couchapp.conf')
 
+    @patch('couchapp.config.util.read_json', return_value={'mock': True})
+    @patch('couchapp.config.os.path.isfile', return_value=True)
+    def test_load_deepcopy_default(self, isfile, read_json):
+        '''
+        Test case for checking Config.load() deepcopy param ``default``
+        '''
+        default = {'foo': {'bar': 'fake'}}
+
+        conf = self.config.load('/mock.conf', default=default)
+
+        assert conf == {
+            'foo': {'bar': 'fake'},
+            'mock': True
+            }
+        assert default == {'foo': {'bar': 'fake'}}
+
     @patch('couchapp.config.Config.load', return_value='mock')
     def test_load_local(self, load):
         '''
