@@ -22,14 +22,13 @@ Requirements
 Installing on all UNIXs
 -----------------------
 
-To install couchapp using ``easy_install`` you must make sure you have a
-recent version of distribute installed:
+To install couchapp using ``pip`` you must make sure you have a
+recent version of ``pip`` installed:
 
 ::
 
-    $ curl -O http://python-distribute.org/distribute_setup.py
-    $ sudo python distribute_setup.py
-    $ sudo easy_install pip
+    $ curl -O https://bootstrap.pypa.io/get-pip.py
+    $ sudo python get-pip.py
 
 To install or upgrade to the latest released version of couchapp:
 
@@ -42,37 +41,32 @@ To install/upgrade development version:
 
 ::
 
-    $ sudo pip install git+http://github.com/couchapp/couchapp.git#egg=Couchapp
+    $ sudo pip install git+https://github.com/couchapp/couchapp.git
 
 
-Installing in a sandboxed environnement
+Installing in a sandboxed environment
 ---------------------------------------
 
-If you want to work in a sandboxed environnement which is recommended if
-you don't want to not *pollute* your system, you can use
-`virtualenv <http://pypi.python.org/pypi/virtualenv>`_ :
+If you want to work in a sandboxed environment which is recommended if
+you don't want to not *pollute* your system, you can use `virtualenv
+<http://pypi.python.org/pypi/virtualenv>`_ ::
 
-::
+    $ curl -O https://bootstrap.pypa.io/get-pip.py
+    $ sudo python get-pip.py
+    $ sudo pip install virtualenv
 
-    $ curl -O http://python-distribute.org/distribute_setup.py
-    $ sudo python distribute_setup.py
-    $ easy_install pip
-    $ pip install virtualenv
+To create a sandboxed environment in ``couchapp_env`` folder,
+activate and work in this environment::
 
-Then to install couchapp :
+    $ cd /where/the/sandbox/live
+    $ virtualenv couchapp_env
+    $ source couchapp_env/bin/activate
 
-::
+Then to install couchapp::
 
-    $ pip -E couchapp_env install couchapp
+    $ pip install couchapp
 
-This command create a sandboxed environment in ``couchapp_env`` folder.
-To activate and work in this environment:
-
-::
-
-    $ cd couchapp_env && . ./bin/activate
-
-Then you can work on your couchapps. I usually have a ``couchapps``
+Then you can work on your CouchApps. I usually have a ``couchapps``
 folder in ``couchapp_env`` where I put my couchapps.
 
 
