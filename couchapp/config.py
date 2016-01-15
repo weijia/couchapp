@@ -20,7 +20,8 @@ class Config(object):
     DEFAULTS = dict(
         env={},
         extensions=[],
-        hooks={}
+        hooks={},
+        vendors=[]
     )
 
     def __init__(self):
