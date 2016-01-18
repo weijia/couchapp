@@ -122,7 +122,7 @@ Installing on Windows
 There are currently 2 methods to install on windows:
 
 -  `Standalone Executable
-   1.0.1 <https://github.com/couchapp/couchapp/releases/download/1.0.1/couchapp-1.0.1-win.zip>`_
+   1.0.2 <https://github.com/couchapp/couchapp/releases/download/1.0.2/couchapp-1.0.2-win32.exe>`_
    Does not require Python
 -  `Python installer for Python 2.7 <windows-python-installers.md>`_
    Requires Python
