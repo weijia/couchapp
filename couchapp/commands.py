@@ -330,9 +330,9 @@ def version(conf, *args, **opts):
     from couchapp import __version__
 
     print "Couchapp (version %s)" % __version__
-    print "Copyright 2008-2010 Benoît Chesneau <benoitc@e-engura.org>"
+    print "Copyright 2008-2016 Benoît Chesneau <benoitc@e-engura.org>"
     print "Licensed under the Apache License, Version 2.0."
-    print ""
+
     if opts.get('help', False):
         usage(conf, *args, **opts)
 
