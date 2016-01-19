@@ -3,6 +3,7 @@
 # This file is part of couchapp released under the Apache 2 license.
 # See the NOTICE for more information.
 
+import logging
 import re
 import os
 
@@ -11,6 +12,9 @@ from copy import deepcopy
 from .client import Database
 from .errors import AppError
 from . import util
+
+
+logger = logging.getLogger(__name__)
 
 
 class Config(object):
@@ -62,13 +66,23 @@ class Config(object):
         """
         Load local config from app/couchapp.json and app/.couchapprc.
         If both of them contain same vars, the latter one will win.
+
+        To prevent user from placing private data like db credentials,
+        we will ignore ``env`` parts in ``couchapp.json``.
         """
         if not app_path:
             raise AppError("You aren't in a couchapp.")
 
-        fnames = ('couchapp.json', '.couchapprc')
-        paths = (os.path.join(app_path, fname) for fname in fnames)
-        return self.load(paths)
+        json_conf = self.load(os.path.join(app_path, 'couchapp.json'))
+        # prevent user from place privating data in couchapp.json
+        if 'env' in json_conf:
+            logger.warning('Ignore `env` field in couchapp.json. '
+                           'Please place your db credentials in .couchapprc.')
+            del json_conf['env']
+
+        return self.load(
+            os.path.join(app_path, '.couchapprc'),
+            default=json_conf)
 
     def update(self, path):
         '''

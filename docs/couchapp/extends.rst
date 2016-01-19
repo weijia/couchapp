@@ -19,6 +19,8 @@ scripts. There are 3 kind of extensions:
    vendor
 
 
+ .. _couchapp-extend-extensions:
+
 Extensions
 -----------
 
@@ -60,6 +62,8 @@ the long option (ex: --verbose)
 
 ``default`` could be True/False/None/String/Integer
 
+
+.. _couchapp-extend-hooks:
 
 Hooks
 -----
@@ -118,6 +122,8 @@ Have a look in `compress hook
 source <http://github.com/couchapp/couchapp/tree/master/couchapp/hooks/compress/>`__
 for a complete example.
 
+
+.. _couchapp-extend-vendor:
 
 Vendors handlers
 ----------------
