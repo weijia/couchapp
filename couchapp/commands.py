@@ -221,7 +221,7 @@ def startapp(conf, *args, **opts):
         dest = os.path.normpath(os.path.join(args[0], name))
 
     if util.iscouchapp(dest):
-        raise AppError("can't create an app at '%s'. "
+        raise AppError("can't create an app at '{0}'. "
                        "One already exists here.".format(dest))
     if util.findcouchapp(dest):
         raise AppError("can't create an app inside another app '{0}'.".format(
@@ -383,10 +383,11 @@ def get_switch_str(opt):
         default = "[VAL]"
     if opt[0]:
         # has a short and long option
-        return "-%s, --%s %s" % (opt[0], opt[1], default)
+        return '-{opt[0]}, --{opt[1]} {default}'.format(opt=opt,
+                                                        default=default)
     else:
         # only has a long option
-        return "--%s %s" % (opt[1], default)
+        return '--{opt[1]} {default}'.format(opt=opt, default=default)
 
 
 globalopts = [
