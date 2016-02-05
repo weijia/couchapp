@@ -3,8 +3,8 @@
 # This file is part of couchapp released under the Apache 2 license.
 # See the NOTICE for more information.
 
-
 from __future__ import with_statement
+
 import base64
 import logging
 import mimetypes
@@ -73,7 +73,7 @@ class LocalDoc(object):
 
     def get_id(self):
         """
-        if there is an _id file, docid is extracted from it,
+        if there is an ``_id`` file, docid is extracted from it,
         else we take the current folder name.
         """
         idfile = os.path.join(self.docdir, '_id')
@@ -436,4 +436,5 @@ class LocalDoc(object):
 
 
 def document(path, create=False, docid=None, is_ddoc=True):
-    return LocalDoc(path, create=create, docid=docid, is_ddoc=is_ddoc)
+    return LocalDoc(os.path.realpath(path), create=create, docid=docid,
+                    is_ddoc=is_ddoc)
