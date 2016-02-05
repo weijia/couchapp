@@ -191,3 +191,8 @@ pseudoxml:
 	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
+
+usage:
+	@echo '.. GENERATED VIA ``couchapp help``' > couchapp/usage.txt
+	@echo '' >> couchapp/usage.txt
+	@couchapp help >> couchapp/usage.txt
