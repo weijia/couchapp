@@ -3,15 +3,15 @@
 # This file is part of couchapp released under the Apache 2 license.
 # See the NOTICE for more information.
 
+from __future__ import print_function
+
 import logging
 import os
 
-from couchapp import clone_app
+from couchapp import clone_app, generator, util
 from couchapp.autopush.command import autopush, DEFAULT_UPDATE_DELAY
 from couchapp.errors import ResourceNotFound, AppError, BulkSaveError
-from couchapp import generator
 from couchapp.localdoc import document
-from couchapp import util
 from couchapp.vendors import vendor_install, vendor_update
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,7 @@ def push(conf, path, *args, **opts):
         if opts.get('output'):
             util.write_json(opts.get('output'), doc)
         else:
-            print doc.to_json()
+            print(doc.to_json())
         return 0
 
     dbs = conf.get_dbs(dest)
@@ -110,7 +110,7 @@ def pushapps(conf, source, dest, *args, **opts):
         if opts.get('output'):
             util.write_json(opts.get('output'), jsonobj)
         else:
-            print util.json.dumps(jsonobj)
+            print(util.json.dumps(jsonobj))
         return 0
 
     for db in dbs:
@@ -169,7 +169,7 @@ def pushdocs(conf, source, dest, *args, **opts):
             if opts.get('output'):
                 util.write_json(opts.get('output'), jsonobj)
             else:
-                print util.json.dumps(jsonobj)
+                print(util.json.dumps(jsonobj))
         else:
             for db in dbs:
                 docs1 = []
@@ -329,9 +329,9 @@ def browse(conf, path, *args, **opts):
 def version(conf, *args, **opts):
     from couchapp import __version__
 
-    print "Couchapp (version %s)" % __version__
-    print "Copyright 2008-2016 Benoît Chesneau <benoitc@e-engura.org>"
-    print "Licensed under the Apache License, Version 2.0."
+    print("Couchapp (version {0})".format(__version__))
+    print("Copyright 2008-2016 Benoît Chesneau <benoitc@e-engura.org>")
+    print("Licensed under the Apache License, Version 2.0.")
 
     if opts.get('help', False):
         usage(conf, *args, **opts)
@@ -342,34 +342,34 @@ def version(conf, *args, **opts):
 def usage(conf, *args, **opts):
     if opts.get('version', False):
         version(conf, *args, **opts)
-    print "Usage: couchapp [OPTIONS] [CMD] [CMDOPTIONS] [ARGS,...]"
+    print('Usage: couchapp [OPTIONS] [CMD] [CMDOPTIONS] [ARGS,...]')
 
-    print ""
-    print "Options:"
+    print()
+    print('Options:')
     mainopts = []
     max_opt_len = len(max(globalopts, key=len))
     for opt in globalopts:
-        print "\t%-*s" % (max_opt_len, get_switch_str(opt))
+        print('\t{opt: <{max_len}}'.format(opt=get_switch_str(opt),
+                                           max_len=max_opt_len))
         mainopts.append(opt[0])
 
-    print ""
-    print "Commands:"
+    print()
+    print('Commands:')
     commands = sorted(table.keys())
     max_len = len(max(commands, key=len))
     for cmd in commands:
         opts = table[cmd]
-        # Command name is max_len characters. Used by the %-*s formatting code
-        print "\t%-*s %s" % (max_len, cmd, opts[2])
+        print('\t{cmd: <{max_len}} {opts}'.format(
+              cmd=cmd, max_len=max_len, opts=opts[2]))
         # Print each command's option list
         cmd_options = opts[1]
         if cmd_options:
             max_opt = max(cmd_options, key=lambda o: len(get_switch_str(o)))
             max_opt_len = len(get_switch_str(max_opt))
             for opt in cmd_options:
-                print "\t\t%-*s %s" % (max_opt_len, get_switch_str(opt),
-                                       opt[3])
-            print ""
-        print ""
+                print('\t\t{opt_str: <{max_len}} {opts}'.format(
+                      opt_str=get_switch_str(opt), max_len=max_opt_len,
+                      opts=opt[3]))
     return 0
 
 
