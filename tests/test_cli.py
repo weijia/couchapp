@@ -15,7 +15,7 @@ from testconfig import config
 
 from couchapp.errors import ResourceNotFound
 from couchapp.client import Database
-from couchapp.util import popen3, deltree
+from couchapp.util import deltree, sh_open
 
 couchapp_dir = os.path.join(os.path.dirname(__file__), '../')
 couchapp_cli = os.path.join(os.path.dirname(__file__), '../bin/couchapp')
@@ -64,8 +64,8 @@ class CliTestCase(unittest.TestCase):
 
     def testGenerate(self):
         os.chdir(self.tempdir)
-        (child_stdin, child_stdout, child_stderr) = popen3("%s generate my-app"
-                                                           % self.cmd)
+        child_stdout, child_stderr = sh_open(
+            '{0} generate my-app'.format(self.cmd))
         appdir = os.path.join(self.tempdir, 'my-app')
         self.assertTrue(os.path.isdir(appdir))
         cfile = os.path.join(appdir, '.couchapprc')
@@ -83,8 +83,8 @@ class CliTestCase(unittest.TestCase):
 
     def testPush(self):
         self._make_testapp()
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s push -v my-app %scouchapp-test" % (self.cmd, url))
+        child_stdout, child_stderr = sh_open(
+            '{0} push -v my-app {1}couchapp-test'.format(self.cmd, url))
 
         design_doc = self._retrieve_ddoc()
 
@@ -120,9 +120,8 @@ class CliTestCase(unittest.TestCase):
 
     def testPushNoAtomic(self):
         self._make_testapp()
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s push --no-atomic my-app %scouchapp-test" % (self.cmd,
-                                                                   url))
+        child_stdout, child_stderr = sh_open(
+            '{0} push --no-atomic my-app {1}couchapp-test'.format(self.cmd, url))
 
         design_doc = self._retrieve_ddoc()
 
@@ -159,18 +158,15 @@ class CliTestCase(unittest.TestCase):
 
     def testClone(self):
         self._make_testapp()
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s push -v my-app %scouchapp-test" % (self.cmd, url))
+        child_stdout, child_stderr = sh_open(
+            '{0} push -v my-app {1}couchapp-test'.format(self.cmd, url))
 
         design_doc = self._retrieve_ddoc()
 
         app_dir = os.path.join(self.tempdir, "couchapp-test")
 
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s clone %s %s"
-                   % (self.cmd,
-                      url + "couchapp-test/_design/my-app",
-                      app_dir))
+        child_stdout, child_stderr = sh_open('{0} clone {1} {2}'.format(
+            self.cmd, url + 'couchapp-test/_design/my-app', app_dir))
 
         # should create .couchapprc
         self.assertTrue(os.path.isfile(os.path.join(app_dir, ".couchapprc")))
@@ -191,11 +187,8 @@ class CliTestCase(unittest.TestCase):
         design_doc = self.db.save_doc(design_doc)
 
         deltree(app_dir)
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s clone %s %s"
-                   % (self.cmd,
-                      url + "couchapp-test/_design/my-app",
-                      app_dir))
+        child_stdout, child_stderr = sh_open('{0} clone {1} {2}'.format(
+            self.cmd, url + 'couchapp-test/_design/my-app', app_dir))
         self.assertTrue(os.path.isfile(os.path.join(app_dir, 'test.txt')))
 
         # should work when a view is added manually
@@ -205,11 +198,8 @@ class CliTestCase(unittest.TestCase):
         design_doc = self.db.save_doc(design_doc)
 
         deltree(app_dir)
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s clone %s %s"
-                   % (self.cmd,
-                      url + "couchapp-test/_design/my-app",
-                      app_dir))
+        child_stdout, child_stderr = sh_open('{0} clone {1} {2}'.format(
+            self.cmd, url + 'couchapp-test/_design/my-app', app_dir))
         self.assertTrue(os.path.isfile(os.path.join(app_dir,
                                                     'views/example/map.js')))
 
@@ -217,11 +207,8 @@ class CliTestCase(unittest.TestCase):
         del design_doc['couchapp']['manifest']
         design_doc = self.db.save_doc(design_doc)
         deltree(app_dir)
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s clone %s %s"
-                   % (self.cmd,
-                      url + "couchapp-test/_design/my-app",
-                      app_dir))
+        child_stdout, child_stderr = sh_open('{0} clone {1} {2}'.format(
+            self.cmd, url + 'couchapp-test/_design/my-app', app_dir))
         self.assertTrue(os.path.isfile(os.path.join(app_dir,
                                                     'views/example/map.js')))
 
@@ -238,14 +225,13 @@ class CliTestCase(unittest.TestCase):
         os.makedirs(docsdir)
 
         # create 2 apps
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s generate docs/app1" % self.cmd)
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s generate docs/app2" % self.cmd)
+        child_stdout, child_stderr = sh_open(
+            '{0} generate docs/app1'.format(self.cmd))
+        child_stdout, child_stderr = sh_open(
+            '{0} generate docs/app2'.format(self.cmd))
 
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s pushapps docs/ %scouchapp-test"
-                   % (self.cmd, url))
+        child_stdout, child_stderr = sh_open(
+            '{0} pushapps docs/ {1}couchapp-test'.format(self.cmd, url))
 
         alldocs = self.db.all_docs()['rows']
         self.assertEqual(len(alldocs), 2)
@@ -257,14 +243,13 @@ class CliTestCase(unittest.TestCase):
         os.makedirs(docsdir)
 
         # create 2 apps
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s generate docs/app1" % self.cmd)
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s generate docs/app2" % self.cmd)
+        child_stdout, child_stderr = sh_open(
+            '{0} generate docs/app1'.format(self.cmd))
+        child_stdout, child_stderr = sh_open(
+            '{0} generate docs/app2'.format(self.cmd))
 
-        (child_stdin, child_stdout, child_stderr) = \
-            popen3("%s pushdocs docs/ %scouchapp-test"
-                   % (self.cmd, url))
+        child_stdout, child_stderr = sh_open(
+            '{0} pushdocs docs/ {1}couchapp-test'.format(self.cmd, url))
 
         alldocs = self.db.all_docs()['rows']
 

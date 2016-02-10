@@ -3,6 +3,7 @@
 import os
 
 from couchapp.util import discover_apps, iscouchapp, rcpath, split_path
+from couchapp.util import sh_open
 
 from mock import patch
 
@@ -103,3 +104,12 @@ def test_split_path_abs():
     '''
     path = os.path.realpath('/foo/bar')
     assert split_path(path) == [os.path.realpath('/foo'), 'bar']
+
+
+def test_sh_open():
+    '''
+    Test case for ``util.sh_open``
+    '''
+    out, err = sh_open('echo mock')
+    assert out.startswith('mock'), out
+    assert not err, err
