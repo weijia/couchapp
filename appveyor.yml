@@ -77,9 +77,16 @@ test_script:
     - "%WITH_COMPILER% %PYTHON%/python setup.py build"
     - python -m py2exe.mf -d resources\scripts\couchapp
     - python setup.py py2exe
-    - ls dist\
 
-    - "nosetests --tests=tests\\test_exe.py:WinExeTestCase"
+    # Add path for couchapp.exe
+    - ls dist\
+    - "SET PATH=%CD%\\dist;%PATH%"
+
+    # prepare templates dir for testing
+    - ps: cp -R dist\couchapp\templates dist\templates
+
+    # tests for standalone binary
+    - "nosetests --tests=tests\\test_cli.py"
 
 after_test:
     # Pack ``dist`` via Inno Setup
