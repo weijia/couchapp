@@ -160,9 +160,9 @@ def test_pushapps_output(discover_apps_, hook, document_, write_json):
     assert ret_code == 0
     discover_apps_.assert_called_with('/mock_dir')
     hook.assert_any_call(conf, 'foo', 'pre-push',
-                         dbs=conf.get_dbs(), pushapps=True)
+                         dbs=None, pushapps=True)
     hook.assert_any_call(conf, 'foo', 'post-push',
-                         dbs=conf.get_dbs(), pushapps=True)
+                         dbs=None, pushapps=True)
     'file' in write_json.call_args[0]
 
 
@@ -212,9 +212,9 @@ def test_pushapps_export(discover_apps_, hook, document_, dumps):
     assert ret_code == 0
     discover_apps_.assert_called_with('/mock_dir')
     hook.assert_any_call(conf, 'foo', 'pre-push',
-                         dbs=conf.get_dbs(), pushapps=True)
+                         dbs=None, pushapps=True)
     hook.assert_any_call(conf, 'foo', 'post-push',
-                         dbs=conf.get_dbs(), pushapps=True)
+                         dbs=None, pushapps=True)
     assert dumps.called
 
 

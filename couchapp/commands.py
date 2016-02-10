@@ -81,11 +81,11 @@ def push(conf, path, *args, **opts):
     return 0
 
 
-def pushapps(conf, source, dest, *args, **opts):
+def pushapps(conf, source, dest=None, *args, **opts):
     export = opts.get('export', False)
     noatomic = opts.get('no_atomic', False)
     browse = opts.get('browse', False)
-    dbs = conf.get_dbs(dest)
+    dbs = conf.get_dbs(dest) if not export else None
     apps = []
     source = os.path.normpath(os.path.join(os.getcwd(), source))
     appdirs = util.discover_apps(source)
@@ -94,6 +94,7 @@ def pushapps(conf, source, dest, *args, **opts):
 
     for appdir in appdirs:
         doc = document(appdir)
+        # if export mode, the ``dbs`` will be None
         hook(conf, appdir, "pre-push", dbs=dbs, pushapps=True)
         if export or not noatomic:
             apps.append(doc)
