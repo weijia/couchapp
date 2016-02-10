@@ -306,7 +306,7 @@ class clone(object):
             filename = os.path.join(showpath, '{0}.js'.format(func_name))
             util.write(filename, func)
             logger.warning(
-                'clone function "{0}" not in manifest: {1}'.format(func,
+                'clone function "{0}" not in manifest: {1}'.format(func_name,
                                                                    filename))
 
     def setup_id(self):
