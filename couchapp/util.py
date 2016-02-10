@@ -48,7 +48,7 @@ except ImportError:
     popen3 = os.popen3
 
 try:
-    from importlibe import import_module
+    from importlib import import_module
 except ImportError:
     def _resolve_name(name, package, level):
         """Return the absolute name of the module to be imported."""
