@@ -40,13 +40,16 @@ class CliTestCase(unittest.TestCase):
         self.tempdir = _tempdir()
         os.makedirs(self.tempdir)
         self.app_dir = os.path.join(self.tempdir, "my-app")
-        self.cmd = "cd %s && couchapp" % self.tempdir
         self.startdir = os.getcwd()
 
     def tearDown(self):
         self.db.delete()
         deltree(self.tempdir)
         os.chdir(self.startdir)
+
+    @property
+    def cmd(self):
+        return 'cd {0} && couchapp'.format(self.tempdir)
 
     def _make_testapp(self):
         testapp_path = os.path.join(os.path.dirname(__file__), 'testapp')
