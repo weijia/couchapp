@@ -69,16 +69,20 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
     - python setup.py install
-    # - nosetests -v --with-coverage --cover-package=couchapp --cover-html
 
-after_test:
     # Build wheel
     - "%WITH_COMPILER% %PYTHON%/python setup.py bdist_wheel"
 
-    # Build standalone binary via py2exe and Inno Setup
+    # Build standalone binary via py2exe
     - "%WITH_COMPILER% %PYTHON%/python setup.py build"
     - python -m py2exe.mf -d resources\scripts\couchapp
     - python setup.py py2exe
+    - ls dist\
+
+    - "nosetests --tests=tests\\test_exe.py:WinExeTestCase"
+
+after_test:
+    # Pack ``dist`` via Inno Setup
     - copy add_path.exe dist\
     - ps: ($Env:COUCHAPP_VER = python -c 'import couchapp; print(couchapp.__version__)')
     - ps: ($Env:COMMIT = $Env:APPVEYOR_REPO_COMMIT.Substring(0, 7))
