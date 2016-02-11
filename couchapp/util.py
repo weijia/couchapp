@@ -6,14 +6,16 @@
 from __future__ import with_statement
 
 import codecs
-from hashlib import md5
 import imp
 import inspect
 import logging
 import os
 import re
 import string
+import subprocess
 import sys
+
+from hashlib import md5
 
 from couchapp.errors import ScriptError
 
@@ -31,21 +33,6 @@ except ImportError:
         """)
 
 logger = logging.getLogger(__name__)
-
-try:  # python 2.6, use subprocess
-    import subprocess
-    subprocess.Popen  # trigger ImportError early
-    closefds = os.name == 'posix'
-
-    def popen3(cmd, mode='t', bufsize=0):
-        p = subprocess.Popen(cmd, shell=True, bufsize=bufsize,
-                             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE, close_fds=closefds)
-        p.wait()
-        return (p.stdin, p.stdout, p.stderr)
-except ImportError:
-    subprocess = None
-    popen3 = os.popen3
 
 try:
     from importlib import import_module
@@ -503,11 +490,10 @@ class ShellScript(object):
     def hook(self, *args, **options):
         cmd = self.cmd + " "
 
-        (child_stdin, child_stdout, child_stderr) = popen3(cmd)
-        err = child_stderr.read()
-        if err:
-            raise ScriptError(str(err))
-        return (child_stdout.read())
+        child_stdout, child_stderr = sh_open(cmd)
+        if child_stderr:
+            raise ScriptError(str(child_stderr))
+        return child_stdout
 
 
 def hook_uri(uri, cfg):
@@ -530,3 +516,22 @@ def remove_comments(t):
             return ""
         return s
     return re.sub(re_comment, replace, t)
+
+
+def sh_open(cmd, bufsize=0):
+    '''
+    run shell command with :mod:`subprocess`
+
+    :param str cmd: the command string
+    :param int bufsize: the bufsize passed to ``subprocess.Popen``
+    :return:  a tuple contains (stdout, stderr)
+    '''
+    closefds = (os.name == 'posix')
+
+    p = subprocess.Popen(cmd, shell=True, bufsize=bufsize,
+                         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE, close_fds=closefds)
+    # use ``communicate`` to avoid PIPE deadlock
+    out, err = p.communicate()
+
+    return (out, err)

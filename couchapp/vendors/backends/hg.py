@@ -6,7 +6,7 @@
 import logging
 
 from couchapp.errors import VendorError
-from couchapp.util import locate_program, popen3
+from couchapp.util import locate_program, sh_open
 from couchapp.vendors.backends.base import BackendVendor
 
 logger = logging.getLogger(__name__)
@@ -38,9 +38,8 @@ class HgVendor(BackendVendor):
         cmd += " clone %s %s" % (url, path)
 
        # exec cmd
-        (child_stdin, child_stdout, child_stderr) = popen3(cmd)
-        err = child_stderr.read()
-        if err:
-            raise VendorError(str(err))
+        child_stdout, child_stderr = sh_open(cmd)
+        if child_stderr:
+            raise VendorError(str(child_stderr))
 
         logger.debug(child_stdout.read())
