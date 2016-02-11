@@ -79,8 +79,8 @@ if os.name == 'nt':
         try:
             home = os.path.expanduser('~')
             if sys.getwindowsversion()[3] != 2 and home == '~':
-                 # We are on win < nt: fetch the APPDATA directory location and
-                    # use the parent directory as the user home dir.
+                # We are on win < nt: fetch the APPDATA directory location and
+                # use the parent directory as the user home dir.
                 appdir = shell.SHGetPathFromIDList(
                     shell.SHGetSpecialFolderLocation(0,
                                                      shellcon.CSIDL_APPDATA))
