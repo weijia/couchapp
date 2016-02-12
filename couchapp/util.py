@@ -505,17 +505,27 @@ def hook_uri(uri, cfg):
         script_uri = uri
     return ShellScript(script_uri)
 
-regex_comment = r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"'
-re_comment = re.compile(regex_comment, re.DOTALL | re.MULTILINE)
+
+RE_COMMENT = re.compile(
+    r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"'
+    , re.DOTALL | re.MULTILINE)
 
 
-def remove_comments(t):
+def remove_comments(text):
+    '''
+    remove comments string in json text
+
+    :param str text: the json text
+    '''
     def replace(m):
+        '''
+        :param m: the regex match object
+        '''
         s = m.group(0)
-        if s.startswith("/"):
-            return ""
+        if s.startswith('/'):
+            return ''
         return s
-    return re.sub(re_comment, replace, t)
+    return re.sub(RE_COMMENT, replace, text)
 
 
 def sh_open(cmd, bufsize=0):

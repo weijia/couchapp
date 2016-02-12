@@ -3,7 +3,7 @@
 import os
 
 from couchapp.util import discover_apps, iscouchapp, rcpath, split_path
-from couchapp.util import sh_open
+from couchapp.util import sh_open, remove_comments
 
 from mock import patch
 
@@ -113,3 +113,25 @@ def test_sh_open():
     out, err = sh_open('echo mock')
     assert out.startswith('mock'), out
     assert not err, err
+
+
+def test_remove_comments():
+    text = '''{
+    "mock": 42  // truth
+}'''
+    expect = '{\n    "mock": 42  \n}'
+
+    ret = remove_comments(text)
+    assert ret == expect
+
+    # testing for multiline comments
+    text = '''{
+    "mock": 42,  // truth
+    /* foo
+    bar
+    */
+    "fake": true}'''
+    ret = remove_comments(text)
+    expect = '{\n    "mock": 42,  \n    \n    "fake": true}'
+
+    assert ret == expect
