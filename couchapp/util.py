@@ -17,7 +17,7 @@ import sys
 
 from hashlib import md5
 
-from couchapp.errors import ScriptError
+from couchapp.errors import AppError, ScriptError
 
 try:
     import json
@@ -545,3 +545,28 @@ def sh_open(cmd, bufsize=0):
     out, err = p.communicate()
 
     return (out, err)
+
+
+def is_empty_dir(path):
+    if not os.listdir(path):
+        return True
+    return False
+
+
+def setup_dir(path, require_empty=True):
+    '''
+    If dir exists, check it empty or not.
+    If dir does not exist, make one.
+    '''
+    isdir = os.path.isdir(path)
+
+    if isdir and not require_empty:
+        return
+    elif isdir and require_empty and is_empty_dir(path):
+        return
+    elif isdir and require_empty and not is_empty_dir(path):
+        raise AppError("dir '{0}' is not empty".format(path))
+    elif os.path.exists(path) and not isdir:
+        raise AppError("'{0}': File exists".format(path))
+
+    os.mkdir(path)
