@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import shutil
+import tempfile
 import os
 
+from couchapp.errors import AppError
 from couchapp.util import discover_apps, iscouchapp, rcpath, split_path
-from couchapp.util import sh_open, remove_comments
+from couchapp.util import sh_open, remove_comments, is_empty_dir, setup_dir
 
 from mock import patch
+from nose.tools import raises
 
 
 @patch('couchapp.util.user_rcpath')
@@ -135,3 +139,115 @@ def test_remove_comments():
     expect = '{\n    "mock": 42,  \n    \n    "fake": true}'
 
     assert ret == expect
+
+
+class test_is_empty_dir_true():
+    def setup(self):
+        self.tmpdir = tempfile.mkdtemp()
+
+    def test(self):
+        assert is_empty_dir(self.tmpdir) is True
+
+    def teardown(self):
+        shutil.rmtree(self.tmpdir)
+
+
+class test_is_empty_dir_false():
+    def setup(self):
+        self.tmpdir = tempfile.mkdtemp()
+        self.tmpfile = tempfile.NamedTemporaryFile(dir=self.tmpdir,
+                                                   delete=False)
+        self.tmpfile.close()
+
+    def test(self):
+        assert is_empty_dir(self.tmpdir) is False
+
+    def teardown(self):
+        shutil.rmtree(self.tmpdir)
+
+
+@patch('couchapp.util.os.mkdir')
+def test_setup_dir(mkdir):
+    setup_dir('/mock')
+    assert mkdir.called
+
+
+class test_setup_dir_exists():
+    def setup(self):
+        '''
+        /tmpdir/
+            *empty*
+        '''
+        self.tmpdir = tempfile.mkdtemp()
+
+    @patch('couchapp.util.os.mkdir')
+    def test(self, mkdir):
+        setup_dir(self.tmpdir, require_empty=True)
+        assert not mkdir.called
+
+    def teardown(self):
+        shutil.rmtree(self.tmpdir)
+
+
+class test_setup_dir_exists_not_empty():
+    def setup(self):
+        '''
+        /tmpdir/
+            tmpfile
+        '''
+        self.tmpdir = tempfile.mkdtemp()
+        self.tmpfile = tempfile.NamedTemporaryFile(dir=self.tmpdir,
+                                                   delete=False)
+        self.tmpfile.close()
+
+    @raises(AppError)
+    def main(self):
+        setup_dir(self.tmpdir, require_empty=True)
+
+    @patch('couchapp.util.os.mkdir')
+    def test(self, mkdir):
+        self.main()
+        assert not mkdir.called
+
+    def teardown(self):
+        shutil.rmtree(self.tmpdir)
+
+
+class test_setup_dir_exists_empty_not_required():
+    def setup(self):
+        '''
+        /tmpdir/
+            tmpfile
+        '''
+        self.tmpdir = tempfile.mkdtemp()
+        self.tmpfile = tempfile.NamedTemporaryFile(dir=self.tmpdir,
+                                                   delete=False)
+        self.tmpfile.close()
+
+    @patch('couchapp.util.os.mkdir')
+    def test(self, mkdir):
+        setup_dir(self.tmpdir, require_empty=False)
+        assert not mkdir.called
+
+    def teardown(self):
+        shutil.rmtree(self.tmpdir)
+
+
+class test_setup_dir_exists_not_dir():
+    def setup(self):
+        '''
+        /strangefile
+        '''
+        self.tmpfile = tempfile.NamedTemporaryFile(delete=True)
+
+    @raises(AppError)
+    def main(self):
+        setup_dir(self.tmpfile.name)
+
+    @patch('couchapp.util.os.mkdir')
+    def test(self, mkdir):
+        self.main()
+        assert not mkdir.called
+
+    def teardown(self):
+        del self.tmpfile

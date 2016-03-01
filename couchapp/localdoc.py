@@ -24,9 +24,9 @@ except ImportError:
     desktopcouch = None
 
 
+from couchapp import util
 from couchapp.errors import ResourceNotFound, AppError
 from couchapp.macros import package_shows, package_views
-from couchapp import util
 
 if os.name == 'nt':
     def _replace_backslash(name):
@@ -94,8 +94,7 @@ class LocalDoc(object):
         return util.json.dumps(self.doc())
 
     def create(self):
-        if not os.path.isdir(self.docdir):
-            logger.error("%s directory doesn't exist." % self.docdir)
+        util.setup_dir(self.docdir, require_empty=False)
 
         rcfile = os.path.join(self.docdir, '.couchapprc')
         ignfile = os.path.join(self.docdir, '.couchappignore')
