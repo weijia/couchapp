@@ -222,18 +222,13 @@ def find_template_dir(name, directory=''):
 
 
 def generate(path, kind, name, **opts):
-    if kind not in ['startapp', 'app', 'view', 'list', 'show', 'filter',
+    if kind not in ['view', 'list', 'show', 'filter',
                     'function', 'vendor', 'update', 'spatial']:
-        raise AppError(
-            "Can't generate %s in your couchapp. generator is unknown" % kind)
+        raise AppError("Can't generate {0} in your couchapp. "
+                       'generator is unknown'.format(kind))
 
-    if kind == "app":
-        generate_app(path, template=opts.get("template"),
-                     create=opts.get('create', False))
-    elif kind == "startapp":
-        start_app(path)
-    else:
-        if name is None:
-            raise AppError("Can't generate %s function, name is missing" %
-                           kind)
-        generate_function(path, kind, name, opts.get("template"))
+    if name is None:
+        raise AppError("Can't generate {0} function, "
+                       "name is missing".format(kind))
+
+    generate_function(path, kind, name, opts.get("template"))

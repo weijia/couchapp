@@ -264,15 +264,18 @@ def generate(conf, path, *args, **opts):
         dest = args[1]
         name = args[2]
 
+    if kind == 'app':  # deprecated warning
+        logger.warning('"genrate app" will be deprecated in future release. '
+                       'Please use "init -t TEMPLATE" instead.')
+        args = (dest,) if dest is not None else tuple()
+        kwargs = {
+            'template': opts['template'] if opts['template'] else 'app',
+            'empty': False
+        }
+        return init(conf, *args, **kwargs)
+
     if dest is None:
-        if kind == "app":
-            dest = os.path.normpath(os.path.join(os.getcwd(), name))
-            opts['create'] = True
-        else:
-            raise AppError("You aren't in a couchapp.")
-    elif dest and kind == 'app':
-        raise AppError("can't create an app inside another app '{0}'.".format(
-                       dest))
+        raise AppError("You aren't in a couchapp.")
 
     hook(conf, dest, "pre-generate")
     generator.generate(dest, kind, name, **opts)
