@@ -236,25 +236,13 @@ def clone(conf, source, *args, **opts):
 
 
 def startapp(conf, *args, **opts):
-    if len(args) < 1:
-        raise AppError("Can't start an app, name or path is missing")
+    opts['empty'] = False
+    opts['template'] = ''
 
-    if len(args) == 1:
-        name = args[0]
-        dest = os.path.normpath(os.path.join(os.getcwd(), ".", name))
-    elif len(args) == 2:
-        name = args[1]
-        dest = os.path.normpath(os.path.join(args[0], name))
+    logger.warning('"startapp" will be deprecated in future release. '
+                   'Please use "init" instead.')
 
-    if util.iscouchapp(dest):
-        raise AppError("can't create an app at '{0}'. "
-                       "One already exists here.".format(dest))
-    if util.findcouchapp(dest):
-        raise AppError("can't create an app inside another app '{0}'.".format(
-                       util.findcouchapp(dest)))
-
-    generator.generate(dest, "startapp", name, **opts)
-    return 0
+    return init(conf, *args, **opts)
 
 
 def generate(conf, path, *args, **opts):
