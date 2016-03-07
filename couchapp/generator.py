@@ -12,7 +12,7 @@ import sys
 
 from couchapp.errors import AppError
 from couchapp import localdoc
-from couchapp.util import user_path, relpath
+from couchapp.util import is_py2exe, is_windows, relpath, user_path
 
 __all__ = ["generate_app", "generate_function", "generate"]
 
@@ -185,15 +185,15 @@ def copy_helper(path, directory, tname="templates"):
 
 def find_template_dir(name, directory=''):
     paths = ['%s' % name, os.path.join('..', name)]
-    if hasattr(sys, 'frozen'):  # py2exe
+    if is_py2exe():
         modpath = sys.executable
-    elif sys.platform == "win32" or os.name == "nt":
+    elif is_windows():
         modpath = os.path.join(sys.prefix, "Lib", "site-packages", "couchapp",
                                "templates")
     else:
         modpath = __file__
 
-    if sys.platform != "win32" and os.name != "nt":
+    if not is_windows():
         default_locations = [
             "/usr/share/couchapp/templates/%s" % directory,
             "/usr/local/share/couchapp/templates/%s" % directory,

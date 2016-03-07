@@ -71,7 +71,16 @@ except ImportError:
         __import__(name)
         return sys.modules[name]
 
-if os.name == 'nt':
+
+def is_windows():
+    return sys.platform == 'win32' or os.name == 'nt'
+
+
+def is_py2exe():
+    return is_windows() and hasattr(sys, 'frozen')
+
+
+if is_windows():
     from win32com.shell import shell, shellcon
 
     def user_rcpath():
