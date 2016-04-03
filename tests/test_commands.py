@@ -11,23 +11,57 @@ from nose.tools import raises
 
 
 @patch('couchapp.commands.document')
-def test_init_dest(mock_doc):
-    commands.init(None, None, '/tmp/mk')
+def test_init_empty(mock_doc):
+    '''
+    couchapp init -e
+    '''
+    commands.init(None, '/tmp/mk', empty=True, template='')
     mock_doc.assert_called_once_with('/tmp/mk', create=True)
 
 
 @patch('os.getcwd', return_value='/mock_dir')
-@patch('couchapp.commands.document')
-def test_init_dest_auto(mock_doc, mock_cwd):
-    commands.init(None, None)
-    mock_doc.assert_called_once_with('/mock_dir', create=True)
+@patch('couchapp.commands.generator.init_basic')
+def test_init_dest_cwd(init_basic, mock_cwd):
+    '''
+    couchapp init
+    '''
+    commands.init(None, empty=False, template='')
+    init_basic.assert_called_once_with('/mock_dir')
+
+
+@patch('os.path.join', return_value='/mock_dir')
+@patch('couchapp.commands.generator.init_basic')
+def test_init_dest(init_basic, mock_join):
+    '''
+    couchapp init /mock_dir
+    '''
+    commands.init(None, '/mock_dir', empty=False, template='')
+    init_basic.assert_called_once_with('/mock_dir')
+
+
+@patch('os.path.join', return_value='/mock_dir')
+@patch('couchapp.commands.generator.init_template')
+@patch('couchapp.commands.generator.init_basic')
+def test_init_template(init_basic, init_template, mock_join):
+    '''
+    couchapp init -t app /mock_dir
+    '''
+    commands.init(None, '/mock_dir', empty=False, template='app')
+
+    assert not init_basic.called
+    init_template.called_with('/mock_dir', template='app')
 
 
 @raises(AppError)
 @patch('os.getcwd', return_value=None)
 @patch('couchapp.commands.document')
 def test_init_dest_none(mock_doc, mock_cwd):
-    commands.init(None, None)
+    commands.init(None)
+
+
+@raises(AppError)
+def test_init_dest_opt_conflict():
+    commands.init(None, '/mock/app', empty=True, template=True)
 
 
 @patch('couchapp.commands.hook')
@@ -311,106 +345,6 @@ def test_clone_default(clone, hook):
     hook.assert_any_call(conf, dest, 'post-clone', source=src)
 
 
-@patch('couchapp.commands.os.getcwd', return_value='/')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_default(generate, getcwd):
-    '''
-    $ couchapp startapp {name}
-    '''
-    conf = NonCallableMock(name='conf')
-    name = 'mock'
-
-    ret_code = commands.startapp(conf, name)
-    assert ret_code == 0
-    generate.assert_called_with('/mock', 'startapp', name)
-
-
-@patch('couchapp.commands.os.getcwd')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_default(generate, getcwd):
-    '''
-    $ couchapp startapp {dir} {name}
-    '''
-    conf = NonCallableMock(name='conf')
-    dir_ = '/'
-    name = 'mock'
-
-    ret_code = commands.startapp(conf, dir_, name)
-    assert ret_code == 0
-    assert not getcwd.called
-    generate.assert_called_with('/mock', 'startapp', name)
-
-
-@raises(AppError)
-@patch('couchapp.commands.os.getcwd', return_value='/')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_without_name(generate, getcwd):
-    '''
-    $ couchapp startapp
-    '''
-    conf = NonCallableMock(name='conf')
-
-    ret_code = commands.startapp(conf)
-    assert not generate.called
-
-
-@raises(AppError)
-@patch('couchapp.commands.util.iscouchapp', return_value=True)
-@patch('couchapp.commands.os.getcwd', return_value='/')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_exists(generate, getcwd, iscouchapp):
-    '''
-    $ couchapp startapp {already exists app}
-    '''
-    conf = NonCallableMock(name='conf')
-
-    ret_code = commands.startapp(conf)
-    assert not generate.called
-
-
-@raises(AppError)
-@patch('couchapp.commands.util.iscouchapp', return_value=True)
-@patch('couchapp.commands.os.getcwd', return_value='/')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_exists(generate, getcwd, iscouchapp):
-    '''
-    $ couchapp startapp {already exists app}
-    '''
-    conf = NonCallableMock(name='conf')
-    name = 'mock'
-
-    ret_code = commands.startapp(conf, name)
-    assert iscouchapp.assert_called_with('/mock')
-    assert not generate.called
-
-
-@raises(AppError)
-@patch('couchapp.commands.util.findcouchapp', return_value=True)
-@patch('couchapp.commands.util.iscouchapp', return_value=False)
-@patch('couchapp.commands.os.getcwd', return_value='/')
-@patch('couchapp.commands.generator.generate')
-def test_startapp_inside_app(generate, getcwd, iscouchapp, findcouchapp):
-    '''
-    $ couchapp startapp {path in another app}
-
-    e.g. Assume there is a couchapp ``app1``
-
-    ::
-        app1/
-            .couchapprc
-            ...
-
-    We try to ``couchapp startapp app1/app2``,
-    and this should raise `AppError`.
-    '''
-    conf = NonCallableMock(name='conf')
-    name = 'mock'
-
-    ret_code = commands.startapp(conf, name)
-    assert findcouchapp.assert_called_with('/mock')
-    assert not generate.called
-
-
 @patch('couchapp.commands.util.iscouchapp', return_value=True)
 @patch('couchapp.commands.document')
 def test_browse_default(document, iscouchapp):
@@ -461,7 +395,8 @@ def test_browse_exist(document, iscouchapp):
 
 
 @raises(AppError)
-def test_generate_inside():
+@patch('couchapp.commands.util.iscouchapp', return_value=True)
+def test_generate_inside(iscouchapp):
     '''
     $ couchapp generate app {path inside another app}
 
@@ -470,7 +405,9 @@ def test_generate_inside():
     conf = NonCallableMock(name='conf')
     app = '/mock/app'
 
-    commands.generate(conf, app, 'app', 'mockapp')
+    commands.generate(conf, app, 'app', 'mockapp', template='')
+
+    assert iscouchapp.called
 
 
 @raises(AppError)
@@ -497,24 +434,6 @@ def test_generate_view_without_app():
     conf = NonCallableMock(name='conf')
 
     commands.generate(conf, None, 'view', 'myview')
-
-
-@patch('couchapp.commands.os.getcwd', return_value='/mock')
-@patch('couchapp.commands.generator.generate')
-@patch('couchapp.commands.hook')
-def test_generate_app(hook, generate, getcwd):
-    '''
-    $ couchapp generate myapp
-    '''
-    conf = NonCallableMock(name='conf')
-    kind = 'app'
-    name = 'myapp'
-
-    ret_code = commands.generate(conf, None, name)
-    assert ret_code == 0
-    generate.assert_called_with('/mock/myapp', kind, name, create=True)
-    hook.assert_any_call(conf, '/mock/myapp', 'pre-generate')
-    hook.assert_any_call(conf, '/mock/myapp', 'post-generate')
 
 
 @patch('couchapp.commands.os.getcwd', return_value='/mock')

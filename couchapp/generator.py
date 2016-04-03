@@ -12,9 +12,9 @@ import sys
 
 from couchapp.errors import AppError
 from couchapp import localdoc
-from couchapp.util import is_py2exe, is_windows, relpath, user_path
+from couchapp.util import is_py2exe, is_windows, relpath, setup_dir, user_path
 
-__all__ = ["generate_app", "generate_function", "generate"]
+__all__ = ["init_basic", "init_template", "generate_function", "generate"]
 
 logger = logging.getLogger(__name__)
 
@@ -26,12 +26,20 @@ DEFAULT_APP_TREE = ['_attachments',
                     'views']
 
 
-def start_app(path):
-    try:
-        os.makedirs(path)
-    except OSError, e:
-        errno, message = e
-        raise AppError("Can't create a CouchApp in %s: %s" % (path, message))
+def init_basic(path):
+    '''
+    Generate a basic CouchApp which contain following files::
+
+        /path/
+            .couchapprc
+            .couchappignore
+            _attachments/
+            lists/
+            shows/
+            updates/
+            views/
+    '''
+    setup_dir(path, require_empty=True)
 
     for n in DEFAULT_APP_TREE:
         tp = os.path.join(path, n)
@@ -40,30 +48,19 @@ def start_app(path):
     fid = os.path.join(path, '_id')
     if not os.path.isfile(fid):
         with open(fid, 'wb') as f:
-            f.write('_design/%s' % os.path.split(path)[1])
+            f.write('_design/{0}'.format(os.path.split(path)[1]))
 
     localdoc.document(path, create=True)
-    logger.info("%s created." % path)
 
 
-def generate_app(path, template=None, create=False):
-    """ Generates a CouchApp in app_dir
-
-    :attr verbose: boolean, default False
-    :return: boolean, dict. { 'ok': True } if ok,
-    { 'ok': False, 'error': message }
-    if something was wrong.
-    """
-
+def init_template(path, template=None):
+    '''
+    Generates a CouchApp via template
+    '''
     TEMPLATES = ['app']
-    prefix = ''
-    if template is not None:
-        prefix = os.path.join(*template.split('/'))
-    try:
-        os.makedirs(path)
-    except OSError as e:
-        errno, message = e
-        raise AppError("Can't create a CouchApp in %s: %s" % (path, message))
+    prefix = os.path.join(*template.split('/')) if template is not None else ''
+
+    setup_dir(path, require_empty=True)
 
     for n in DEFAULT_APP_TREE:
         tp = os.path.join(path, n)
@@ -92,12 +89,9 @@ def generate_app(path, template=None, create=False):
     fid = os.path.join(appdir, '_id')
     if not os.path.isfile(fid):
         with open(fid, 'wb') as f:
-            f.write('_design/%s' % os.path.split(appdir)[1])
+            f.write('_design/{0}'.format(os.path.split(appdir)[1]))
 
-    if create:
-        localdoc.document(path, create=True)
-
-    logger.info("%s generated." % path)
+    localdoc.document(path, create=True)
 
 
 def generate_function(path, kind, name, template=None):
@@ -228,18 +222,13 @@ def find_template_dir(name, directory=''):
 
 
 def generate(path, kind, name, **opts):
-    if kind not in ['startapp', 'app', 'view', 'list', 'show', 'filter',
+    if kind not in ['view', 'list', 'show', 'filter',
                     'function', 'vendor', 'update', 'spatial']:
-        raise AppError(
-            "Can't generate %s in your couchapp. generator is unknown" % kind)
+        raise AppError("Can't generate {0} in your couchapp. "
+                       'generator is unknown'.format(kind))
 
-    if kind == "app":
-        generate_app(path, template=opts.get("template"),
-                     create=opts.get('create', False))
-    elif kind == "startapp":
-        start_app(path)
-    else:
-        if name is None:
-            raise AppError("Can't generate %s function, name is missing" %
-                           kind)
-        generate_function(path, kind, name, opts.get("template"))
+    if name is None:
+        raise AppError("Can't generate {0} function, "
+                       "name is missing".format(kind))
+
+    generate_function(path, kind, name, opts.get("template"))

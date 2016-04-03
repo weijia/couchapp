@@ -24,16 +24,41 @@ def hook(conf, path, hook_type, *args, **kwargs):
                 h.hook(path, hook_type, *args, **kwargs)
 
 
-def init(conf, path, *args, **opts):
+def init(conf, *args, **opts):
     if not args:
         dest = os.getcwd()
     else:
         dest = os.path.normpath(os.path.join(os.getcwd(), args[0]))
 
     if dest is None:
-        raise AppError("Unknown dest")
+        raise AppError('Unknown dest')
 
-    document(dest, create=True)
+    if opts['empty'] and opts['template']:
+        raise AppError('option "empty" cannot use with "template"')
+
+    if util.iscouchapp(dest):
+        raise AppError("can't create an app at '{0}'. "
+                       "One already exists here.".format(dest))
+
+    if util.findcouchapp(dest):
+        raise AppError("can't create an app inside another app '{0}'.".format(
+                       util.findcouchapp(dest)))
+
+    # ``couchapp init -e dest``
+    if opts['empty']:
+        document(dest, create=True)
+
+    # ``couchapp init -t template_name dest``
+    elif opts['template']:
+        generator.init_template(dest, template=opts['template'])
+
+    # ``couchapp init dest``
+    else:
+        generator.init_basic(dest)
+
+    logger.info('{0} created.'.format(dest))
+
+    return 0
 
 
 def push(conf, path, *args, **opts):
@@ -211,25 +236,13 @@ def clone(conf, source, *args, **opts):
 
 
 def startapp(conf, *args, **opts):
-    if len(args) < 1:
-        raise AppError("Can't start an app, name or path is missing")
+    opts['empty'] = False
+    opts['template'] = ''
 
-    if len(args) == 1:
-        name = args[0]
-        dest = os.path.normpath(os.path.join(os.getcwd(), ".", name))
-    elif len(args) == 2:
-        name = args[1]
-        dest = os.path.normpath(os.path.join(args[0], name))
+    logger.warning('"startapp" will be deprecated in future release. '
+                   'Please use "init" instead.')
 
-    if util.iscouchapp(dest):
-        raise AppError("can't create an app at '{0}'. "
-                       "One already exists here.".format(dest))
-    if util.findcouchapp(dest):
-        raise AppError("can't create an app inside another app '{0}'.".format(
-                       util.findcouchapp(dest)))
-
-    generator.generate(dest, "startapp", name, **opts)
-    return 0
+    return init(conf, *args, **opts)
 
 
 def generate(conf, path, *args, **opts):
@@ -251,15 +264,18 @@ def generate(conf, path, *args, **opts):
         dest = args[1]
         name = args[2]
 
+    if kind == 'app':  # deprecated warning
+        logger.warning('"genrate app" will be deprecated in future release. '
+                       'Please use "init -t TEMPLATE" instead.')
+        args = (dest,) if dest is not None else tuple()
+        kwargs = {
+            'template': opts['template'] if opts['template'] else 'app',
+            'empty': False
+        }
+        return init(conf, *args, **kwargs)
+
     if dest is None:
-        if kind == "app":
-            dest = os.path.normpath(os.path.join(os.getcwd(), name))
-            opts['create'] = True
-        else:
-            raise AppError("You aren't in a couchapp.")
-    elif dest and kind == 'app':
-        raise AppError("can't create an app inside another app '{0}'.".format(
-                       dest))
+        raise AppError("You aren't in a couchapp.")
 
     hook(conf, dest, "pre-generate")
     generator.generate(dest, kind, name, **opts)
@@ -410,8 +426,9 @@ pushopts = [
 table = {
     "init": (
         init,
-        [],
-        "[COUCHAPPDIR]"
+        [('e', 'empty', False, 'create .couchapprc and .couchappignore only'),
+         ('t', 'template', '', 'create from template')],
+        "[OPTION]... [COUCHAPPDIR]"
     ),
     "push": (
         push,
@@ -465,4 +482,4 @@ table = {
 }
 
 withcmd = ['generate', 'vendor']
-incouchapp = ['init', 'push', 'generate', 'vendor', 'autopush']
+incouchapp = ['push', 'generate', 'vendor', 'autopush']
