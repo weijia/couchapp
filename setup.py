@@ -33,7 +33,7 @@ def get_packages_data():
     packagedata = {'couchapp': []}
 
     for root in ('templates',):
-        for curdir, dirs, files in os.walk(os.path.join("couchapp", root)):
+        for curdir, dirs, files in os.walk(os.path.join('couchapp', root)):
             curdir = curdir.split(os.sep, 1)[1]
             dirs[:] = filter(ordinarypath, dirs)
             for f in filter(ordinarypath, files):
@@ -124,53 +124,59 @@ def main():
     except ImportError:
         INSTALL_REQUIRES.append('simplejson')
 
-    options = dict(name='Couchapp',
-                   version=couchapp.__version__,
-                   url='http://github.com/couchapp/couchapp/tree/master',
-                   license='Apache License 2',
-                   author='Benoit Chesneau',
-                   author_email='benoitc@e-engura.org',
-                   description='Standalone CouchDB Application Development Made Simple.',
-                   long_description=long_description,
-                   tests_require = ['unittest2', 'nose', 'coverage',
-                                    'nose-testconfig', 'mock'],
-                   test_suite="tests",
-                   keywords='couchdb couchapp',
-                   platforms=['any'],
-                   classifiers=CLASSIFIERS,
-                   packages=find_packages(),
-                   data_files=DATA_FILES,
-                   include_package_data=True,
-                   zip_safe=False,
-                   install_requires=INSTALL_REQUIRES,
-                   scripts=get_scripts(),
-                   options=dict(py2exe={'dll_excludes': ["kernelbase.dll",
-                                                         "powrprof.dll"],
-                                        'packages': ["http_parser",
-                                                     "restkit",
-                                                     "restkit.contrib",
-                                                     "pathtools",
-                                                     "pathtools.path",
-                                                     "socketpool",
-                                                     "watchdog",
-                                                     "watchdog.observers",
-                                                     "watchdog.tricks",
-                                                     "watchdog.utils",
-                                                     "win32pdh",
-                                                     "win32pdhutil",
-                                                     "win32api",
-                                                     "win32con",
-                                                     "subprocess"
-                                                     ]
-                                        },
-                                bdist_mpkg=dict(zipdist=True,
-                                                license='LICENSE',
-                                                readme='resources/macosx/Readme.html',
-                                                welcome='resources/macosx/Welcome.html')
-                                )
-                   )
+    options = dict(
+        name='Couchapp',
+        version=couchapp.__version__,
+        url='http://github.com/couchapp/couchapp/tree/master',
+        license='Apache License 2',
+        author='Benoit Chesneau',
+        author_email='benoitc@e-engura.org',
+        description='Standalone CouchDB Application Development Made Simple.',
+        long_description=long_description,
+        tests_require = ['unittest2', 'nose', 'coverage',
+                         'nose-testconfig', 'mock'],
+        test_suite="tests",
+        keywords='couchdb couchapp',
+        platforms=['any'],
+        classifiers=CLASSIFIERS,
+        packages=find_packages(),
+        data_files=DATA_FILES,
+        include_package_data=True,
+        zip_safe=False,
+        install_requires=INSTALL_REQUIRES,
+        scripts=get_scripts(),
+        options=dict(
+            py2exe={
+                'dll_excludes': ["kernelbase.dll", "powrprof.dll"],
+                'packages': [
+                    "http_parser",
+                    "restkit",
+                    "restkit.contrib",
+                    "pathtools",
+                    "pathtools.path",
+                    "socketpool",
+                    "watchdog",
+                    "watchdog.observers",
+                    "watchdog.tricks",
+                    "watchdog.utils",
+                    "win32pdh",
+                    "win32pdhutil",
+                    "win32api",
+                    "win32con",
+                    "subprocess",
+                    ]
+            },
+            bdist_mpkg=dict(
+                zipdist=True,
+                license='LICENSE',
+                readme='resources/macosx/Readme.html',
+                welcome='resources/macosx/Welcome.html'
+            ),
+        ),
+    )
     options.update(extra)
     setup(**options)
+
 
 if __name__ == "__main__":
     main()
