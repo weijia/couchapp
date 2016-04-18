@@ -579,3 +579,15 @@ def setup_dir(path, require_empty=True):
         raise AppError("'{0}': File exists".format(path))
 
     os.mkdir(path)
+
+
+def setup_dirs(path_list, *args, **kwargs):
+    '''
+    setup a list of dirs.
+
+    :param path_list: iterable
+
+    Other arguments please refer to ``setup_dir``.
+    '''
+    for p in path_list:
+        setup_dir(p, *args, **kwargs)

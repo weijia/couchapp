@@ -7,6 +7,7 @@ import os
 from couchapp.errors import AppError
 from couchapp.util import discover_apps, iscouchapp, rcpath, split_path
 from couchapp.util import sh_open, remove_comments, is_empty_dir, setup_dir
+from couchapp.util import setup_dirs
 
 from mock import patch
 from nose.tools import raises
@@ -251,3 +252,11 @@ class test_setup_dir_exists_not_dir():
 
     def teardown(self):
         del self.tmpfile
+
+
+@patch('couchapp.util.setup_dir')
+def test_setup_dirs(setup_dir):
+    plist = ['/mock', '/fake', '/mock/app', '/42']
+    setup_dirs(plist)
+
+    assert setup_dir.called
