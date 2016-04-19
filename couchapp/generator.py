@@ -232,3 +232,15 @@ def generate(path, kind, name, **opts):
                        "name is missing".format(kind))
 
     generate_function(path, kind, name, opts.get("template"))
+
+
+def save_id(app_path, name):
+    '''
+    Save ``name`` into ``app_path/_id`` file.
+    if file exists, we will overwride it.
+
+    :param str app_dir:
+    :param str name:
+    '''
+    with open(os.path.join(app_path, '_id'), 'wb') as f:
+        f.write(name)
