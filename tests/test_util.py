@@ -260,3 +260,19 @@ def test_setup_dirs(setup_dir):
     setup_dirs(plist)
 
     assert setup_dir.called
+    setup_dir.assert_any_call('/mock')
+    setup_dir.assert_any_call('/fake')
+    setup_dir.assert_any_call('/mock/app')
+    setup_dir.assert_any_call('/42')
+
+
+@patch('couchapp.util.setup_dir')
+def test_setup_dirs_args(setup_dir):
+    plist = ['/mock', '/fake', '/mock/app', '/42']
+    setup_dirs(plist, require_empty=True)
+
+    assert setup_dir.called
+    setup_dir.assert_any_call('/mock', require_empty=True)
+    setup_dir.assert_any_call('/fake', require_empty=True)
+    setup_dir.assert_any_call('/mock/app', require_empty=True)
+    setup_dir.assert_any_call('/42', require_empty=True)
