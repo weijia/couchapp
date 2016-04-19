@@ -13,6 +13,7 @@ import sys
 from couchapp.errors import AppError
 from couchapp import localdoc
 from couchapp.util import is_py2exe, is_windows, relpath, setup_dir, user_path
+from couchapp.util import setup_dirs
 
 __all__ = ["init_basic", "init_template", "generate_function", "generate"]
 
@@ -40,16 +41,9 @@ def init_basic(path):
             views/
     '''
     setup_dir(path, require_empty=True)
+    setup_dirs(os.path.join(path, n) for n in DEFAULT_APP_TREE)
 
-    for n in DEFAULT_APP_TREE:
-        tp = os.path.join(path, n)
-        os.makedirs(tp)
-
-    fid = os.path.join(path, '_id')
-    if not os.path.isfile(fid):
-        with open(fid, 'wb') as f:
-            f.write('_design/{0}'.format(os.path.split(path)[1]))
-
+    save_id(path, '_design/{0}'.format(os.path.split(path)[-1]))
     localdoc.document(path, create=True)
 
 
