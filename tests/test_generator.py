@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import tempfile
+
 from couchapp.errors import AppError
+from couchapp.generator import copy_helper
 from couchapp.generator import find_template_dir, init_basic, save_id
 
 from mock import patch
-from nose.tools import raises
+from nose.tools import raises, with_setup
 
 
 @patch('couchapp.generator.save_id')
@@ -71,3 +74,45 @@ def test_find_template_dir_user_dir_first_with_type(isdir, user_path):
     assert ret == '/mock/.couchapp/templates/app', ret
     assert user_path.called
     assert isdir.called
+
+
+@raises(OSError)
+def test_copy_helper_invalid_src():
+    copy_helper('/mock', '/fake')
+
+
+@patch('couchapp.generator.copytree')
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.os.listdir', return_value=['foo', 'bar'])
+@patch('couchapp.generator.os.path.isdir')
+@patch('couchapp.generator.setup_dir')
+def test_copy_helper_file_only(setup_dir, isdir, listdir, copy2, copytree):
+    def _isdir(p):
+        if p == '/mock':
+            return True
+        return False
+
+    isdir.side_effect = _isdir
+
+    copy_helper('/mock', '/fake')
+
+    assert setup_dir.called
+    assert copy2.called
+    assert not copytree.called
+    copy2.assert_any_call('/mock/foo', '/fake/foo')
+    copy2.assert_any_call('/mock/bar', '/fake/bar')
+
+
+@patch('couchapp.generator.copytree')
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.os.listdir', return_value=['foo', 'bar'])
+@patch('couchapp.generator.os.path.isdir', return_value=True)
+@patch('couchapp.generator.setup_dir')
+def test_copy_helper_dir_only(setup_dir, isdir, listdir, copy2, copytree):
+    copy_helper('/mock', '/fake')
+
+    assert setup_dir.called
+    assert copytree.called
+    assert not copy2.called
+    copytree.assert_any_call('/mock/foo', '/fake/foo')
+    copytree.assert_any_call('/mock/bar', '/fake/bar')

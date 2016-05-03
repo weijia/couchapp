@@ -7,11 +7,12 @@ from __future__ import with_statement
 
 import logging
 import os
-import shutil
 import sys
 
-from couchapp.errors import AppError
+from shutil import copy2, copytree
+
 from couchapp import localdoc
+from couchapp.errors import AppError
 from couchapp.util import is_py2exe, is_windows, relpath, setup_dir, user_path
 from couchapp.util import setup_dirs
 
@@ -39,6 +40,8 @@ def init_basic(path):
             shows/
             updates/
             views/
+
+    .. versionadded:: 1.1
     '''
     setup_dir(path, require_empty=True)
     setup_dirs(os.path.join(path, n) for n in DEFAULT_APP_TREE)
@@ -138,45 +141,50 @@ def generate_function(path, kind, name, template=None):
         raise AppError("Defaults templates not found. Check your install.")
 
 
-def copy_helper(path, directory, tname="templates"):
-    """ copy helper used to generate an app"""
-    if tname == "vendor":
-        tname = os.path.join("templates", tname)
+def copy_helper(src, dest):
+    '''
+    copy helper similar to ``shutil.copytree``
 
-    templatedir = find_template_dir(tname, directory)
-    if templatedir:
-        if directory == "vendor":
-            path = os.path.join(path, directory)
-            try:
-                os.makedirs(path)
-            except:
-                pass
+    But we do not require ``dest`` non-exist
 
-        for root, dirs, files in os.walk(templatedir):
-            rel = relpath(root, templatedir)
-            if rel == ".":
-                rel = ""
-            target_path = os.path.join(path, rel)
-            for d in dirs:
-                try:
-                    os.makedirs(os.path.join(target_path, d))
-                except:
-                    continue
-            for f in files:
-                shutil.copy2(os.path.join(root, f),
-                             os.path.join(target_path, f))
-    else:
-        raise AppError(
-            "Can't create a CouchApp in %s: default template not found." %
-            (path))
+    :param str src: source dir
+    :param str dest: destination dir
+
+    e.g::
+
+        foo/
+            bar.txt
+
+        baz/
+            *empty dir*
+
+    ``copy_helper('foo', 'bar')`` will copy ``bar.txt`` as ``baz/bar.txt``.
+
+    ..versionchanged: 1.1
+    '''
+    if not os.path.isdir(src):
+        raise OSError('source "{0}" is not a directory'.format(src))
+
+    setup_dir(dest, require_empty=False)
+
+    for p in os.listdir(src):
+        _src = os.path.join(src, p)
+        _dest = os.path.join(dest, p)
+
+        if os.path.isdir(_src):
+            copytree(_src, _dest)
+        else:
+            copy2(_src, _dest)
 
 
-def find_template_dir(tmpl_name='', tmpl_type='', raise_error=False):
+def find_template_dir(tmpl_name='default', tmpl_type='', raise_error=False):
     '''
     Find template dir for different platform
 
     :param tmpl_name: The template name under ``templates``.
                       It can be empty string.
+                      If it is set to ``default``, we will use consider
+                      the tmpl_name as empty.
                       e.g. ``mytmpl`` mentioned in the docstring of
                       :py:func:`~couchapp.generate.init_template`
     :param tmpl_type: the type of template.
@@ -207,9 +215,14 @@ def find_template_dir(tmpl_name='', tmpl_type='', raise_error=False):
     - <module dir path>/
     - <module dir path>/../
     - <python prefix>/Lib/site-packages/couchapp/
+
+    ..versionchanged:: 1.1
     '''
     if tmpl_type and tmpl_type not in TEMPLATE_TYPES:
         raise AppError('invalid template type "{0}"'.format(tmpl_type))
+
+    if tmpl_name == 'default':
+        tmpl_name = ''
 
     modpath = os.path.dirname(__file__)
     search_paths = user_path() + [
