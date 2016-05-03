@@ -171,7 +171,7 @@ def copy_helper(path, directory, tname="templates"):
             (path))
 
 
-def find_template_dir(tmpl_name, tmpl_type, raise_error=False):
+def find_template_dir(tmpl_name='', tmpl_type='', raise_error=False):
     '''
     Find template dir for different platform
 
@@ -208,6 +208,9 @@ def find_template_dir(tmpl_name, tmpl_type, raise_error=False):
     - <module dir path>/../
     - <python prefix>/Lib/site-packages/couchapp/
     '''
+    if tmpl_type and tmpl_type not in TEMPLATE_TYPES:
+        raise AppError('invalid template type "{0}"'.format(tmpl_type))
+
     modpath = os.path.dirname(__file__)
     search_paths = user_path() + [
         modpath,
