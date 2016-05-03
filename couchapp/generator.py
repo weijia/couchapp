@@ -93,9 +93,9 @@ def generate_function(path, kind, name, template=None):
     if template:
         functions_path = []
         _relpath = os.path.join(*template.split('/'))
-        template_dir = find_template_dir("templates", _relpath)
+        template_dir = find_template_dir(_relpath)
     else:
-        template_dir = find_template_dir("templates")
+        template_dir = find_template_dir()
     if template_dir:
         functions = []
         if kind == "view":
@@ -171,48 +171,84 @@ def copy_helper(path, directory, tname="templates"):
             (path))
 
 
-def find_template_dir(name, directory=''):
-    paths = ['%s' % name, os.path.join('..', name)]
-    if is_py2exe():
-        modpath = sys.executable
+def find_template_dir(tmpl_name, tmpl_type, raise_error=False):
+    '''
+    Find template dir for different platform
+
+    :param tmpl_name: The template name under ``templates``.
+                      It can be empty string.
+                      e.g. ``mytmpl`` mentioned in the docstring of
+                      :py:func:`~couchapp.generate.init_template`
+    :param tmpl_type: the type of template.
+                      e.g. 'app', 'functions', 'vendor'
+    :param bool raise_error: raise ``AppError`` if not found
+    :return: the absolute path or ``None`` if not found
+
+    We will check the ``<search path>/templates/<tmpl_name>/<tmpl_type>`` is
+    dir or not. The first matched win.
+
+    For posix platform, the search locations are following:
+    - ~/.couchapp/
+    - <module dir path>/
+    - <module dir path>/../
+    - /usr/share/couchapp/
+    - /usr/local/share/couchapp/
+    - /opt/couchapp/
+
+    For darwin (OSX) platform, we have some extra search locations:
+    - ${HOME}/Library/Application Support/Couchapp/
+
+    For windows with standlone binary (py2exe):
+    - <executable dir path>/
+    - <executable dir path>/../
+
+    For windows with python interpreter:
+    - ${USERPROFILE}/.couchapp/
+    - <module dir path>/
+    - <module dir path>/../
+    - <python prefix>/Lib/site-packages/couchapp/
+    '''
+    modpath = os.path.dirname(__file__)
+    search_paths = user_path() + [
+        modpath,
+        os.path.join(modpath, '..'),
+    ]
+
+    if os.name == 'posix':
+        search_paths.extend([
+            '/usr/share/couchapp',
+            '/usr/local/share/couchapp',
+            '/opt/couchapp',
+        ])
+    elif is_py2exe():
+        search_paths.append(os.path.dirname(sys.executable))
     elif is_windows():
-        modpath = os.path.join(sys.prefix, "Lib", "site-packages", "couchapp",
-                               "templates")
-    else:
-        modpath = __file__
+        search_paths.append(
+            os.path.join(sys.prefix, 'Lib', 'site-packages', 'couchapp')
+        )
 
-    if not is_windows():
-        default_locations = [
-            "/usr/share/couchapp/templates/%s" % directory,
-            "/usr/local/share/couchapp/templates/%s" % directory,
-            "/opt/couchapp/templates/%s" % directory]
+    # extra path for darwin
+    if sys.platform.startswith('darwin'):
+        search_paths.append(
+            os.path.expanduser('~/Library/Application Support/Couchapp')
+        )
 
-    else:
-        default_locations = []
+    # the first win!
+    for path in search_paths:
+        path = os.path.normpath(path)
+        path = os.path.join(path, 'templates', tmpl_name, tmpl_type)
+        if os.path.isdir(path):
+            logger.debug('template path match: "{0}"'.format(path))
+            return path
 
-    default_locations.extend([os.path.join(os.path.dirname(modpath), p,
-                                           directory) for p in paths])
+        logger.debug('template search path: "{0}" not found'.format(path))
 
-    if sys.platform == "darwin":
-        home = os.path.expanduser('~'),
-        data_path = "%s/Library/Application Support/Couchapp" % home
-        default_locations.extend(["%s/%s/%s" % (data_path, p, directory)
-                                  for p in paths])
+    if raise_error:
+        logger.info('please use "-d" to checkout search paths.')
+        raise AppError('template "{0}/{1}" not found.'.format(
+            tmpl_name, tmpl_type))
 
-    if directory:
-        for user_location in user_path():
-            default_locations.append(os.path.join(user_location, name,
-                                                  directory))
-
-    found = False
-    for location in default_locations:
-        template_dir = os.path.normpath(location)
-        if os.path.isdir(template_dir):
-            found = True
-            break
-    if found:
-        return template_dir
-    return False
+    return None
 
 
 def generate(path, kind, name, **opts):
