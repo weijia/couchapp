@@ -269,7 +269,7 @@ def generate(conf, path, *args, **opts):
                        'Please use "init -t TEMPLATE" instead.')
         args = (dest,) if dest is not None else tuple()
         kwargs = {
-            'template': opts['template'] if opts['template'] else 'app',
+            'template': opts['template'] if opts['template'] else 'default',
             'empty': False
         }
         return init(conf, *args, **kwargs)

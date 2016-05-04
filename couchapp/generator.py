@@ -20,12 +20,19 @@ __all__ = ["init_basic", "init_template", "generate_function", "generate"]
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_APP_TREE = (
+    '_attachments',
+    'lists',
+    'shows',
+    'updates',
+    'views',
+)
 
-DEFAULT_APP_TREE = ['_attachments',
-                    'lists',
-                    'shows',
-                    'updates',
-                    'views']
+TEMPLATE_TYPES = (
+    'app',
+    'functions',
+    'vendor',
+)
 
 
 def init_basic(path):
@@ -50,44 +57,67 @@ def init_basic(path):
     localdoc.document(path, create=True)
 
 
-def init_template(path, template=None):
+def init_template(path, template='default'):
     '''
     Generates a CouchApp via template
+
+    :param str path: the app dir
+    :param str template: the templates set name. In following example, it is
+                         ``mytmpl``.
+
+    We expect template dir has following structure::
+
+        templates/
+            app/
+            functions/
+            vendor/
+
+            mytmpl/
+                app/
+                functions/
+                vendor/
+
+            vuejs/
+                myvue/
+                    app/
+                    functions/
+                    vendor/
+                vueform/
+                    app/
+                    functions/
+                    vendor/
+
+    The ``templates/app`` will be used as default app template.
+    ``templates/functions`` and ``templates/vender`` are default, also.
+
+    And we can create a dir ``mytmpl`` as custom template set.
+    The template set name can be nested, e.g. ``vuejs/myvue``.
+
+    ..versionadded:: 1.1
     '''
-    TEMPLATES = ['app']
-    prefix = os.path.join(*template.split('/')) if template is not None else ''
+    if template in TEMPLATE_TYPES:
+        raise AppError('template name connot be {0}.'.format(TEMPLATE_TYPES))
 
-    setup_dir(path, require_empty=True)
+    tmpl_name = os.path.normpath(template) if template else ''
 
-    for n in DEFAULT_APP_TREE:
-        tp = os.path.join(path, n)
-        os.makedirs(tp)
+    # copy ``<template set>/app``
+    src_dir = find_template_dir(tmpl_name, 'app', raise_error=True)
+    copy_helper(src_dir, path)
 
-    for t in TEMPLATES:
-        appdir = path
-        if prefix:
-            # we do the job twice for now to make sure an app or vendor
-            # template exist in user template location
-            # fast on linux since there is only one user dir location
-            # but could be a little slower on windows
-            for user_location in user_path():
-                location = os.path.join(user_location, 'templates', prefix, t)
-                if os.path.exists(location):
-                    t = os.path.join(prefix, t)
-                    break
-
-        copy_helper(appdir, t)
+    # construct basic dirs
+    setup_dirs((os.path.join(path, n) for n in DEFAULT_APP_TREE),
+               require_empty=False)
 
     # add vendor
-    vendor_dir = os.path.join(appdir, 'vendor')
-    os.makedirs(vendor_dir)
-    copy_helper(vendor_dir, '', tname="vendor")
+    src_dir = find_template_dir(tmpl_name, tmpl_type='vendor')
+    if src_dir is None:
+        logger.debug('vendor not found in template set "{0}". '
+                     'fallback to default vendor.'.format(tmpl_name))
+        src_dir = find_template_dir(tmpl_type='vendor')
+    vendor_dir = os.path.join(path, 'vendor')
+    copy_helper(src_dir, vendor_dir)
 
-    fid = os.path.join(appdir, '_id')
-    if not os.path.isfile(fid):
-        with open(fid, 'wb') as f:
-            f.write('_design/{0}'.format(os.path.split(appdir)[1]))
-
+    save_id(path, '_design/{0}'.format(os.path.split(path)[-1]))
     localdoc.document(path, create=True)
 
 

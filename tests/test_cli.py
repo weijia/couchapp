@@ -68,7 +68,7 @@ class CliTestCase(unittest.TestCase):
     def test_init_template(self):
         os.chdir(self.tempdir)
         child_stdout, child_stderr = sh_open(
-            '{0} init -t app my-app'.format(self.cmd))
+            '{0} init -t default my-app'.format(self.cmd))
         appdir = os.path.join(self.tempdir, 'my-app')
         self.assertTrue(os.path.isdir(appdir))
         cfile = os.path.join(appdir, '.couchapprc')
@@ -229,9 +229,9 @@ class CliTestCase(unittest.TestCase):
 
         # create 2 apps
         child_stdout, child_stderr = sh_open(
-            '{0} init -t app docs/app1'.format(self.cmd))
+            '{0} init -t default docs/app1'.format(self.cmd))
         child_stdout, child_stderr = sh_open(
-            '{0} init -t app docs/app2'.format(self.cmd))
+            '{0} init -t default docs/app2'.format(self.cmd))
 
         child_stdout, child_stderr = sh_open(
             '{0} pushapps docs/ {1}couchapp-test'.format(self.cmd, url))
@@ -247,9 +247,9 @@ class CliTestCase(unittest.TestCase):
 
         # create 2 apps
         child_stdout, child_stderr = sh_open(
-            '{0} init -t app docs/app1'.format(self.cmd))
+            '{0} init -t default docs/app1'.format(self.cmd))
         child_stdout, child_stderr = sh_open(
-            '{0} init -t app docs/app2'.format(self.cmd))
+            '{0} init -t default docs/app2'.format(self.cmd))
 
         child_stdout, child_stderr = sh_open(
             '{0} pushdocs docs/ {1}couchapp-test'.format(self.cmd, url))
