@@ -3,8 +3,8 @@
 import tempfile
 
 from couchapp.errors import AppError
-from couchapp.generator import copy_helper
-from couchapp.generator import find_template_dir, init_basic, save_id
+from couchapp.generator import copy_helper, find_template_dir
+from couchapp.generator import init_basic, init_template, save_id
 
 from mock import patch
 from nose.tools import raises, with_setup
@@ -116,3 +116,87 @@ def test_copy_helper_dir_only(setup_dir, isdir, listdir, copy2, copytree):
     assert not copy2.called
     copytree.assert_any_call('/mock/foo', '/fake/foo')
     copytree.assert_any_call('/mock/bar', '/fake/bar')
+
+
+@patch('couchapp.generator.copy_helper')
+def test_init_template_invalid_name(copy_helper):
+    @raises(AppError)
+    def f():
+        init_template('/mock', template='app')
+
+    @raises(AppError)
+    def g():
+        init_template('/mock', template='functions')
+
+    @raises(AppError)
+    def h():
+        init_template('/mock', template='vendor')
+
+    f()
+    g()
+    h()
+    assert not copy_helper.called
+
+
+@patch('couchapp.generator.localdoc')
+@patch('couchapp.generator.save_id')
+@patch('couchapp.generator.setup_dirs')
+@patch('couchapp.generator.find_template_dir')
+@patch('couchapp.generator.copy_helper')
+def test_init_template_default(copy_helper, find_template_dir, setup_dirs,
+                               save_id, localdoc):
+    def _find_dir(*args, **kwargs):
+        if (args, kwargs) == (('default', 'app'), dict(raise_error=True)):
+            # we will copy ``tempaltes/app`` dir
+            # and if the template not found in any paths,
+            # we will raise error.
+            return '/mock/.couchapp/templates/app'
+        elif (args, kwargs) == (('default',), dict(tmpl_type='vendor')):
+            # we will copy vendor dir
+            return '/mock/.couchapp/templates/vendor'
+        else:
+            raise AssertionError('invalid call {}'.format((args, kwargs)))
+
+    find_template_dir.side_effect = _find_dir
+
+    init_template('/fake', template='default')
+
+    assert copy_helper.called
+    assert find_template_dir.called
+    assert setup_dirs.called
+    assert save_id.called
+    assert localdoc.document.called
+
+
+@patch('couchapp.generator.localdoc')
+@patch('couchapp.generator.save_id')
+@patch('couchapp.generator.setup_dirs')
+@patch('couchapp.generator.find_template_dir')
+@patch('couchapp.generator.copy_helper')
+def test_init_template_with_tmpl_name(copy_helper, find_template_dir,
+                                      setup_dirs, save_id, localdoc):
+    def _find_dir(*args, **kwargs):
+        if (args, kwargs) == (('default', 'app'), dict(raise_error=True)):
+            # we will copy ``tempaltes/app`` dir
+            # and if the template not found in any paths,
+            # we will raise error.
+            return '/mock/.couchapp/templates/app'
+        elif (args, kwargs) == (('default',), dict(tmpl_type='vendor')):
+            # we will copy vendor dir
+            return None
+        elif (args, kwargs) == (tuple(), dict(tmpl_type='vendor')):
+            # ``vendor`` not found in the template set
+            # consider the case of fallback to ``default``
+            return '/opt/couchapp/templates/vendor'
+        else:
+            raise AssertionError('invalid call {}'.format((args, kwargs)))
+
+    find_template_dir.side_effect = _find_dir
+
+    init_template('/fake', template='default')
+
+    assert copy_helper.called
+    assert find_template_dir.called
+    assert setup_dirs.called
+    assert save_id.called
+    assert localdoc.document.called
