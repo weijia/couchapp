@@ -9,7 +9,7 @@ import logging
 import os
 import sys
 
-from shutil import copy2, copytree
+from shutil import Error, copy2, copytree
 
 from couchapp import localdoc
 from couchapp.errors import AppError
@@ -122,54 +122,100 @@ def init_template(path, template='default'):
     localdoc.document(path, create=True)
 
 
-def generate_function(path, kind, name, template=None):
-    functions_path = ['functions']
-    if template:
-        functions_path = []
-        _relpath = os.path.join(*template.split('/'))
-        template_dir = find_template_dir(_relpath)
-    else:
-        template_dir = find_template_dir()
-    if template_dir:
-        functions = []
-        if kind == "view":
-            path = os.path.join(path, "%ss" % kind, name)
-            if os.path.exists(path):
-                raise AppError("The view %s already exists" % name)
-            functions = [('map.js', 'map.js'), ('reduce.js', 'reduce.js')]
-        elif kind == "function":
-            functions = [('%s.js' % name, '%s.js' % name)]
-        elif kind == "vendor":
-            app_dir = os.path.join(path, "vendor", name)
-            try:
-                os.makedirs(app_dir)
-            except:
-                pass
-            targetpath = os.path.join(*template.split('/'))
-            copy_helper(path, targetpath)
-            return
-        elif kind == "spatial":
-            path = os.path.join(path, "spatial")
-            functions = [("spatial.js", "%s.js" % name)]
-        else:
-            path = os.path.join(path, "%ss" % kind)
-            functions = [('%s.js' % kind, "%s.js" % name)]
-        try:
-            os.makedirs(path)
-        except:
-            pass
+def generate_function(path, func_type, name, template='default'):
+    '''
+    Generate function from template
 
-        for template, target in functions:
-            target_path = os.path.join(path, target)
-            root_path = [template_dir] + functions_path + [template]
-            root = os.path.join(*root_path)
-            try:
-                shutil.copy2(root, target_path)
-            except:
-                logger.warning("%s not found in %s" %
-                               (template, os.path.join(*root_path[:-1])))
+    :param path: the app dir
+    :param func_type: function type. e.g. ``view``, ``show``.
+    :param name: the function name
+    :param template: the template set
+
+    The big picture of template dir is discribed
+    in :py:func:`~couchapp.generate.init_template`.
+
+    Here we show the detail structure of ``functions`` dir::
+
+        functions/
+            filter.js
+            list.js
+            map.js
+            reduce.js
+            show.js
+            spatial.js
+            update.js
+            validate_doc_update.js
+            ...
+            myfunc.js
+    '''
+    tmpl_name = os.path.join(*template.split('/'))
+    tmpl_dir = find_template_dir(tmpl_name, tmpl_type='functions',
+                                 raise_error=True)
+
+    file_list = []  # [(src, dest), ...]
+    empty_dir = False
+    if func_type == 'view':
+        dir_ = os.path.join(path, 'views', name)
+        empty_dir = True
+        file_list.append(('map.js', 'map.js'))
+        file_list.append(('reduce.js', 'reduce.js'))
+
+    elif func_type in ('filter', 'list', 'show', 'update'):
+        dir_ = os.path.join(path, '{0}s'.format(func_type))
+        file_list.append(('{0}.js'.format(func_type),
+                          '{0}.js'.format(name)))
+
+    elif func_type == 'function':  # user defined function
+        dir_ = path
+        file_list.append(('{0}.js'.format(name),
+                          '{0}.js'.format(name)))
+
+    elif func_type == 'spatial':
+        dir_ = os.path.join(path, 'spatial')
+        file_list.append(('spatial.js', '{0}.js'.format(name)))
+
+    elif func_type == 'validate_doc_update':
+        dir_ = path
+        file_list.append(('validate_doc_update.js', 'validate_doc_update.js'))
+
     else:
-        raise AppError("Defaults templates not found. Check your install.")
+        raise AppError('unrecognized function type "{0}"'.format(func_type))
+
+    setup_dir(dir_, require_empty=empty_dir)
+
+    for src, dest in file_list:
+        full_src = os.path.join(tmpl_dir, src)
+        full_dest = os.path.join(dir_, dest)
+
+        try:
+            copy2(full_src, full_dest)
+        except Error:
+            logger.warning('function "%s" not found in "%s"', src, tmpl_dir)
+        else:
+            logger.debug('function "%s" generated successfully', dest)
+
+    logger.info('enjoy the %s function, "%s"!', func_type, name)
+
+
+def generate_vendor(path, name, template='default'):
+    '''
+    Generate vendor from template set
+
+    :param path: the app dir
+    :param name: the vendor name
+    :param template: the template set
+    '''
+    tmpl_name = os.path.join(*template.split('/'))
+    tmpl_dir = find_template_dir(tmpl_name, tmpl_type='vendor',
+                                 raise_error=True)
+
+    vendor_dir = os.path.join(path, 'vendor')
+    setup_dir(vendor_dir)
+
+    copy_helper(tmpl_dir, vendor_dir)
+
+    logger.debug('vendor dir "%s"', tmpl_dir)
+    logger.info('vendor "%s" generated successfully', name)
 
 
 def copy_helper(src, dest):

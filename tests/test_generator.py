@@ -5,7 +5,7 @@ import tempfile
 from couchapp.errors import AppError
 from couchapp.generator import copy_helper, find_template_dir
 from couchapp.generator import init_basic, init_template, save_id
-from couchapp.generator import generate
+from couchapp.generator import generate, generate_vendor, generate_function
 
 from mock import patch
 from nose.tools import raises, with_setup
@@ -205,7 +205,7 @@ def test_init_template_with_tmpl_name(copy_helper, find_template_dir,
 
 @patch('couchapp.generator.generate_function')
 @patch('couchapp.generator.generate_vendor')
-def test_generate_functions(gen_vendor, gen_func):
+def test_generate_dispatch_function(gen_vendor, gen_func):
     generate('/mock/app', 'view', 'mock_view', template='default')
 
     assert gen_func.called
@@ -229,3 +229,83 @@ def test_generate_dispatch_to_vendor(gen_vendor, gen_func):
 
     assert not gen_func.called
     assert gen_vendor.called
+
+
+@patch('couchapp.generator.copy_helper')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/vendor/boostrap')
+def test_generate_vendor(find_template_dir, setup_dir, copy_helper):
+    generate_vendor('/app', 'boostrap')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app/vendor')
+    copy_helper.assert_called_with('/vendor/boostrap', '/app/vendor')
+
+
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs/view')
+def test_generate_function_view(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'view', 'mock')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app/views/mock', require_empty=True)
+    copy2.assert_any_call('/funcs/view/map.js', '/app/views/mock/map.js')
+    copy2.assert_any_call('/funcs/view/reduce.js', '/app/views/mock/reduce.js')
+
+
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs')
+def test_generate_function_list(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'list', 'mock')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app/lists', require_empty=False)
+    copy2.assert_called_with('/funcs/list.js', '/app/lists/mock.js')
+
+
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs')
+def test_generate_function_user_func(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'function', 'mock')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app', require_empty=False)
+    copy2.assert_called_with('/funcs/mock.js', '/app/mock.js')
+
+
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs')
+def test_generate_function_spatial(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'spatial', 'mock')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app/spatial', require_empty=False)
+    copy2.assert_called_with('/funcs/spatial.js', '/app/spatial/mock.js')
+
+
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs')
+def test_generate_function_validate_doc(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'validate_doc_update', 'mock')
+
+    assert find_template_dir.called
+    setup_dir.assert_called_with('/app', require_empty=False)
+    copy2.assert_called_with('/funcs/validate_doc_update.js',
+                             '/app/validate_doc_update.js')
+
+
+@raises(AppError)
+@patch('couchapp.generator.copy2')
+@patch('couchapp.generator.setup_dir')
+@patch('couchapp.generator.find_template_dir', return_value='/funcs')
+def test_generate_function_unkown(find_template_dir, setup_dir, copy2):
+    generate_function('/app', 'magic', 'mock')
+
+    assert find_template_dir.called
+    assert not setup_dir.called
+    assert not copy2.called
