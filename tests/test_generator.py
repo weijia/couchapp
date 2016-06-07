@@ -5,6 +5,7 @@ import tempfile
 from couchapp.errors import AppError
 from couchapp.generator import copy_helper, find_template_dir
 from couchapp.generator import init_basic, init_template, save_id
+from couchapp.generator import generate
 
 from mock import patch
 from nose.tools import raises, with_setup
@@ -200,3 +201,31 @@ def test_init_template_with_tmpl_name(copy_helper, find_template_dir,
     assert setup_dirs.called
     assert save_id.called
     assert localdoc.document.called
+
+
+@patch('couchapp.generator.generate_function')
+@patch('couchapp.generator.generate_vendor')
+def test_generate_functions(gen_vendor, gen_func):
+    generate('/mock/app', 'view', 'mock_view', template='default')
+
+    assert gen_func.called
+    assert not gen_vendor.called
+
+
+@raises(AppError)
+@patch('couchapp.generator.generate_function')
+@patch('couchapp.generator.generate_vendor')
+def test_generate_invalid_functions(gen_vendor, gen_func):
+    generate('/mock/app', 'strange', 'mock_func', template='default')
+
+    assert not gen_func.called
+    assert not gen_vendor.called
+
+
+@patch('couchapp.generator.generate_function')
+@patch('couchapp.generator.generate_vendor')
+def test_generate_dispatch_to_vendor(gen_vendor, gen_func):
+    generate('/mock/app', 'vendor', 'myvendor', template='default')
+
+    assert not gen_func.called
+    assert gen_vendor.called

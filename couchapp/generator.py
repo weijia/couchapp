@@ -299,19 +299,15 @@ def find_template_dir(tmpl_name='default', tmpl_type='', raise_error=False):
 
 
 def generate(path, kind, name, **opts):
-    func_list = ('view', 'list', 'show', 'filter', 'function', 'vendor',
-                 'update', 'spatial')
-    if kind not in func_list:
+    kinds = ('view', 'list', 'show', 'filter', 'function', 'vendor', 'update',
+             'spatial')
+    if kind not in kinds:
         raise AppError("Can't generate '{0}' in your couchapp. "
                        'generator is unknown.'.format(kind))
 
-    if name is None:
-        raise AppError("Can't generate '{0}' function, "
-                       "name is missing".format(kind))
-
     if kind == 'vendor':
-        return generate_vendor(path, name, opts.get('template'))
-    generate_function(path, kind, name, opts.get('template'))
+        return generate_vendor(path, name, opts.get('template', 'default'))
+    generate_function(path, kind, name, opts.get('template', 'default'))
 
 
 def save_id(app_path, name):
