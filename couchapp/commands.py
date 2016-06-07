@@ -458,7 +458,7 @@ table = {
     "generate": (
         generate,
         [('', 'template', '', "template name")],
-        ("[OPTION]... [app|view,list,show,filter,function,vendor]"
+        ("[OPTION]... [view,list,show,spatial,filter,function,vendor]"
          " [COUCHAPPDIR] NAME")
      ),
     "vendor": (

@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_APP_TREE = (
     '_attachments',
+    'filters',
     'lists',
     'shows',
     'updates',
@@ -298,16 +299,19 @@ def find_template_dir(tmpl_name='default', tmpl_type='', raise_error=False):
 
 
 def generate(path, kind, name, **opts):
-    if kind not in ['view', 'list', 'show', 'filter',
-                    'function', 'vendor', 'update', 'spatial']:
-        raise AppError("Can't generate {0} in your couchapp. "
-                       'generator is unknown'.format(kind))
+    func_list = ('view', 'list', 'show', 'filter', 'function', 'vendor',
+                 'update', 'spatial')
+    if kind not in func_list:
+        raise AppError("Can't generate '{0}' in your couchapp. "
+                       'generator is unknown.'.format(kind))
 
     if name is None:
-        raise AppError("Can't generate {0} function, "
+        raise AppError("Can't generate '{0}' function, "
                        "name is missing".format(kind))
 
-    generate_function(path, kind, name, opts.get("template"))
+    if kind == 'vendor':
+        return generate_vendor(path, name, opts.get('template'))
+    generate_function(path, kind, name, opts.get('template'))
 
 
 def save_id(app_path, name):
