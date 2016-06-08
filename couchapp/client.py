@@ -30,7 +30,7 @@ from couchapp.errors import ResourceNotFound, ResourceConflict, \
     InvalidAttachment, AppError
 from couchapp.util import json
 
-USER_AGENT = "couchapp/%s" % __version__
+USER_AGENT = "couchapp/{0}".format(__version__)
 
 aliases = {
     'id': '_id',
@@ -104,10 +104,10 @@ class CouchdbResource(Resource):
         headers.setdefault('Accept', 'application/json')
         headers.setdefault('User-Agent', USER_AGENT)
 
-        logger.debug("Resource uri: %s" % self.initial['uri'])
-        logger.debug("Request: %s %s" % (method, path))
-        logger.debug("Headers: %s" % str(headers))
-        logger.debug("Params: %s" % str(params))
+        logger.debug("Resource uri: %s", self.initial['uri'])
+        logger.debug("Request: %s %s", method, path)
+        logger.debug("Headers: %s", str(headers))
+        logger.debug("Params: %s", str(params))
 
         try:
             return Resource.request(self, method, path=path,
@@ -143,7 +143,7 @@ class CouchdbResource(Resource):
             else:
                 raise RequestFailed(str(e))
         except Exception, e:
-            raise RequestFailed("unknown error [%s]" % str(e))
+            raise RequestFailed('unknown error [%s]', str(e))
 
 
 def couchdb_version(server_uri):
