@@ -20,7 +20,7 @@ designed  to bring clarity and order to the freedom of
 Also, be sure to checkout our Erlang-based sibling,
 `erica <https://github.com/benoitc/erica>`_.
 
-.. contents::
+.. contents:: Table of Contents
 
 
 Write apps using just JavaScript and HTML
@@ -43,8 +43,8 @@ connectivity.
 Installation
 ------------
 
-Couchapp requires Python 2.6 or greater. Couchapp is most easily installed 
-using the latest versions of the standard python packaging tools, setuptools 
+Couchapp requires Python 2.6 or greater. Couchapp is most easily installed
+using the latest versions of the standard python packaging tools, setuptools
 and pip. They may be installed like so::
 
     $ curl -O https://bootstrap.pypa.io/get-pip.py
@@ -81,7 +81,10 @@ Read the `tutorial <https://couchapp.readthedocs.org/en/latest/couchapp/gettings
 Documentation
 -------------
 
-It's available at https://couchapp.readthedocs.org/en/latest
+The document of ``master`` branch is available at
+https://couchapp.readthedocs.io/en/latest.
+
+Branch ``stable-1.0`` is here: http://couchapp.readthedocs.io/en/stable-1.0/
 
 Testing
 -------
