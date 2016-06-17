@@ -39,8 +39,8 @@ connectivity.
 Installation
 ------------
 
-Couchapp requires Python 2.6 or greater. Couchapp is most easily installed 
-using the latest versions of the standard python packaging tools, setuptools 
+Couchapp requires Python 2.6 or greater. Couchapp is most easily installed
+using the latest versions of the standard python packaging tools, setuptools
 and pip. They may be installed like so::
 
     $ curl -O https://bootstrap.pypa.io/get-pip.py
@@ -77,7 +77,7 @@ Read the `tutorial <https://couchapp.readthedocs.org/en/latest/couchapp/gettings
 Documentation
 -------------
 
-It's available at https://couchapp.readthedocs.org/en/latest
+It's available at http://couchapp.readthedocs.io/en/stable-1.0/.
 
 Testing
 -------
