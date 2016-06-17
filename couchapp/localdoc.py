@@ -102,7 +102,7 @@ class LocalDoc(object):
             util.write_json(rcfile, {})
             util.write(ignfile, DEFAULT_IGNORE)
         else:
-            logger.info("CouchApp already initialized in %s." % self.docdir)
+            logger.info("CouchApp already initialized in %s.", self.docdir)
 
     def push(self, dbs, noatomic=False, browser=False, force=False,
              noindex=False):
@@ -117,7 +117,7 @@ class LocalDoc(object):
 
                 for name, filepath in self.attachments():
                     if name not in attachments:
-                        logger.debug("attach %s " % name)
+                        logger.debug("attach %s ", name)
                         db.put_attachment(doc, open(filepath, "r"),
                                           name=name)
             else:
@@ -132,7 +132,7 @@ class LocalDoc(object):
                                                     u.path, u.params, u.query,
                                                     u.fragment))
 
-                logger.info("Visit your CouchApp here:\n%s" % indexurl)
+                logger.info("Visit your CouchApp here:\n%s", indexurl)
                 if browser:
                     self.browse_url(indexurl)
 
@@ -208,17 +208,17 @@ class LocalDoc(object):
         for name, filepath in self.attachments():
             signatures[name] = util.sign(filepath)
             if with_attachments and not old_signatures:
-                logger.debug("attach %s " % name)
+                logger.debug("attach %s ", name)
                 attachments[name] = self.attachment_stub(name, filepath)
 
         if old_signatures:
             for name, signature in old_signatures.items():
                 cursign = signatures.get(name)
                 if not cursign:
-                    logger.debug("detach %s " % name)
+                    logger.debug("detach %s ", name)
                     del attachments[name]
                 elif cursign != signature:
-                    logger.debug("detach %s " % name)
+                    logger.debug("detach %s ", name)
                     del attachments[name]
                 else:
                     continue
@@ -227,7 +227,7 @@ class LocalDoc(object):
                 for name, filepath in self.attachments():
                     if old_signatures.get(name) != \
                             signatures.get(name) or force:
-                        logger.debug("attach %s " % name)
+                        logger.debug("attach %s ", name)
                         attachments[name] = self.attachment_stub(name,
                                                                  filepath)
 
@@ -283,7 +283,7 @@ class LocalDoc(object):
         for i in self.ignores:
             match = re.match(i, item)
             if match:
-                logger.debug("ignoring %s" % item)
+                logger.debug("ignoring %s", item)
                 return True
         return False
 
@@ -340,36 +340,35 @@ class LocalDoc(object):
                 fields[name] = self.dir_to_fields(current_path, depth=depth+1,
                                                   manifest=manifest)
             else:
-                logger.debug("push %s" % rel_path)
+                logger.debug('push %s', rel_path)
 
                 content = ''
                 if name.endswith('.json'):
                     try:
                         content = util.read_json(current_path)
                     except ValueError:
-                        logger.error("Json invalid in %s" % current_path)
+                        logger.error("Json invalid in %s", current_path)
                 else:
                     try:
                         content = util.read(current_path).strip()
                     except UnicodeDecodeError:
-                        logger.warning("%s isn't encoded in utf8" %
-                                       current_path)
+                        logger.warning("%s isn't encoded in utf8", current_path)
                         content = util.read(current_path, utf8=False)
                         try:
                             content.encode('utf-8')
                         except UnicodeError:
-                            logger.warning("plan B didn't work, %s is a binary"
-                                           % current_path)
+                            logger.warning("plan B didn't work, "
+                                           "%s is a binary", current_path)
                             logger.warning("use plan C: encode to base64")
-                            content = "base64-encoded;%s" % \
-                                base64.b64encode(content)
+                            content = ("base64-encoded;%s" %
+                                        base64.b64encode(content))
 
                 # remove extension
                 name, ext = os.path.splitext(name)
                 if name in fields:
-                    logger.warning("%(name)s is already in properties. " +
-                                   "Can't add (%(fqn)s)" % {"name": name,
-                                                            "fqn": rel_path})
+                    logger.warning("%(name)s is already in properties. "
+                                   "Can't add (%(fqn)s)",
+                                   {'name': name, 'fqn': rel_path})
                 else:
                     manifest.append(rel_path)
                     fields[name] = content
@@ -410,7 +409,7 @@ class LocalDoc(object):
             yield attachment
         vendordir = os.path.join(self.docdir, 'vendor')
         if not os.path.isdir(vendordir):
-            logger.debug("%s don't exist" % vendordir)
+            logger.debug("%s don't exist", vendordir)
             return
 
         for name in os.listdir(vendordir):
