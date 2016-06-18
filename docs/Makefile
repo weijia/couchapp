@@ -47,11 +47,12 @@ help:
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
+	@echo "  usage      to autogen couchapp commandline usage"
 
 clean:
 	rm -rf $(BUILDDIR)/*
 
-html:
+html: usage
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
@@ -193,6 +194,4 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 usage:
-	@echo '.. GENERATED VIA ``couchapp help``' > couchapp/usage.txt
-	@echo '' >> couchapp/usage.txt
-	@couchapp help >> couchapp/usage.txt
+	@couchapp help > couchapp/usage.txt

@@ -7,23 +7,33 @@ from __future__ import with_statement
 
 import logging
 import os
-import shutil
 import sys
 
-from couchapp.errors import AppError
+from shutil import Error, copy2, copytree
+
 from couchapp import localdoc
+from couchapp.errors import AppError
 from couchapp.util import is_py2exe, is_windows, relpath, setup_dir, user_path
+from couchapp.util import setup_dirs
 
 __all__ = ["init_basic", "init_template", "generate_function", "generate"]
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_APP_TREE = (
+    '_attachments',
+    'filters',
+    'lists',
+    'shows',
+    'updates',
+    'views',
+)
 
-DEFAULT_APP_TREE = ['_attachments',
-                    'lists',
-                    'shows',
-                    'updates',
-                    'views']
+TEMPLATE_TYPES = (
+    'app',
+    'functions',
+    'vendor',
+)
 
 
 def init_basic(path):
@@ -38,197 +48,321 @@ def init_basic(path):
             shows/
             updates/
             views/
+
+    .. versionadded:: 1.1
     '''
     setup_dir(path, require_empty=True)
+    setup_dirs(os.path.join(path, n) for n in DEFAULT_APP_TREE)
 
-    for n in DEFAULT_APP_TREE:
-        tp = os.path.join(path, n)
-        os.makedirs(tp)
-
-    fid = os.path.join(path, '_id')
-    if not os.path.isfile(fid):
-        with open(fid, 'wb') as f:
-            f.write('_design/{0}'.format(os.path.split(path)[1]))
-
+    save_id(path, '_design/{0}'.format(os.path.split(path)[-1]))
     localdoc.document(path, create=True)
 
 
-def init_template(path, template=None):
+def init_template(path, template='default'):
     '''
     Generates a CouchApp via template
+
+    :param str path: the app dir
+    :param str template: the templates set name. In following example, it is
+                         ``mytmpl``.
+
+    We expect template dir has following structure::
+
+        templates/
+            app/
+            functions/
+            vendor/
+
+            mytmpl/
+                app/
+                functions/
+                vendor/
+
+            vuejs/
+                myvue/
+                    app/
+                    functions/
+                    vendor/
+                vueform/
+                    app/
+                    functions/
+                    vendor/
+
+    The ``templates/app`` will be used as default app template.
+    ``templates/functions`` and ``templates/vender`` are default, also.
+
+    And we can create a dir ``mytmpl`` as custom template set.
+    The template set name can be nested, e.g. ``vuejs/myvue``.
+
+    ..versionadded:: 1.1
     '''
-    TEMPLATES = ['app']
-    prefix = os.path.join(*template.split('/')) if template is not None else ''
+    if template in TEMPLATE_TYPES:
+        raise AppError('template name connot be {0}.'.format(TEMPLATE_TYPES))
 
-    setup_dir(path, require_empty=True)
+    tmpl_name = os.path.normpath(template) if template else ''
 
-    for n in DEFAULT_APP_TREE:
-        tp = os.path.join(path, n)
-        os.makedirs(tp)
+    # copy ``<template set>/app``
+    src_dir = find_template_dir(tmpl_name, 'app', raise_error=True)
+    copy_helper(src_dir, path)
 
-    for t in TEMPLATES:
-        appdir = path
-        if prefix:
-            # we do the job twice for now to make sure an app or vendor
-            # template exist in user template location
-            # fast on linux since there is only one user dir location
-            # but could be a little slower on windows
-            for user_location in user_path():
-                location = os.path.join(user_location, 'templates', prefix, t)
-                if os.path.exists(location):
-                    t = os.path.join(prefix, t)
-                    break
-
-        copy_helper(appdir, t)
+    # construct basic dirs
+    setup_dirs((os.path.join(path, n) for n in DEFAULT_APP_TREE),
+               require_empty=False)
 
     # add vendor
-    vendor_dir = os.path.join(appdir, 'vendor')
-    os.makedirs(vendor_dir)
-    copy_helper(vendor_dir, '', tname="vendor")
+    src_dir = find_template_dir(tmpl_name, tmpl_type='vendor')
+    if src_dir is None:
+        logger.debug('vendor not found in template set "{0}". '
+                     'fallback to default vendor.'.format(tmpl_name))
+        src_dir = find_template_dir(tmpl_type='vendor')
+    vendor_dir = os.path.join(path, 'vendor')
+    copy_helper(src_dir, vendor_dir)
 
-    fid = os.path.join(appdir, '_id')
-    if not os.path.isfile(fid):
-        with open(fid, 'wb') as f:
-            f.write('_design/{0}'.format(os.path.split(appdir)[1]))
-
+    save_id(path, '_design/{0}'.format(os.path.split(path)[-1]))
     localdoc.document(path, create=True)
 
 
-def generate_function(path, kind, name, template=None):
-    functions_path = ['functions']
-    if template:
-        functions_path = []
-        _relpath = os.path.join(*template.split('/'))
-        template_dir = find_template_dir("templates", _relpath)
+def generate_function(path, func_type, name, template='default'):
+    '''
+    Generate function from template
+
+    :param path: the app dir
+    :param func_type: function type. e.g. ``view``, ``show``.
+    :param name: the function name
+    :param template: the template set
+
+    The big picture of template dir is discribed
+    in :py:func:`~couchapp.generate.init_template`.
+
+    Here we show the detail structure of ``functions`` dir::
+
+        functions/
+            filter.js
+            list.js
+            map.js
+            reduce.js
+            show.js
+            spatial.js
+            update.js
+            validate_doc_update.js
+            ...
+            myfunc.js
+    '''
+    tmpl_name = os.path.join(*template.split('/'))
+    tmpl_dir = find_template_dir(tmpl_name, tmpl_type='functions',
+                                 raise_error=True)
+
+    file_list = []  # [(src, dest), ...]
+    empty_dir = False
+    if func_type == 'view':
+        dir_ = os.path.join(path, 'views', name)
+        empty_dir = True
+        file_list.append(('map.js', 'map.js'))
+        file_list.append(('reduce.js', 'reduce.js'))
+
+    elif func_type in ('filter', 'list', 'show', 'update'):
+        dir_ = os.path.join(path, '{0}s'.format(func_type))
+        file_list.append(('{0}.js'.format(func_type),
+                          '{0}.js'.format(name)))
+
+    elif func_type == 'function':  # user defined function
+        dir_ = path
+        file_list.append(('{0}.js'.format(name),
+                          '{0}.js'.format(name)))
+
+    elif func_type == 'spatial':
+        dir_ = os.path.join(path, 'spatial')
+        file_list.append(('spatial.js', '{0}.js'.format(name)))
+
+    elif func_type == 'validate_doc_update':
+        dir_ = path
+        file_list.append(('validate_doc_update.js', 'validate_doc_update.js'))
+
     else:
-        template_dir = find_template_dir("templates")
-    if template_dir:
-        functions = []
-        if kind == "view":
-            path = os.path.join(path, "%ss" % kind, name)
-            if os.path.exists(path):
-                raise AppError("The view %s already exists" % name)
-            functions = [('map.js', 'map.js'), ('reduce.js', 'reduce.js')]
-        elif kind == "function":
-            functions = [('%s.js' % name, '%s.js' % name)]
-        elif kind == "vendor":
-            app_dir = os.path.join(path, "vendor", name)
-            try:
-                os.makedirs(app_dir)
-            except:
-                pass
-            targetpath = os.path.join(*template.split('/'))
-            copy_helper(path, targetpath)
-            return
-        elif kind == "spatial":
-            path = os.path.join(path, "spatial")
-            functions = [("spatial.js", "%s.js" % name)]
-        else:
-            path = os.path.join(path, "%ss" % kind)
-            functions = [('%s.js' % kind, "%s.js" % name)]
+        raise AppError('unrecognized function type "{0}"'.format(func_type))
+
+    setup_dir(dir_, require_empty=empty_dir)
+
+    for src, dest in file_list:
+        full_src = os.path.join(tmpl_dir, src)
+        full_dest = os.path.join(dir_, dest)
+
         try:
-            os.makedirs(path)
-        except:
-            pass
+            copy2(full_src, full_dest)
+        except Error:
+            logger.warning('function "%s" not found in "%s"', src, tmpl_dir)
+        else:
+            logger.debug('function "%s" generated successfully', dest)
 
-        for template, target in functions:
-            target_path = os.path.join(path, target)
-            root_path = [template_dir] + functions_path + [template]
-            root = os.path.join(*root_path)
-            try:
-                shutil.copy2(root, target_path)
-            except:
-                logger.warning("%s not found in %s" %
-                               (template, os.path.join(*root_path[:-1])))
-    else:
-        raise AppError("Defaults templates not found. Check your install.")
+    logger.info('enjoy the %s function, "%s"!', func_type, name)
 
 
-def copy_helper(path, directory, tname="templates"):
-    """ copy helper used to generate an app"""
-    if tname == "vendor":
-        tname = os.path.join("templates", tname)
+def generate_vendor(path, name, template='default'):
+    '''
+    Generate vendor from template set
 
-    templatedir = find_template_dir(tname, directory)
-    if templatedir:
-        if directory == "vendor":
-            path = os.path.join(path, directory)
-            try:
-                os.makedirs(path)
-            except:
-                pass
+    :param path: the app dir
+    :param name: the vendor name
+    :param template: the template set
+    '''
+    tmpl_name = os.path.join(*template.split('/'))
+    tmpl_dir = find_template_dir(tmpl_name, tmpl_type='vendor',
+                                 raise_error=True)
 
-        for root, dirs, files in os.walk(templatedir):
-            rel = relpath(root, templatedir)
-            if rel == ".":
-                rel = ""
-            target_path = os.path.join(path, rel)
-            for d in dirs:
-                try:
-                    os.makedirs(os.path.join(target_path, d))
-                except:
-                    continue
-            for f in files:
-                shutil.copy2(os.path.join(root, f),
-                             os.path.join(target_path, f))
-    else:
-        raise AppError(
-            "Can't create a CouchApp in %s: default template not found." %
-            (path))
+    vendor_dir = os.path.join(path, 'vendor')
+    setup_dir(vendor_dir)
+
+    copy_helper(tmpl_dir, vendor_dir)
+
+    logger.debug('vendor dir "%s"', tmpl_dir)
+    logger.info('vendor "%s" generated successfully', name)
 
 
-def find_template_dir(name, directory=''):
-    paths = ['%s' % name, os.path.join('..', name)]
-    if is_py2exe():
-        modpath = sys.executable
+def copy_helper(src, dest):
+    '''
+    copy helper similar to ``shutil.copytree``
+
+    But we do not require ``dest`` non-exist
+
+    :param str src: source dir
+    :param str dest: destination dir
+
+    e.g::
+
+        foo/
+            bar.txt
+
+        baz/
+            *empty dir*
+
+    ``copy_helper('foo', 'bar')`` will copy ``bar.txt`` as ``baz/bar.txt``.
+
+    ..versionchanged: 1.1
+    '''
+    if not os.path.isdir(src):
+        raise OSError('source "{0}" is not a directory'.format(src))
+
+    setup_dir(dest, require_empty=False)
+
+    for p in os.listdir(src):
+        _src = os.path.join(src, p)
+        _dest = os.path.join(dest, p)
+
+        if os.path.isdir(_src):
+            copytree(_src, _dest)
+        else:
+            copy2(_src, _dest)
+
+
+def find_template_dir(tmpl_name='default', tmpl_type='', raise_error=False):
+    '''
+    Find template dir for different platform
+
+    :param tmpl_name: The template name under ``templates``.
+                      It can be empty string.
+                      If it is set to ``default``, we will use consider
+                      the tmpl_name as empty.
+                      e.g. ``mytmpl`` mentioned in the docstring of
+                      :py:func:`~couchapp.generate.init_template`
+    :param tmpl_type: the type of template.
+                      e.g. 'app', 'functions', 'vendor'
+    :param bool raise_error: raise ``AppError`` if not found
+    :return: the absolute path or ``None`` if not found
+
+    We will check the ``<search path>/templates/<tmpl_name>/<tmpl_type>`` is
+    dir or not. The first matched win.
+
+    For posix platform, the search locations are following:
+    - ~/.couchapp/
+    - <module dir path>/
+    - <module dir path>/../
+    - /usr/share/couchapp/
+    - /usr/local/share/couchapp/
+    - /opt/couchapp/
+
+    For darwin (OSX) platform, we have some extra search locations:
+    - ${HOME}/Library/Application Support/Couchapp/
+
+    For windows with standlone binary (py2exe):
+    - <executable dir path>/
+    - <executable dir path>/../
+
+    For windows with python interpreter:
+    - ${USERPROFILE}/.couchapp/
+    - <module dir path>/
+    - <module dir path>/../
+    - <python prefix>/Lib/site-packages/couchapp/
+
+    ..versionchanged:: 1.1
+    '''
+    if tmpl_type and tmpl_type not in TEMPLATE_TYPES:
+        raise AppError('invalid template type "{0}"'.format(tmpl_type))
+
+    if tmpl_name == 'default':
+        tmpl_name = ''
+
+    modpath = os.path.dirname(__file__)
+    search_paths = user_path() + [
+        modpath,
+        os.path.join(modpath, '..'),
+    ]
+
+    if os.name == 'posix':
+        search_paths.extend([
+            '/usr/share/couchapp',
+            '/usr/local/share/couchapp',
+            '/opt/couchapp',
+        ])
+    elif is_py2exe():
+        search_paths.append(os.path.dirname(sys.executable))
     elif is_windows():
-        modpath = os.path.join(sys.prefix, "Lib", "site-packages", "couchapp",
-                               "templates")
-    else:
-        modpath = __file__
+        search_paths.append(
+            os.path.join(sys.prefix, 'Lib', 'site-packages', 'couchapp')
+        )
 
-    if not is_windows():
-        default_locations = [
-            "/usr/share/couchapp/templates/%s" % directory,
-            "/usr/local/share/couchapp/templates/%s" % directory,
-            "/opt/couchapp/templates/%s" % directory]
+    # extra path for darwin
+    if sys.platform.startswith('darwin'):
+        search_paths.append(
+            os.path.expanduser('~/Library/Application Support/Couchapp')
+        )
 
-    else:
-        default_locations = []
+    # the first win!
+    for path in search_paths:
+        path = os.path.normpath(path)
+        path = os.path.join(path, 'templates', tmpl_name, tmpl_type)
+        if os.path.isdir(path):
+            logger.debug('template path match: "{0}"'.format(path))
+            return path
 
-    default_locations.extend([os.path.join(os.path.dirname(modpath), p,
-                                           directory) for p in paths])
+        logger.debug('template search path: "{0}" not found'.format(path))
 
-    if sys.platform == "darwin":
-        home = os.path.expanduser('~'),
-        data_path = "%s/Library/Application Support/Couchapp" % home
-        default_locations.extend(["%s/%s/%s" % (data_path, p, directory)
-                                  for p in paths])
+    if raise_error:
+        logger.info('please use "-d" to checkout search paths.')
+        raise AppError('template "{0}/{1}" not found.'.format(
+            tmpl_name, tmpl_type))
 
-    if directory:
-        for user_location in user_path():
-            default_locations.append(os.path.join(user_location, name,
-                                                  directory))
-
-    found = False
-    for location in default_locations:
-        template_dir = os.path.normpath(location)
-        if os.path.isdir(template_dir):
-            found = True
-            break
-    if found:
-        return template_dir
-    return False
+    return None
 
 
 def generate(path, kind, name, **opts):
-    if kind not in ['view', 'list', 'show', 'filter',
-                    'function', 'vendor', 'update', 'spatial']:
-        raise AppError("Can't generate {0} in your couchapp. "
-                       'generator is unknown'.format(kind))
+    kinds = ('view', 'list', 'show', 'filter', 'function', 'vendor', 'update',
+             'spatial')
+    if kind not in kinds:
+        raise AppError("Can't generate '{0}' in your couchapp. "
+                       'generator is unknown.'.format(kind))
 
-    if name is None:
-        raise AppError("Can't generate {0} function, "
-                       "name is missing".format(kind))
+    if kind == 'vendor':
+        return generate_vendor(path, name, opts.get('template', 'default'))
+    generate_function(path, kind, name, opts.get('template', 'default'))
 
-    generate_function(path, kind, name, opts.get("template"))
+
+def save_id(app_path, name):
+    '''
+    Save ``name`` into ``app_path/_id`` file.
+    if file exists, we will overwride it.
+
+    :param str app_dir:
+    :param str name:
+    '''
+    with open(os.path.join(app_path, '_id'), 'wb') as f:
+        f.write(name)
