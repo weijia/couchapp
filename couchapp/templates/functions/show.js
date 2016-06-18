@@ -9,6 +9,6 @@
  * @returns {object} Response Object. http://docs.couchdb.org/en/latest/json-structure.html#response-object
  **/
 
-function(doc, req) {  
-  
+function(doc, req) {
+
 }

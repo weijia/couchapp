@@ -5,5 +5,5 @@
  * @param {object} doc - Document Object.
  */
 function(doc) {
-  
+
 }

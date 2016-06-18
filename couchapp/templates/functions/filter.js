@@ -8,5 +8,5 @@
  * @return {boolean} True to let the document through; false to prevent it.
  **/
 function(doc, req) {
-  
+
 }

@@ -3,10 +3,10 @@ function (newDoc, oldDoc, userCtx) {
   var author = (oldDoc || newDoc)['author'];
   var docid = (oldDoc || newDoc)['_id'];
 
-  function forbidden(message) {    
+  function forbidden(message) {
     throw({forbidden : message});
   };
-  
+
   function unauthorized(message) {
     throw({unauthorized : message});
   };

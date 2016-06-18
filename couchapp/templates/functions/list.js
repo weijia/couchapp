@@ -6,5 +6,5 @@
  * @param {object} req - Request Object. http://docs.couchdb.org/en/latest/json-structure.html#request-object
  **/
 function(head, req) {
-  
+
 }
