@@ -1,5 +1,3 @@
-.. GENERATED VIA ``couchapp help``
-
 Usage: couchapp [OPTIONS] [CMD] [CMDOPTIONS] [ARGS,...]
 
 Options:
@@ -16,10 +14,12 @@ Commands:
 	browse   [COUCHAPPDIR] DEST
 	clone    [OPTION]...[-r REV] SOURCE [COUCHAPPDIR]
 		-r, --rev [VAL] clone specific revision
-	generate [OPTION]... [app|view,list,show,filter,function,vendor] [COUCHAPPDIR] NAME
+	generate [OPTION]... [view,list,show,spatial,filter,function,vendor] [COUCHAPPDIR] NAME
 		--template [VAL] template name
 	help     
-	init     [COUCHAPPDIR]
+	init     [OPTION]... [COUCHAPPDIR]
+		-e, --empty          create .couchapprc and .couchappignore only
+		-t, --template [VAL] create from template
 	push     [OPTION]... [COUCHAPPDIR] DEST
 		--no-atomic    send attachments one by one
 		--export       don't do push, just export doc to stdout
