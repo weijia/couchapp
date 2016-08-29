@@ -102,10 +102,10 @@ Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`_, do:
 
 
 Installing on Debian/Ubuntu
---------------------
+---------------------------
 
 There is a package in Debian repository.
-Thanks to `@gfa <https://github.com/gfa>`!
+Thanks to `@gfa <https://github.com/gfa>`_!
 
 ::
 
