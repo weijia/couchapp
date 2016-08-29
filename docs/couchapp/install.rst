@@ -101,20 +101,16 @@ Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`_, do:
     $ env ARCHFLAGS="-arch i386 -arch x86_64" pip install couchapp
 
 
-Installing on Ubuntu
+Installing on Debian/Ubuntu
 --------------------
 
-.. warning::
+There is a package in Debian repository.
+Thanks to `@gfa <https://github.com/gfa>`!
 
-    Our PPA is out-of-date.
-    We need your help for upgrading the packages.
+::
 
-If you use `Ubuntu <http://www.ubuntu.com/>`_, you can update your
-system with packages from our PPA by adding ``ppa:couchapp/couchapp`` to
-your system's Software Sources.
-
-Follow **instructions**
-`here <https://launchpad.net/~couchapp/+archive/couchapp>`_.
+    sudo apt-get update
+    sudo apt-get install couchapp
 
 
 Installing on Windows
