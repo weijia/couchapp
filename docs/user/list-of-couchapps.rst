@@ -87,6 +87,19 @@ witch Rails and JavaScript logger. Written in Backbone.js_
 `Code <https://github.com/andrzejsliwa/couch-watch>`_
 
 
+CouchDB Treatment history
+-------------------------
+
+Client management, visits history monthly and daily. Create visit.
+
+Uses only CouchDB, and React.
+
+
+`Code <https://github.com/copyhold/couchapp-treatment-plan>`_
+
+`Demo <https://copyhold.cloudant.com/demo-beds/_design/krovati-couch/index.html>`_
+
+
 CouchDB Contact Form
 --------------------
 
