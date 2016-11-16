@@ -87,19 +87,6 @@ witch Rails and JavaScript logger. Written in Backbone.js_
 `Code <https://github.com/andrzejsliwa/couch-watch>`_
 
 
-CouchDB Treatment history
--------------------------
-
-Client management, visits history monthly and daily. Create visit.
-
-Uses only CouchDB, and React.
-
-
-`Code <https://github.com/copyhold/couchapp-treatment-plan>`_
-
-`Demo <https://copyhold.cloudant.com/demo-beds/_design/krovati-couch/index.html>`_
-
-
 CouchDB Contact Form
 --------------------
 
@@ -114,6 +101,19 @@ CouchDB Projector
 For doing presentations.
 
 `Code <http://github.com/phred/couchdb-projector>`_
+
+
+CouchDB Treatment history
+-------------------------
+
+Client management, visits history monthly and daily. Create visit.
+
+Uses only CouchDB, and React.
+
+
+`Code <https://github.com/copyhold/couchapp-treatment-plan>`_
+
+`Demo <https://copyhold.cloudant.com/demo-beds/_design/krovati-couch/index.html>`_
 
 
 CouchLog
@@ -194,7 +194,7 @@ IrcLog CouchApp
 A couchapp to view irc logs stored in CouchDB.
 
 The irclogs can be stored by `gdamjan's ircbot
-<https://github.com/gdamjan/irclog-couchapp>`_ and its 
+<https://github.com/gdamjan/irclog-couchapp>`_ and its
 `couchdb loging plugin
 <https://github.com/gdamjan/erlang-irc-bot-skopjehacklab/blob/master/src/ircbot_plugin_couch_log.erl>`_ .
 
@@ -355,7 +355,7 @@ statistics are updated live (in near realtime).
 Scrapboard
 ----------
 
-A decentralized implementation of the old Orkut scrapbook. 
+A decentralized implementation of the old Orkut scrapbook.
 
 `Code <https://github.com/fiatjaf/scrapboard>`_
 
