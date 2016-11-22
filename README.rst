@@ -43,9 +43,10 @@ connectivity.
 Installation
 ------------
 
-Couchapp requires Python 2.6 or greater. Couchapp is most easily installed
-using the latest versions of the standard python packaging tools, setuptools
-and pip. They may be installed like so::
+Couchapp requires Python 2.6 or greater but not in Python3.
+Couchapp is most easily installed using the latest versions of the standard
+python packaging tools, ``setuptools`` and ``pip``.
+They may be installed like so::
 
     $ curl -O https://bootstrap.pypa.io/get-pip.py
     $ sudo python get-pip.py
@@ -53,6 +54,12 @@ and pip. They may be installed like so::
 Installing couchapp is then simply a matter of::
 
     $ pip install couchapp
+
+or this way if you cannot access the root (or due to SIP on macOS),
+then find the executable at ``~/.local/bin``.
+For more info about ``--user``, please checkout ``pip help install``::
+
+    $ pip install --user couchapp
 
 On OSX 10.6/10.7 you may need to set ARCH_FLAGS::
 
