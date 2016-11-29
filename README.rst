@@ -61,10 +61,6 @@ For more info about ``--user``, please checkout ``pip help install``::
 
     $ pip install --user couchapp
 
-On OSX 10.6/10.7 you may need to set ARCH_FLAGS::
-
-    $ env ARCHFLAGS="-arch i386 -arch x86_64" pip install couchapp
-
 To install/upgrade a development version of couchapp::
 
     $ pip install -e git+http://github.com/couchapp/couchapp.git#egg=Couchapp
