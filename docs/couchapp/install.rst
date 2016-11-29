@@ -45,7 +45,7 @@ To install/upgrade development version:
 
 
 Installing in a sandboxed environment
----------------------------------------
+-------------------------------------
 
 If you want to work in a sandboxed environment which is recommended if
 you don't want to not *pollute* your system, you can use `virtualenv
@@ -82,23 +82,60 @@ Using CouchApp Standalone executable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Download
-`couchapp-1.0.0-macosx.zip <https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-macosx.zip>`_
+`couchapp-1.0.0-macosx.zip
+<https://github.com/downloads/couchapp/couchapp/couchapp-1.0.0-macosx.zip>`_
 on `Github <http://github.com/>`_ then double-click on the installer.
 
 
-Using Homebrew
-~~~~~~~~~~~~~~
+Using `Homebrew`_
+~~~~~~~~~~~~~~~~~
+
+.. _Homebrew: http://brew.sh/
 
 To install easily couchapp on Mac OS X, it may be easier to use
-`Homebrew <http://github.com/mxcl/homebrewbrew>`_ to install ``pip``.
+`Homebrew`_ to install ``pip``.
 
-Once you `installed
-Homebrew <http://wiki.github.com/mxcl/homebrew/installation>`_, do:
+Once you installed `Homebrew`_,
+issue ``brew search pip`` and will get following message:
 
-::
+    Homebrew provides pip via: `brew install python`. However you will then
+    have two Pythons installed on your Mac, so alternatively you can install
+    pip via the instructions at:
+    https://pip.readthedocs.io/en/stable/instal
 
-    $ brew install pip
-    $ env ARCHFLAGS="-arch i386 -arch x86_64" pip install couchapp
+I will recommend that just install python from `Homebrew`_,
+because you will usually get a newer version of python than system base's::
+
+    $ brew install python
+
+And let's check the installation of python::
+
+    $ where python
+    /usr/local/bin/python
+    /usr/bin/python
+
+    $ where pip
+    /usr/local/bin/pip
+
+The path prefixed with ``/usr/local/`` is from `Homebrew`_.
+Everythings look fine, and issue::
+
+    $ pip install couchapp
+
+``pip`` will install packages into
+``~/Library/Python/2.7/lib/python/site-packages`` usually.
+Also you can verify the location via::
+
+    $ pip show --files couchapp
+
+Now, the executable is here::
+
+    ~/Library/Python/2.7/bin/couchapp
+
+Don't forget to add ``~/Library/Python/2.7/bin`` to your ``PATH``.
+There is more discussion about installation on macOS, please checkout
+`issue 240 <https://github.com/couchapp/couchapp/pull/240>`_ for
+more information.
 
 
 Installing on Debian/Ubuntu
