@@ -102,7 +102,7 @@ if os.name == "nt" or sys.platform == "win32":
             sys.argv.append("-q")
 
         extra['console'] = [{'script': os.path.join("resources", "scripts", "couchapp"),
-                             'copyright': 'Copyright (C) 2008-2016 Benoît Chesneau and others',
+                             'copyright': 'Copyright (C) 2008-2017 Benoît Chesneau and others',
                              'product_version': couchapp.__version__
                              }]
 
