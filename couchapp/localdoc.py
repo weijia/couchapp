@@ -53,23 +53,31 @@ class LocalDoc(object):
 
     def __init__(self, path, create=False, docid=None, is_ddoc=True):
         self.docdir = path
-        self.ignores = []
+        self.ignores = self._load_ignores()
         self.is_ddoc = is_ddoc
 
-        ignorefile = os.path.join(path, '.couchappignore')
-        if os.path.exists(ignorefile):
-            # A .couchappignore file is a json file containing a
-            # list of regexps for things to skip
-            with open(ignorefile, 'r') as f:
-                self.ignores = util.json.loads(
-                    util.remove_comments(f.read())
-                )
         if not docid:
             docid = self.get_id()
         self.docid = docid
         self._doc = {'_id': self.docid}
         if create:
             self.create()
+
+    def _load_ignores(self):
+        '''
+        load ignores from ``.couchappignore``
+
+        The ``.couchappignore`` file is a json file containing a
+        list of regexps for things to skip
+
+        :return: a list of file name or ``[]`` for empty
+        '''
+        path = os.path.join(self.docdir, '.couchappignore')
+        if not os.path.exists(path):
+            return []
+
+        with open(path, 'r') as f:
+            return util.json.loads(util.remove_comments(f.read()))
 
     def get_id(self):
         """
