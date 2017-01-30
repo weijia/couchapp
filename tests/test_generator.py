@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import tempfile
-
 from couchapp.errors import AppError
 from couchapp.generator import copy_helper, find_template_dir
 from couchapp.generator import init_basic, init_template, save_id
