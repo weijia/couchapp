@@ -89,10 +89,9 @@ class LocalDoc(object):
             docid = util.read(idfile).split("\n")[0].strip()
             if docid:
                 return docid
-        if self.is_ddoc:
-            return "_design/%s" % os.path.split(self.docdir)[1]
-        else:
-            return os.path.split(self.docdir)[1]
+
+        dirname = os.path.split(self.docdir)[1]
+        return "_design/%s" % dirname if self.is_ddoc else dirname
 
     def __repr__(self):
         return "<%s (%s/%s)>" % (self.__class__.__name__, self.docdir,
