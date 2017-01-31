@@ -186,3 +186,158 @@ class testCreate(object):
 
         assert self.exists('.couchapprc')
         assert not self.exists('.couchappignore')
+
+
+def test_check_ignore():
+    f = check_check_ignore
+
+    ignores = ['.*\.bak']
+    yield f, ignores, 'magic.bak', True
+    yield f, ignores, 'magicbak', False
+    yield f, ignores, 'bar/magic.bak', True
+
+    ignores = ['bar']
+    yield f, ignores, 'bar', True
+    yield f, ignores, 'bar/', True
+    yield f, ignores, 'bar.txt', False
+    yield f, ignores, 'magic_bar', False
+
+    yield f, ignores, 'foo/bar', True
+    yield f, ignores, 'foo/qaz/bar', True
+    yield f, ignores, 'foo/bar/app.js', True
+
+    yield f, ignores, 'bar/app.js', True
+    yield f, ignores, 'bar/foo.txt', True
+
+    yield f, ignores, 'magic_bar/app.js', False
+    yield f, ignores, 'bar_magic/app.js', False
+
+    # the result should be same as ``['bar']``,
+    # the ``$`` is include by default
+    ignores = ['bar$']
+    yield f, ignores, 'bar', True
+    yield f, ignores, 'bar/', True
+    yield f, ignores, 'bar.txt', False
+    yield f, ignores, 'magic_bar', False
+
+    yield f, ignores, 'foo/bar', True
+    yield f, ignores, 'foo/qaz/bar', True
+    yield f, ignores, 'foo/bar/app.js', True
+
+    yield f, ignores, 'bar/app.js', True
+    yield f, ignores, 'bar/foo.txt', True
+
+    yield f, ignores, 'magic_bar/app.js', False
+    yield f, ignores, 'bar_magic/app.js', False
+
+    ignores = ['foo/bar']
+    yield f, ignores, 'foo/bar', True
+    yield f, ignores, 'qaz/foo/bar', True
+
+    yield f, ignores, 'foo/bar/', True
+    yield f, ignores, 'qaz/foo/bar/', True
+
+    yield f, ignores, 'foo/bar/app.js', True
+    yield f, ignores, 'qaz/foo/bar/app.js', True
+
+    ignores = ['foo/.*bar']
+    yield f, ignores, 'foo/magic_bar', True
+    yield f, ignores, 'foo/magic_bar/', True
+    yield f, ignores, 'foo/magic_bar/app.js', True
+
+    yield f, ignores, 'foo/magic/bar/', True
+    yield f, ignores, 'foo/magic/bar/app.js', True
+
+    yield f, ignores, 'foo/magic/long/long/bar', True
+    yield f, ignores, 'foo/magic/long/long/bar/app.js', True
+
+    yield f, ignores, 'foobar', False
+
+    yield f, ignores, 'qaz/foo/magic_bar', True
+    yield f, ignores, 'qaz/foo/magic_bar/', True
+    yield f, ignores, 'qaz/foo/magic_bar/app.js', True
+
+    yield f, ignores, 'qaz/foo/magic/bar/', True
+    yield f, ignores, 'qaz/foo/magic/bar/app.js', True
+
+    yield f, ignores, 'qaz/foo/magic/long/long/bar', True
+    yield f, ignores, 'qaz/foo/magic/long/long/bar/app.js', True
+
+    yield f, ignores, 'qaz_foo/magic_bar', False
+    yield f, ignores, 'qaz_foo/magic_bar/', False
+    yield f, ignores, 'qaz_foo/magic_bar/app.js', False
+
+    yield f, ignores, 'qaz_foo/magic/bar/', False
+    yield f, ignores, 'qaz_foo/magic/bar/app.js', False
+
+    yield f, ignores, 'qaz_foo/magic/long/long/bar', False
+    yield f, ignores, 'qaz_foo/magic/long/long/bar/app.js', False
+
+    yield f, ignores, 'foo/magic_bar_', False
+    yield f, ignores, 'foo/magic_bar_/', False
+    yield f, ignores, 'foo/magic_bar_/app.js', False
+
+    yield f, ignores, 'foo/magic/bar_/', False
+    yield f, ignores, 'foo/magic/bar_/app.js', False
+
+    yield f, ignores, 'foo/magic/long/long/bar_', False
+    yield f, ignores, 'foo/magic/long/long/bar_/app.js', False
+
+    ignores = ['foo/.*/bar']
+    yield f, ignores, 'foo/magic_bar', False
+    yield f, ignores, 'foo/magic_bar/', False
+    yield f, ignores, 'foo/magic_bar/app.js', False
+
+    yield f, ignores, 'foo/magic/bar/', True
+    yield f, ignores, 'foo/magic/bar/app.js', True
+
+    yield f, ignores, 'foo/magic/long/long/bar', True
+    yield f, ignores, 'foo/magic/long/long/bar/app.js', True
+
+    yield f, ignores, 'foobar', False
+
+    yield f, ignores, 'qaz/foo/magic_bar', False
+    yield f, ignores, 'qaz/foo/magic_bar/', False
+    yield f, ignores, 'qaz/foo/magic_bar/app.js', False
+
+    yield f, ignores, 'qaz/foo/magic/bar/', True
+    yield f, ignores, 'qaz/foo/magic/bar/app.js', True
+
+    yield f, ignores, 'qaz/foo/magic/long/long/bar', True
+    yield f, ignores, 'qaz/foo/magic/long/long/bar/app.js', True
+
+    yield f, ignores, 'qaz_foo/magic_bar', False
+    yield f, ignores, 'qaz_foo/magic_bar/', False
+    yield f, ignores, 'qaz_foo/magic_bar/app.js', False
+
+    yield f, ignores, 'qaz_foo/magic/bar/', False
+    yield f, ignores, 'qaz_foo/magic/bar/app.js', False
+
+    yield f, ignores, 'qaz_foo/magic/long/long/bar', False
+    yield f, ignores, 'qaz_foo/magic/long/long/bar/app.js', False
+
+    yield f, ignores, 'foo/magic/bar_', False
+    yield f, ignores, 'foo/magic/bar_/', False
+    yield f, ignores, 'foo/magic/bar_/app.js', False
+
+    yield f, ignores, 'foo/magic/long/long/bar_', False
+    yield f, ignores, 'foo/magic/long/long/bar_/app.js', False
+
+    ignores = [u'測試']  # unicode testing
+    yield f, ignores, u'測試', True
+    yield f, ignores, u'測 試', False
+    yield f, ignores, u'測試/app.js', True
+    yield f, ignores, u'測試資料夾', False
+    yield f, ignores, u'測試.txt', False
+
+    yield f, ignores, u'foo/測試', True
+    yield f, ignores, u'foo/測 試', False
+    yield f, ignores, u'foo/測試/app.js', True
+    yield f, ignores, u'foo/測試資料夾', False
+    yield f, ignores, u'foo/測試.txt', False
+
+
+def check_check_ignore(ignores, path, ans):
+    doc = LocalDoc('/mock/app', create=False)
+    doc.ignores = ignores
+    assert doc.check_ignore(path) is ans
