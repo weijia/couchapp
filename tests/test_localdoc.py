@@ -158,3 +158,31 @@ class testGetId(object):
         doc = LocalDoc(self.dir, is_ddoc=True)
         ans = '_design/{}'.format(dirname)
         assert doc.get_id() == ans
+
+
+class testCreate(object):
+    def setUp(self):
+        self.dir = mkdtemp()
+
+    def tearDown(self):
+        rmtree(self.dir)
+
+    def exists(self, filename):
+        return os.path.exists(os.path.join(self.dir, filename))
+
+    def test_create(self):
+        doc = LocalDoc(self.dir, create=True)
+
+        assert self.exists('.couchapprc')
+        assert self.exists('.couchappignore')
+
+    def test_create_nothing(self):
+        # .couchapprc already exists
+        path = os.path.join(self.dir, '.couchapprc')
+        with open(path, 'w') as f:
+            f.write('{}')
+
+        doc = LocalDoc(self.dir, create=True)
+
+        assert self.exists('.couchapprc')
+        assert not self.exists('.couchappignore')

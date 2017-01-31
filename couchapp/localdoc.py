@@ -55,11 +55,9 @@ class LocalDoc(object):
         self.docdir = path
         self.ignores = self._load_ignores()
         self.is_ddoc = is_ddoc
-
-        if not docid:
-            docid = self.get_id()
-        self.docid = docid
+        self.docid = docid if docid else self.get_id()
         self._doc = {'_id': self.docid}
+
         if create:
             self.create()
 
@@ -91,7 +89,7 @@ class LocalDoc(object):
                 return docid
 
         dirname = os.path.split(self.docdir)[1]
-        return "_design/%s" % dirname if self.is_ddoc else dirname
+        return '_design/%s' % dirname if self.is_ddoc else dirname
 
     def __repr__(self):
         return "<%s (%s/%s)>" % (self.__class__.__name__, self.docdir,
@@ -101,10 +99,17 @@ class LocalDoc(object):
         return util.json.dumps(self.doc())
 
     def create(self):
+        '''
+        Init a dir as a couchapp.
+
+        Only create ``.couchapprc`` and ``.couchappignore``.
+        Do nothing if ``.couchapprc`` exists.
+        '''
         util.setup_dir(self.docdir, require_empty=False)
 
         rcfile = os.path.join(self.docdir, '.couchapprc')
         ignfile = os.path.join(self.docdir, '.couchappignore')
+
         if not os.path.isfile(rcfile):
             util.write_json(rcfile, {})
             util.write(ignfile, DEFAULT_IGNORE)
