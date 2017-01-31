@@ -42,9 +42,9 @@ re_comment = re.compile("((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))")
 DEFAULT_IGNORE = """[
   // paths matching these regexps will not be pushed to the database
   // uncomment to activate; separate entries with ","
-  // ".*~$"
-  // ".*\\\\.swp$"
-  // ".*\\\\.bak$"
+  // ".*~"
+  // ".*\\\\.swp"
+  // ".*\\\\.bak"
 ]"""
 
 
@@ -358,7 +358,7 @@ class LocalDoc(object):
                                                        self.docdir))
             if name.startswith("."):
                 continue
-            elif self.check_ignore(name):
+            elif self.check_ignore(rel_path):
                 continue
             elif depth == 0 and name.startswith('_'):
                 # files starting with "_" are always "special"
@@ -438,11 +438,15 @@ class LocalDoc(object):
         if os.path.isdir(path):
             for root, dirs, files in os.walk(path):
                 for dirname in dirs:
-                    if self.check_ignore(dirname):
+                    _relpath = util.relpath(os.path.join(root, dirname),
+                                            self.docdir)
+                    if self.check_ignore(_relpath):
                         dirs.remove(dirname)
                 if files:
                     for filename in files:
-                        if self.check_ignore(filename):
+                        _relpath = util.relpath(os.path.join(root, filename),
+                                                self.docdir)
+                        if self.check_ignore(_relpath):
                             continue
                         else:
                             filepath = os.path.join(root, filename)
