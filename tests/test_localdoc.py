@@ -156,7 +156,7 @@ class testGetId(object):
         assert doc.get_id() == dirname
 
         doc = LocalDoc(self.dir, is_ddoc=True)
-        ans = '_design/{}'.format(dirname)
+        ans = '_design/{0}'.format(dirname)
         assert doc.get_id() == ans
 
 
