@@ -118,8 +118,11 @@ class LocalDoc(object):
 
     def push(self, dbs, noatomic=False, browser=False, force=False,
              noindex=False):
-        """Push a doc to a list of database `dburls`. If noatomic is true
-        each attachments will be sent one by one."""
+        """
+        Push a doc to a list of database ``dbs``.
+
+        :param noatomic: If true, each attachments will be sent one by one.
+        """
         for db in dbs:
             if noatomic:
                 doc = self.doc(db, with_attachments=False, force=force)
@@ -186,10 +189,12 @@ class LocalDoc(object):
         return att
 
     def doc(self, db=None, with_attachments=True, force=False):
-        """ Function to reetrieve document object from
-        document directory. If `with_attachments` is True
-        attachments will be included and encoded"""
+        """
+        Function to reetrieve document object from document directory.
 
+        :param with_attachments: If ``True``,
+            attachments will be included and encoded
+        """
         manifest = []
         objects = {}
         signatures = {}
@@ -299,12 +304,16 @@ class LocalDoc(object):
                 return True
         return False
 
-    def dir_to_fields(self, current_dir='', depth=0, manifest=[]):
-        """ process a directory and get all members """
+    def dir_to_fields(self, current_dir=None, depth=0, manifest=None):
+        """
+        Process a directory and get all members
 
+        :param manifest: ``list``. We will have side effect on this param.
+        """
         fields = {}
-        if not current_dir:
-            current_dir = self.docdir
+        manifest = manifest if manifest is not None else []
+        current_dir = current_dir if current_dir else self.docdir
+
         for name in os.listdir(current_dir):
             current_path = os.path.join(current_dir, name)
             rel_path = _replace_backslash(util.relpath(current_path,
@@ -318,13 +327,12 @@ class LocalDoc(object):
                 continue
             elif name == '_attachments':
                 continue
-            elif depth == 0 and (name == 'couchapp' or
-                                 name == 'couchapp.json'):
+            elif depth == 0 and (name in ('couchapp', 'couchapp.json')):
                 # we are in app_meta
                 if name == "couchapp":
                     manifest.append('%s/' % rel_path)
                     content = self.dir_to_fields(current_path,
-                                                 depth=depth+1,
+                                                 depth=depth + 1,
                                                  manifest=manifest)
                 else:
                     manifest.append(rel_path)
