@@ -15,6 +15,7 @@ import urlparse
 import webbrowser
 
 from copy import copy
+from itertools import chain
 
 try:
     import desktopcouch
@@ -312,8 +313,10 @@ class LocalDoc(object):
         item = os.path.normpath(item)
 
         for pattern in self.ignores:
-            matches = (re.match(pattern + '$', i)
-                       for i in self._combine_path(item))
+            # ('/' + item) is for abs path, some duplicated generated but work
+            paths = chain(self._combine_path(item),
+                          self._combine_path('/' +item))
+            matches = (re.match(pattern + '$', i) for i in paths)
             if any(matches):
                 logger.debug("ignoring %s", item)
                 return True
@@ -324,6 +327,9 @@ class LocalDoc(object):
         '''
         >>> tuple(LocalDoc._combine_path('foo/bar/qaz'))
         ('foo', 'foo/bar', 'foo/bar/qaz', 'bar', 'bar/qaz', 'qaz')
+
+        >>> tuple(LocalDoc._combine_path('/foo/bar/qaz'))
+        ('/foo', '/foo/bar', '/foo/bar/qaz', 'bar', 'bar/qaz', 'qaz')
         '''
         ls = util.split_path(p)
         while ls:

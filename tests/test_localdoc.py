@@ -323,6 +323,13 @@ def test_check_ignore():
     yield f, ignores, 'foo/magic/long/long/bar_', False
     yield f, ignores, 'foo/magic/long/long/bar_/app.js', False
 
+    ignores = ['/foo/bar']
+    yield f, ignores, 'foo/bar', True
+    yield f, ignores, 'foo/bar/app.js', True
+
+    yield f, ignores, 'qaz/foo/bar', False
+    yield f, ignores, 'qaz/foo/bar/app.js', False
+
     ignores = [u'測試']  # unicode testing
     yield f, ignores, u'測試', True
     yield f, ignores, u'測 試', False
