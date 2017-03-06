@@ -404,6 +404,8 @@ def write(fname, content):
     """
     with open(fname, 'wb') as f:
         f.write(to_bytestring(content))
+        if not is_windows():
+            f.write('\n')
 
 
 def write_json(fname, obj):
