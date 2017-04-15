@@ -381,3 +381,66 @@ def check_meta_to_fields(input, ans):
     # check the is a copy of dict
     for i, o in zip(input, output):
         assert i is not o
+
+
+class TestEncodeContent(object):
+    def setUp(self):
+        self.dir = mkdtemp()
+
+    def tearDown(self):
+        rmtree(self.dir)
+
+    def test_json_suffix(self):
+        f = self.check_json_suffix
+
+        yield f, '{"magic": 42}', {'magic': 42}
+        yield f, '"magic"', "magic"
+        yield f, '[1, 2, 3]', [1, 2, 3]
+        yield f, '{}{}', ''
+
+    def check_json_suffix(self, content, ans):
+        name = 'magic.json'
+        p = os.path.join(self.dir, name)
+
+        with open(p, 'w') as f:
+            f.write(content)
+
+        content = LocalDoc._encode_content(name, p)
+        assert content == ans
+
+    def test_text_file(self):
+        f = self.check_text_file
+
+        yield f, b'readme'
+        yield f, b'readme\ntopic\n'
+        yield f, b'readme\ntopic\n   '
+
+        yield f, b'測試'
+        yield f, b'測試\n測試\n'
+        yield f, b'測試\n測試\n   '
+
+    def check_text_file(self, ans):
+        name = 'README.rst'
+        p = os.path.join(self.dir, name)
+
+        with open(p, 'wb') as f:
+            f.write(ans)
+
+        content = LocalDoc._encode_content(name, p)
+        assert content == ans.decode('utf8'), content
+
+    def test_bin_file(self):
+        f = self.check_bin_file
+
+        yield f, b'\xb4\xfa\xb8\xd5', 'tPq41Q=='
+        yield f, b'\xb4\xfa\xb8\xd5\xb4', 'tPq41bQ='
+
+    def check_bin_file(self, bits, ans):
+        name = 'a.out'
+        p = os.path.join(self.dir, name)
+
+        with open(p, 'wb') as f:
+            f.write(bits)
+
+        content = LocalDoc._encode_content(name, p)
+        assert content == 'base64-encoded;' + ans

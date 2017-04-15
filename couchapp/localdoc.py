@@ -386,41 +386,21 @@ class LocalDoc(object):
 
             elif os.path.isdir(current_path):
                 manifest.append('%s/' % rel_path)
-                fields[name] = self.dir_to_fields(current_path, depth=depth+1,
-                                                  manifest=manifest)
-            else:
+                fields[name] = self.dir_to_fields(
+                    current_path, depth=depth + 1, manifest=manifest)
+
+            else:  # handler for normal file
                 logger.debug('push %s', rel_path)
-
-                content = ''
-                if name.endswith('.json'):
-                    try:
-                        content = util.read_json(current_path)
-                    except ValueError:
-                        logger.error("Json invalid in %s", current_path)
-                else:
-                    try:
-                        content = util.read(current_path).strip()
-                    except UnicodeDecodeError:
-                        logger.warning("%s isn't encoded in utf8", current_path)
-                        content = util.read(current_path, utf8=False)
-                        try:
-                            content.encode('utf-8')
-                        except UnicodeError:
-                            logger.warning("plan B didn't work, "
-                                           "%s is a binary", current_path)
-                            logger.warning("use plan C: encode to base64")
-                            content = ("base64-encoded;%s" %
-                                        base64.b64encode(content))
-
                 # remove extension
-                name, ext = os.path.splitext(name)
-                if name in fields:
+                _name, ext = os.path.splitext(name)
+                if _name in fields:
                     logger.warning("%(name)s is already in properties. "
                                    "Can't add (%(fqn)s)",
-                                   {'name': name, 'fqn': rel_path})
+                                   {'name': _name, 'fqn': rel_path})
                 else:
                     manifest.append(rel_path)
-                    fields[name] = content
+                    fields[_name] = self._encode_content(name, current_path)
+
         return fields
 
     @staticmethod
@@ -448,6 +428,33 @@ class LocalDoc(object):
             fields['couchapp'] = content
 
         return fields, content
+
+    @staticmethod
+    def _encode_content(name, path):
+        '''
+        This is a private subroutine for ``dir_to_fields``
+        '''
+        if name.endswith('.json'):
+            try:
+                return util.read_json(path, raise_on_error=True)
+            except ValueError:
+                logger.error("Json invalid in %s", path)
+                return ''
+
+        try:
+            content = util.read(path)
+        except UnicodeDecodeError:
+            logger.warning("%s isn't encoded in utf8", path)
+            content = util.read(path, utf8=False)
+
+            try:
+                content.encode('utf-8')
+            except UnicodeError:
+                logger.warning("plan B didn't work, %s is a binary", path)
+                logger.warning("use plan C: encode to base64")
+                content = ("base64-encoded;%s" % base64.b64encode(content))
+
+        return content
 
     def _process_attachments(self, path, vendor=None):
         """ the function processing directory to yeld
