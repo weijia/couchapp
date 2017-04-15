@@ -125,6 +125,7 @@ class LocalDoc(object):
         Push a doc to a list of database ``dbs``.
 
         :param noatomic: If true, each attachments will be sent one by one.
+        :param browser: If true, open browser after pushed.
         """
         for db in dbs:
             if noatomic:
@@ -354,7 +355,7 @@ class LocalDoc(object):
 
         :param manifest: ``list``. We will have side effect on this param.
         """
-        fields = {}
+        fields = {}  # return value
         manifest = manifest if manifest is not None else []
         current_dir = current_dir if current_dir else self.docdir
 
@@ -375,30 +376,14 @@ class LocalDoc(object):
                 # we are in app_meta
                 if name == "couchapp":
                     manifest.append('%s/' % rel_path)
-                    content = self.dir_to_fields(current_path,
-                                                 depth=depth + 1,
-                                                 manifest=manifest)
+                    content = self.dir_to_fields(
+                        current_path, depth=depth + 1, manifest=manifest)
                 else:
                     manifest.append(rel_path)
                     content = util.read_json(current_path)
-                    if not isinstance(content, dict):
-                        content = {"meta": content}
-                if 'signatures' in content:
-                    del content['signatures']
 
-                if 'manifest' in content:
-                    del content['manifest']
+                fields, content = self._meta_to_fields(fields, content)
 
-                if 'objects' in content:
-                    del content['objects']
-
-                if 'length' in content:
-                    del content['length']
-
-                if 'couchapp' in fields:
-                    fields['couchapp'].update(content)
-                else:
-                    fields['couchapp'] = content
             elif os.path.isdir(current_path):
                 manifest.append('%s/' % rel_path)
                 fields[name] = self.dir_to_fields(current_path, depth=depth+1,
@@ -437,6 +422,32 @@ class LocalDoc(object):
                     manifest.append(rel_path)
                     fields[name] = content
         return fields
+
+    @staticmethod
+    def _meta_to_fields(fields, content):
+        '''
+        Convert ``couchapp/`` or ``couchapp.json`` to fields
+
+        This is a private subroutine for ``dir_to_fields``
+
+        :return: fields, content
+        '''
+        if not isinstance(content, dict):
+            content = {'meta': content}
+
+        content = content.copy()
+        fields = fields.copy()
+
+        for f in ('signatures', 'manifest', 'objects', 'length'):
+            if f in content:
+                del content[f]
+
+        if 'couchapp' in fields:
+            fields['couchapp'].update(content)
+        else:
+            fields['couchapp'] = content
+
+        return fields, content
 
     def _process_attachments(self, path, vendor=None):
         """ the function processing directory to yeld

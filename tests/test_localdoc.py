@@ -348,3 +348,36 @@ def check_check_ignore(ignores, path, ans):
     doc = LocalDoc('/mock/app', create=False)
     doc.ignores = ignores
     assert doc.check_ignore(path) is ans
+
+
+def test_meta_to_fields():
+    f = check_meta_to_fields
+
+    yield f, ({}, {}), ({'couchapp': {}}, {})
+
+    yield f, ({}, []), ({'couchapp': {'meta': []}},
+                        {'meta': []})
+    yield f, ({}, [42]), ({'couchapp': {'meta': [42]}},
+                          {'meta': [42]})
+    yield f, ({}, 'magic'), ({'couchapp': {'meta': 'magic'}},
+                             {'meta': 'magic'})
+
+    yield f, ({}, {'signatures': 42}), ({'couchapp': {}}, {})
+    yield f, ({}, {'manifest': 42}), ({'couchapp': {}}, {})
+    yield f, ({}, {'objects': 42}), ({'couchapp': {}}, {})
+    yield f, ({}, {'object': 42}), ({'couchapp': {'object': 42}},
+                                    {'object': 42})
+    yield f, ({}, {'length': 42}), ({'couchapp': {}}, {})
+
+    yield (f,
+           ({'couchapp': {'magic': 42}}, {'foo': 'bar'}),
+           ({'couchapp': {'magic': 42, 'foo': 'bar'}}, {'foo': 'bar'}))
+
+
+def check_meta_to_fields(input, ans):
+    output = LocalDoc._meta_to_fields(*input)
+
+    assert ans == output
+    # check the is a copy of dict
+    for i, o in zip(input, output):
+        assert i is not o
