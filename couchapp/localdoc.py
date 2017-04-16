@@ -363,7 +363,7 @@ class LocalDoc(object):
             current_path = os.path.join(current_dir, name)
             rel_path = _replace_backslash(util.relpath(current_path,
                                                        self.docdir))
-            if name.startswith("."):
+            if name.startswith('.'):
                 continue
             elif self.check_ignore(rel_path):
                 continue

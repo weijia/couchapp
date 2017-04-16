@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import os
 
 from shutil import rmtree
@@ -444,3 +445,161 @@ class TestEncodeContent(object):
 
         content = LocalDoc._encode_content(name, p)
         assert content == 'base64-encoded;' + ans
+
+
+class TestDirToFieds(object):
+    def setUp(self):
+        self.dir = mkdtemp()
+
+    def tearDown(self):
+        rmtree(self.dir)
+
+    def test_main(self):
+        f = self.check
+        # assume ``docdir`` is same as ``current_dir``
+        yield f, [], ['.foo'], {}, []
+        yield f, [], ['.foo', '.bar'], {}, []
+        yield f, ['test'], ['.foo', 'test/.bar'], {'test': {}}, ['test/']
+
+        f = self.check_ignore
+        yield f, ['README'], [], ['README'], {}, []
+        yield f, ['README'], ['d'], ['d/README', 'README'], {'d': {}}, ['d/']
+        yield (
+            f, ['README'], ['d'],
+            ['d/README', 'README', '.foo', 'd/.bar'],  # files
+            {'d': {}},  # fields
+            ['d/'])  # manifest
+
+        f = self.check
+        yield f, ['_foo'], [], {}, []
+        yield f, ['_foo', '_bar'], [], {}, []
+        yield f, ['_foo', '_bar'], ['_foo/foo'], {}, []
+        yield f, ['_foo', '_bar'], ['_foo/foo', '_bar/bar'], {}, []
+
+        yield (
+            f, ['d/_foo'], [],
+            {'d': {'_foo': {}}},
+            ['d/', 'd/_foo/'])
+        yield (
+            f, ['d/_foo'], ['d/_foo/README'],
+            {'d': {'_foo': {'README': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/README'])
+        yield (
+            f, ['d/_foo', '_bar'],
+            ['d/_foo/README', '_bar/bar'],  # files
+            {'d': {'_foo': {'README': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/README'])
+        yield (
+            f, ['d/_foo', '_bar', '.foo'],
+            ['d/_foo/README', '_bar/bar', '.foo/foo'],  # files
+            {'d': {'_foo': {'README': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/README'])
+        yield (
+            f, ['d/_foo', '_bar', '.foo'],
+            ['d/_foo/README', '_bar/bar', '_bar/_bar', '.foo/foo'],  # files
+            {'d': {'_foo': {'README': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/README'])
+        yield (
+            f, ['d/_foo', '_bar', '.foo'],
+            ['d/_foo/README', 'd/_foo/.foo', '_bar/bar', '_bar/_bar',
+             '.foo/foo'],  # files
+            {'d': {'_foo': {'README': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/README'])
+
+        # test cases for ``_attachments``
+        yield (
+            f, ['_attachments'],
+            ['_attachments/README'],  # files
+            {},
+            [])
+        yield (
+            f, ['_attachments', 'd'],
+            ['_attachments/README'],  # files
+            {'d': {}},
+            ['d/'])
+        yield (
+            f, ['_attachments', 'd/_foo'],
+            ['_attachments/README', 'd/_foo/foo'],  # files
+            {'d': {'_foo': {'foo': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/foo'])
+        yield (
+            f, ['_attachments', 'd/_foo', 'd/_attachments'],
+            ['_attachments/README', 'd/_foo/foo',
+             'd/_attachments/README'],  # files
+            {'d': {'_foo': {'foo': ''}}},
+            ['d/', 'd/_foo/', 'd/_foo/foo'])
+
+        # test cases for ``couchapp/``
+        yield (
+            f, ['couchapp'],
+            ['couchapp/README'],  # files
+            {'couchapp': {'README': ''}},
+            ['couchapp/', 'couchapp/README'])
+        yield (
+            f, ['couchapp/_foo'],
+            ['couchapp/README', 'couchapp/_foo/foo'],  # files
+            {'couchapp': {'README': '', '_foo': {'foo': ''}}},
+            ['couchapp/', 'couchapp/_foo/', 'couchapp/_foo/foo',
+             'couchapp/README'])
+
+        # test cases for ``couchapp.json``
+        f = self.check_capp_json
+        yield (
+            f, {},
+            [], ['couchapp.json'],
+            {'couchapp': {}},
+            ['couchapp.json'])
+        yield (
+            f, {'foo': 'bar', 'ans': 42},
+            [], ['couchapp.json'],
+            {'couchapp': {'foo': 'bar', 'ans': 42}},
+            ['couchapp.json'])
+        yield (
+            f, 'string',
+            [], ['couchapp.json'],
+            {'couchapp': {'meta': 'string'}},
+            ['couchapp.json'])
+        yield (
+            f, ['list', 1, 2, 3],
+            [], ['couchapp.json'],
+            {'couchapp': {'meta': ['list', 1, 2, 3]}},
+            ['couchapp.json'])
+        yield (
+            f, {'signatures': 42},
+            [], ['couchapp.json'],
+            {'couchapp': {}},
+            ['couchapp.json'])
+        yield (
+            f, {'signatures': 42, 'foo': 'bar'},
+            [], ['couchapp.json'],
+            {'couchapp': {'foo': 'bar'}},
+            ['couchapp.json'])
+
+        # test cases for name collision
+        f = self.check
+        yield(
+            f, [], ['README', 'README.rst'],
+            {'README': ''},
+            ['README'])
+
+    def check(self, dirs, files, fields, manifest):
+        [os.makedirs(os.path.join(self.dir, d)) for d in dirs]
+        [open(os.path.join(self.dir, f), 'a').close() for f in files]
+
+        out_m = []
+        out_f = LocalDoc(self.dir).dir_to_fields(self.dir, manifest=out_m)
+
+        assert out_f == fields
+        assert set(out_m) == set(manifest)
+
+    def check_ignore(self, ignores, *args):
+        with open(os.path.join(self.dir, '.couchappignore'), 'w') as f:
+            f.write(json.dumps(ignores))
+
+        self.check(*args)
+
+    def check_capp_json(self, content, *args):
+        with open(os.path.join(self.dir, 'couchapp.json'), 'w') as f:
+            f.write(json.dumps(content))
+
+        self.check(*args)
