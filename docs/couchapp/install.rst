@@ -47,8 +47,8 @@ To install/upgrade development version:
 Installing in a sandboxed environment
 -------------------------------------
 
-If you want to work in a sandboxed environment which is recommended if
-you don't want to not *pollute* your system, you can use `virtualenv
+If you want to work in a sandboxed environment, which is recommended if
+you don't want to *pollute* your system, you can use `virtualenv
 <http://pypi.python.org/pypi/virtualenv>`_ ::
 
     $ curl -O https://bootstrap.pypa.io/get-pip.py
