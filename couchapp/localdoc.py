@@ -194,7 +194,7 @@ class LocalDoc(object):
 
     def doc(self, db=None, with_attachments=True, force=False):
         """
-        Function to reetrieve document object from document directory.
+        Function to retrieve document object from document directory.
 
         :param with_attachments: If ``True``,
             attachments will be included and encoded
@@ -457,42 +457,49 @@ class LocalDoc(object):
         return content
 
     def _process_attachments(self, path, vendor=None):
-        """ the function processing directory to yeld
-        attachments. """
-        if os.path.isdir(path):
-            for root, dirs, files in os.walk(path):
-                for dirname in dirs:
-                    _relpath = util.relpath(os.path.join(root, dirname),
-                                            self.docdir)
-                    if self.check_ignore(_relpath):
-                        dirs.remove(dirname)
-                if files:
-                    for filename in files:
-                        _relpath = util.relpath(os.path.join(root, filename),
-                                                self.docdir)
-                        if self.check_ignore(_relpath):
-                            continue
-                        else:
-                            filepath = os.path.join(root, filename)
-                            name = util.relpath(filepath, path)
-                            if vendor is not None:
-                                name = os.path.join('vendor', vendor, name)
-                            name = _replace_backslash(name)
-                            yield (name, filepath)
+        """
+        Processing directory to yield attachments.
+        """
+        if not os.path.isdir(path):
+            raise StopIteration()
+
+        for root, dirs, files in os.walk(path):
+            for dir_ in dirs:
+                _relpath = util.relpath(os.path.join(root, dir_),
+                                        self.docdir)
+                if self.check_ignore(_relpath):
+                    dirs.remove(dir_)
+
+            if not files:
+                continue
+
+            for filename in files:
+                filepath = os.path.join(root, filename)
+                _relpath = util.relpath(filepath, self.docdir)
+                if self.check_ignore(_relpath):
+                    continue
+
+                name = util.relpath(filepath, path)
+                if vendor is not None:
+                    name = os.path.join('vendor', vendor, name)
+                name = _replace_backslash(name)
+                yield (name, filepath)
 
     def attachments(self):
-        """ This function yield a tuple (name, filepath) corresponding
-        to each attachment (vendor included) in the couchapp. `name`
-        is the name of attachment in `_attachments` member and `filepath`
-        the path to the attachment on the disk.
+        """
+        This function yield a tuple (name, filepath) corresponding
+        to each attachment (vendor, included) in the couchapp.
+        ``name`` is the name of attachment in ``_attachments`` member
+        and ``filepath`` the path to the attachment on the disk.
 
         attachments are processed later to allow us to send attachments inline
         or one by one.
         """
         # process main attachments
-        attachdir = os.path.join(self.docdir, "_attachments")
-        for attachment in self._process_attachments(attachdir):
+        dir_ = os.path.join(self.docdir, "_attachments")
+        for attachment in self._process_attachments(dir_):
             yield attachment
+
         vendordir = os.path.join(self.docdir, 'vendor')
         if not os.path.isdir(vendordir):
             logger.debug("%s don't exist", vendordir)
