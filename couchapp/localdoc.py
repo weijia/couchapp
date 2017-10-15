@@ -14,6 +14,9 @@ import re
 import urlparse
 import webbrowser
 
+from copy import copy
+from itertools import chain
+
 try:
     import desktopcouch
     try:
@@ -38,11 +41,11 @@ else:
 re_comment = re.compile("((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))")
 
 DEFAULT_IGNORE = """[
-  // filenames matching these regexps will not be pushed to the database
+  // paths matching these regexps will not be pushed to the database
   // uncomment to activate; separate entries with ","
-  // ".*~$"
-  // ".*\\\\.swp$"
-  // ".*\\\\.bak$"
+  // ".*~"
+  // ".*\\\\.swp"
+  // ".*\\\\.bak"
 ]"""
 
 
@@ -53,23 +56,29 @@ class LocalDoc(object):
 
     def __init__(self, path, create=False, docid=None, is_ddoc=True):
         self.docdir = path
-        self.ignores = []
+        self.ignores = self._load_ignores()
         self.is_ddoc = is_ddoc
-
-        ignorefile = os.path.join(path, '.couchappignore')
-        if os.path.exists(ignorefile):
-            # A .couchappignore file is a json file containing a
-            # list of regexps for things to skip
-            with open(ignorefile, 'r') as f:
-                self.ignores = util.json.loads(
-                    util.remove_comments(f.read())
-                )
-        if not docid:
-            docid = self.get_id()
-        self.docid = docid
+        self.docid = docid if docid else self.get_id()
         self._doc = {'_id': self.docid}
+
         if create:
             self.create()
+
+    def _load_ignores(self):
+        '''
+        load ignores from ``.couchappignore``
+
+        The ``.couchappignore`` file is a json file containing a
+        list of regexps for things to skip
+
+        :return: a list of file name or ``[]`` for empty
+        '''
+        path = os.path.join(self.docdir, '.couchappignore')
+        if not os.path.exists(path):
+            return []
+
+        with open(path, 'r') as f:
+            return util.json.loads(util.remove_comments(f.read()))
 
     def get_id(self):
         """
@@ -81,10 +90,9 @@ class LocalDoc(object):
             docid = util.read(idfile).split("\n")[0].strip()
             if docid:
                 return docid
-        if self.is_ddoc:
-            return "_design/%s" % os.path.split(self.docdir)[1]
-        else:
-            return os.path.split(self.docdir)[1]
+
+        dirname = os.path.split(self.docdir)[1]
+        return '_design/%s' % dirname if self.is_ddoc else dirname
 
     def __repr__(self):
         return "<%s (%s/%s)>" % (self.__class__.__name__, self.docdir,
@@ -94,10 +102,17 @@ class LocalDoc(object):
         return util.json.dumps(self.doc())
 
     def create(self):
+        '''
+        Init a dir as a couchapp.
+
+        Only create ``.couchapprc`` and ``.couchappignore``.
+        Do nothing if ``.couchapprc`` exists.
+        '''
         util.setup_dir(self.docdir, require_empty=False)
 
         rcfile = os.path.join(self.docdir, '.couchapprc')
         ignfile = os.path.join(self.docdir, '.couchappignore')
+
         if not os.path.isfile(rcfile):
             util.write_json(rcfile, {})
             util.write(ignfile, DEFAULT_IGNORE)
@@ -106,8 +121,12 @@ class LocalDoc(object):
 
     def push(self, dbs, noatomic=False, browser=False, force=False,
              noindex=False):
-        """Push a doc to a list of database `dburls`. If noatomic is true
-        each attachments will be sent one by one."""
+        """
+        Push a doc to a list of database ``dbs``.
+
+        :param noatomic: If true, each attachments will be sent one by one.
+        :param browser: If true, open browser after pushed.
+        """
         for db in dbs:
             if noatomic:
                 doc = self.doc(db, with_attachments=False, force=force)
@@ -174,10 +193,12 @@ class LocalDoc(object):
         return att
 
     def doc(self, db=None, with_attachments=True, force=False):
-        """ Function to reetrieve document object from
-        document directory. If `with_attachments` is True
-        attachments will be included and encoded"""
+        """
+        Function to retrieve document object from document directory.
 
+        :param with_attachments: If ``True``,
+            attachments will be included and encoded
+        """
         manifest = []
         objects = {}
         signatures = {}
@@ -280,133 +301,205 @@ class LocalDoc(object):
         return self._doc
 
     def check_ignore(self, item):
-        for i in self.ignores:
-            match = re.match(i, item)
-            if match:
+        '''
+        :param item: the relative path which starts from ``self.docdir``
+
+        Given a path and a ignore list,
+        e.g. ``foo/bar/baz.json`` and ``['bar']``,
+        we will check
+            * ``foo/bar/baz.json`` vs ``bar`` -> False
+            * ``bar/baz.json`` vs ``bar`` -> True, then return
+            * ``baz.json`` vs ``bar`` -> not checked
+        '''
+        item = os.path.normpath(item)
+
+        for pattern in self.ignores:
+            # ('/' + item) is for abs path, some duplicated generated but work
+            paths = chain(self._combine_path(item),
+                          self._combine_path('/' +item))
+            matches = (re.match(pattern + '$', i) for i in paths)
+            if any(matches):
                 logger.debug("ignoring %s", item)
                 return True
         return False
 
-    def dir_to_fields(self, current_dir='', depth=0, manifest=[]):
-        """ process a directory and get all members """
+    @classmethod
+    def _combine_path(cls, p):
+        '''
+        >>> tuple(LocalDoc._combine_path('foo/bar/qaz'))
+        ('foo', 'foo/bar', 'foo/bar/qaz', 'bar', 'bar/qaz', 'qaz')
 
-        fields = {}
-        if not current_dir:
-            current_dir = self.docdir
+        >>> tuple(LocalDoc._combine_path('/foo/bar/qaz'))
+        ('/foo', '/foo/bar', '/foo/bar/qaz', 'bar', 'bar/qaz', 'qaz')
+        '''
+        ls = util.split_path(p)
+        while ls:
+            for i in cls._combine_dir(copy(ls)):
+                yield i
+            ls.pop(0)
+
+    @staticmethod
+    def _combine_dir(ls):
+        '''
+        >>> tuple(LocalDoc._combine_dir(['foo', 'bar', 'qaz']))
+        ('foo', 'foo/bar', 'foo/bar/qaz')
+        '''
+        ret = tuple()
+        while ls:
+            ret += (ls.pop(0),)
+            yield '/'.join(ret)
+
+    def dir_to_fields(self, current_dir=None, depth=0, manifest=None):
+        """
+        Process a directory and get all members
+
+        :param manifest: ``list``. We will have side effect on this param.
+        """
+        fields = {}  # return value
+        manifest = manifest if manifest is not None else []
+        current_dir = current_dir if current_dir else self.docdir
+
         for name in os.listdir(current_dir):
             current_path = os.path.join(current_dir, name)
             rel_path = _replace_backslash(util.relpath(current_path,
                                                        self.docdir))
-            if name.startswith("."):
+            if name.startswith('.'):
                 continue
-            elif self.check_ignore(name):
+            elif self.check_ignore(rel_path):
                 continue
             elif depth == 0 and name.startswith('_'):
                 # files starting with "_" are always "special"
                 continue
             elif name == '_attachments':
                 continue
-            elif depth == 0 and (name == 'couchapp' or
-                                 name == 'couchapp.json'):
+            elif depth == 0 and (name in ('couchapp', 'couchapp.json')):
                 # we are in app_meta
                 if name == "couchapp":
                     manifest.append('%s/' % rel_path)
-                    content = self.dir_to_fields(current_path,
-                                                 depth=depth+1,
-                                                 manifest=manifest)
+                    content = self.dir_to_fields(
+                        current_path, depth=depth + 1, manifest=manifest)
                 else:
                     manifest.append(rel_path)
                     content = util.read_json(current_path)
-                    if not isinstance(content, dict):
-                        content = {"meta": content}
-                if 'signatures' in content:
-                    del content['signatures']
 
-                if 'manifest' in content:
-                    del content['manifest']
+                fields, content = self._meta_to_fields(fields, content)
 
-                if 'objects' in content:
-                    del content['objects']
-
-                if 'length' in content:
-                    del content['length']
-
-                if 'couchapp' in fields:
-                    fields['couchapp'].update(content)
-                else:
-                    fields['couchapp'] = content
             elif os.path.isdir(current_path):
                 manifest.append('%s/' % rel_path)
-                fields[name] = self.dir_to_fields(current_path, depth=depth+1,
-                                                  manifest=manifest)
-            else:
+                fields[name] = self.dir_to_fields(
+                    current_path, depth=depth + 1, manifest=manifest)
+
+            else:  # handler for normal file
                 logger.debug('push %s', rel_path)
-
-                content = ''
-                if name.endswith('.json'):
-                    try:
-                        content = util.read_json(current_path)
-                    except ValueError:
-                        logger.error("Json invalid in %s", current_path)
-                else:
-                    try:
-                        content = util.read(current_path).strip()
-                    except UnicodeDecodeError:
-                        logger.warning("%s isn't encoded in utf8", current_path)
-                        content = util.read(current_path, utf8=False)
-                        try:
-                            content.encode('utf-8')
-                        except UnicodeError:
-                            logger.warning("plan B didn't work, "
-                                           "%s is a binary", current_path)
-                            logger.warning("use plan C: encode to base64")
-                            content = ("base64-encoded;%s" %
-                                        base64.b64encode(content))
-
                 # remove extension
-                name, ext = os.path.splitext(name)
-                if name in fields:
+                _name, ext = os.path.splitext(name)
+                if _name in fields:
                     logger.warning("%(name)s is already in properties. "
                                    "Can't add (%(fqn)s)",
-                                   {'name': name, 'fqn': rel_path})
+                                   {'name': _name, 'fqn': rel_path})
                 else:
                     manifest.append(rel_path)
-                    fields[name] = content
+                    fields[_name] = self._encode_content(name, current_path)
+
         return fields
 
+    @staticmethod
+    def _meta_to_fields(fields, content):
+        '''
+        Convert ``couchapp/`` or ``couchapp.json`` to fields
+
+        This is a private subroutine for ``dir_to_fields``
+
+        :return: fields, content
+        '''
+        if not isinstance(content, dict):
+            content = {'meta': content}
+
+        content = content.copy()
+        fields = fields.copy()
+
+        for f in ('signatures', 'manifest', 'objects', 'length'):
+            if f in content:
+                del content[f]
+
+        if 'couchapp' in fields:
+            fields['couchapp'].update(content)
+        else:
+            fields['couchapp'] = content
+
+        return fields, content
+
+    @staticmethod
+    def _encode_content(name, path):
+        '''
+        This is a private subroutine for ``dir_to_fields``
+        '''
+        if name.endswith('.json'):
+            try:
+                return util.read_json(path, raise_on_error=True)
+            except ValueError:
+                logger.error("Json invalid in %s", path)
+                return ''
+
+        try:
+            content = util.read(path)
+        except UnicodeDecodeError:
+            logger.warning("%s isn't encoded in utf8", path)
+            content = util.read(path, utf8=False)
+
+            try:
+                content.encode('utf-8')
+            except UnicodeError:
+                logger.warning("plan B didn't work, %s is a binary", path)
+                logger.warning("use plan C: encode to base64")
+                content = ("base64-encoded;%s" % base64.b64encode(content))
+
+        return content
+
     def _process_attachments(self, path, vendor=None):
-        """ the function processing directory to yeld
-        attachments. """
-        if os.path.isdir(path):
-            for root, dirs, files in os.walk(path):
-                for dirname in dirs:
-                    if self.check_ignore(dirname):
-                        dirs.remove(dirname)
-                if files:
-                    for filename in files:
-                        if self.check_ignore(filename):
-                            continue
-                        else:
-                            filepath = os.path.join(root, filename)
-                            name = util.relpath(filepath, path)
-                            if vendor is not None:
-                                name = os.path.join('vendor', vendor, name)
-                            name = _replace_backslash(name)
-                            yield (name, filepath)
+        """
+        Processing directory to yield attachments.
+        """
+        if not os.path.isdir(path):
+            raise StopIteration()
+
+        for root, dirs, files in os.walk(path):
+            for dir_ in dirs:
+                _relpath = util.relpath(os.path.join(root, dir_),
+                                        self.docdir)
+                if self.check_ignore(_relpath):
+                    dirs.remove(dir_)
+
+            if not files:
+                continue
+
+            for filename in files:
+                filepath = os.path.join(root, filename)
+                _relpath = util.relpath(filepath, self.docdir)
+                if self.check_ignore(_relpath):
+                    continue
+
+                name = util.relpath(filepath, path)
+                if vendor is not None:
+                    name = os.path.join('vendor', vendor, name)
+                name = _replace_backslash(name)
+                yield (name, filepath)
 
     def attachments(self):
-        """ This function yield a tuple (name, filepath) corresponding
-        to each attachment (vendor included) in the couchapp. `name`
-        is the name of attachment in `_attachments` member and `filepath`
-        the path to the attachment on the disk.
+        """
+        This function yield a tuple (name, filepath) corresponding
+        to each attachment (vendor, included) in the couchapp.
+        ``name`` is the name of attachment in ``_attachments`` member
+        and ``filepath`` the path to the attachment on the disk.
 
         attachments are processed later to allow us to send attachments inline
         or one by one.
         """
         # process main attachments
-        attachdir = os.path.join(self.docdir, "_attachments")
-        for attachment in self._process_attachments(attachdir):
+        dir_ = os.path.join(self.docdir, "_attachments")
+        for attachment in self._process_attachments(dir_):
             yield attachment
+
         vendordir = os.path.join(self.docdir, 'vendor')
         if not os.path.isdir(vendordir):
             logger.debug("%s don't exist", vendordir)
