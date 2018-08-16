@@ -54,7 +54,7 @@ install:
     # Install requirements manually
     # py2exe need all depends unzipped
     # see: http://www.py2exe.org/index.cgi/ExeWithEggs
-    - python -m easy_install -Z restkit==4.2.2 watchdog==0.6.0
+    - python -m easy_install -Z restkit==4.2.2 watchdog==0.8.3
 
     # Install py2exe
     - pip install http://sourceforge.net/projects/py2exe/files/latest/download?source=files

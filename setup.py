@@ -117,7 +117,7 @@ def main():
     with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
         long_description = f.read()
 
-    INSTALL_REQUIRES = ['restkit==4.2.2', 'watchdog==0.6.0']
+    INSTALL_REQUIRES = ['restkit==4.2.2', 'watchdog==0.8.3']
 
     try:
         import json
