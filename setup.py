@@ -77,39 +77,39 @@ def get_py2exe_datafiles():
 
 
 if os.name == "nt" or sys.platform == "win32":
-    # py2exe needs to be installed to work
+    # If run without args, build executables, in quiet mode.
+    if len(sys.argv) == 1:
+        sys.argv.append("py2exe")
+        sys.argv.append("-q")
+
+    # Help py2exe to find win32com.shell
     try:
-        import py2exe
-
-        # Help py2exe to find win32com.shell
-        try:
-            import modulefinder
-            import win32com
-            for p in win32com.__path__[1:]:  # Take the path to win32comext
-                modulefinder.AddPackagePath("win32com", p)
-            pn = "win32com.shell"
-            __import__(pn)
-            m = sys.modules[pn]
-            for p in m.__path__[1:]:
-                modulefinder.AddPackagePath(pn, p)
-        except ImportError:
-            raise SystemExit('You need pywin32 installed ' +
-                             'http://sourceforge.net/projects/pywin32')
-
-        # If run without args, build executables, in quiet mode.
-        if len(sys.argv) == 1:
-            sys.argv.append("py2exe")
-            sys.argv.append("-q")
-
-        extra['console'] = [{'script': os.path.join("resources", "scripts", "couchapp"),
-                             'copyright': 'Copyright (C) 2008-2017 Benoît Chesneau and others',
-                             'product_version': couchapp.__version__
-                             }]
-
+        import modulefinder
+        import win32com
+        for p in win32com.__path__[1:]:  # Take the path to win32comext
+            modulefinder.AddPackagePath("win32com", p)
+        pn = "win32com.shell"
+        __import__(pn)
+        m = sys.modules[pn]
+        for p in m.__path__[1:]:
+            modulefinder.AddPackagePath(pn, p)
     except ImportError:
-        raise SystemExit('You need py2exe installed to run Couchapp.')
+        raise SystemExit('You need pywin32 installed ' +
+                         'http://sourceforge.net/projects/pywin32')
 
-    DATA_FILES = get_py2exe_datafiles()
+    extra['console'] = [{'script': os.path.join("resources", "scripts", "couchapp"),
+                         'copyright': 'Copyright (C) 2008-2017 Benoît Chesneau and others',
+                         'product_version': couchapp.__version__
+                         }]
+
+    # py2exe needs to be installed to work
+    if "py2exe" in sys.argv:
+        try:
+            import py2exe
+        except ImportError:
+            raise SystemExit('You need py2exe installed to run Couchapp.')
+
+        DATA_FILES = get_py2exe_datafiles()
 
 
 def main():

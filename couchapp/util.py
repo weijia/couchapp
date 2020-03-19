@@ -280,6 +280,8 @@ def split_path(path):
     parts = []
     while True:
         head, tail = os.path.split(path)
+        if not tail:
+            return parts
         parts = [tail] + parts
         path = head
         if not path:
